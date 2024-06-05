@@ -1,7 +1,15 @@
+using PT_EDI_Indonesia_MVC.Data.Context;
+using PT_EDI_Indonesia_MVC.Data.IRepository;
+using PT_EDI_Indonesia_MVC.Data.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<DapperContext>();
+
+builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
+
 
 var app = builder.Build();
 

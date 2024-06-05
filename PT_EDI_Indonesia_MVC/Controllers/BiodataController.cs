@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PT_EDI_Indonesia_MVC.Data.IRepository;
 
 namespace PT_EDI_Indonesia_MVC.Controllers
 {
@@ -12,15 +14,29 @@ namespace PT_EDI_Indonesia_MVC.Controllers
     public class BiodataController : Controller
     {
         private readonly ILogger<BiodataController> _logger;
+        private readonly IBiodataRepository _bioRepo;
 
-        public BiodataController(ILogger<BiodataController> logger)
+        public BiodataController(ILogger<BiodataController> logger, IBiodataRepository bioRepo)
         {
+            _bioRepo = bioRepo;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        // [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            try
+            {
+                var bioVm = await _bioRepo.GetBiodatasAsync();
+                return View(bioVm);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Error();
+            }
         }
         public IActionResult Detail()
         {

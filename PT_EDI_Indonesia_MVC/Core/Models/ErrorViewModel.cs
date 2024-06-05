@@ -1,4 +1,4 @@
-namespace PT_EDI_Indonesia_MVC.Models;
+namespace PT_EDI_Indonesia_MVC.Core.Models;
 
 public class ErrorViewModel
 {
