@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using PT_EDI_Indonesia_MVC.Core.Models;
 
 namespace PT_EDI_Indonesia_MVC.Controllers
 {
@@ -31,6 +26,14 @@ namespace PT_EDI_Indonesia_MVC.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SignUp(UserSignUpModel model)
+        {
+            return View();
+        }
+
         public IActionResult Logout()
         {
             return View();
