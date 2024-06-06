@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using PT_EDI_Indonesia_MVC.Models;
+using PT_EDI_Indonesia_MVC.Core.Models;
 
 namespace PT_EDI_Indonesia_MVC.Controllers;
 

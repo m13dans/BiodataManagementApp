@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using PT_EDI_Indonesia_MVC.Core.Models;
 using PT_EDI_Indonesia_MVC.Data.Context;
 using PT_EDI_Indonesia_MVC.Data.IRepository;
 using PT_EDI_Indonesia_MVC.Data.Repository;
@@ -6,7 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddDbContext<AccountContext>(o =>
+{
+    o.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
+});
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<AccountContext>();
 
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
 
