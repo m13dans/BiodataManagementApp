@@ -31,6 +31,8 @@ builder.Services.AddIdentity<User, IdentityRole>(opt =>
 // builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
+builder.Services.AddScoped<AccountRepository>();
+builder.Services.AddScoped<PendidikanTerakhirRepository>();
 builder.Services.AddScoped<GenerateData>();
 
 

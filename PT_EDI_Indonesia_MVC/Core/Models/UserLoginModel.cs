@@ -4,6 +4,7 @@ namespace PT_EDI_Indonesia_MVC.Core.Models
 {
     public class UserLoginModel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; }

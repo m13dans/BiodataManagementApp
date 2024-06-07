@@ -1,10 +1,10 @@
 @model Biodata
 
 <div class="card shadow border-0 my-4">
-    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+<div class="card-header ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2"> @(Model.Nama != null ? "Update" : "Create") Biodata</h2>
+                <h2 class= py-2">CREATE BIODATA</h2>
             </div>
         </div>
     </div>
@@ -43,9 +43,9 @@
                             <span asp-validation-for="TanggalLahir" class="text-danger"></span>
                         </div>
 
-                        <div class="py-2 col-12">
-                            <label asp-for="JenisKelamin" class="ms-2"></label>
-                            <select asp-for="JenisKelamin" asp-items="Html.GetEnumSelectList<JenisKelamin>()">
+                        <div class="py-2 col-3">
+                            <label asp-for="JenisKelamin" class="ms-2 dropdown-header"></label>
+                            <select class=" dropdown-item" asp-for="JenisKelamin" asp-items="Html.GetEnumSelectList<JenisKelamin>()">
                                 <option selected="" value=""></option>
                             </select>
                         </div>
@@ -97,6 +97,8 @@
                             <label asp-for="KontakOrangTerdekat" class="ms-2"></label>
                             <span asp-validation-for="KontakOrangTerdekat" class="text-danger"></span>
                         </div>
+
+
                         <div class="form-floating py-2 col-12">
                             <input asp-for="Skill" class="form-control border-0 shadow" />
                             <label asp-for="Skill" class="ms-2"></label>
@@ -105,7 +107,7 @@
 
                         <div class="py-2 col-12">
                             <input type="checkbox" asp-for="BersediaDitempatkan" />
-                            <label asp-for="BersediaDitempatkan">Bersedia Penempatan Di Seluruh Indonesia</label>
+                            <label class=" form-check-label" asp-for="BersediaDitempatkan">Bersedia Penempatan Di Seluruh Indonesia</label>
                         </div>
 
                         <div class="form-floating py-2 col-12">
@@ -116,14 +118,7 @@
 
                         <div class="row pt-2">
                             <div class="col-6 col-md-3">
-                                @if (Model.Id != 0)
-                                {
-                                    <button type="submit" class="btn btn-primary form-control">Update</button>
-                                }
-                                else
-                                {
-                                    <button type="submit" class="btn btn-primary form-control">Create</button>
-                                }
+                                <button type="submit" class="btn btn-primary form-control">Create</button>
                             </div>
                             <div class="col-6 col-md-3">
                                 <a asp-controller="Home" asp-action="Index"
@@ -136,31 +131,52 @@
 
                     </div>
                 </div>
-                <div class="col-2">
-                </div>
-            </div>
+             </div>
 
         </form>
     </div>
 </div>
 
+<div class="my-3">
+    <h3 class="ms-2 my-0">Pendidikan Terakhir</h3>
+
+    <div class="btn btn-group-sm pt-0" role="group">
+        <a asp-controller="PendidikanTerakhir" asp-action="Create" class=" text-decoration-none text-success
+            btn btn-sm">
+            <i class="bi bi-plus-circle"></i> Add
+        </a>
+    </div>
+
+    <partial name="_PendidikanTerakhir" />
+</div>
+
+<div class="my-4">
+    <h3 class="ms-2 my-0">Riwayat Pekerjaan</h3>
+
+    <div class="btn btn-group-sm pt-0" role="group">
+        <a asp-controller="RiwayatPekerjaan" asp-action="Create" class=" text-decoration-none text-success
+            btn btn-sm">
+            <i class="bi bi-plus-circle"></i> Add
+        </a>
+    </div>
+
+    <partial name="_RiwayatPekerjaan" />
+</div>
+
+<div class="my-4">
+    <h3 class="ms-2 my-0">Riwayat Pelatihan</h3>
+
+    <div class="btn btn-group-sm pt-0" role="group">
+        <a asp-controller="RiwayatPelatihan" asp-action="Create" class=" text-decoration-none text-success
+            btn btn-sm">
+            <i class="bi bi-plus-circle"></i> Add
+        </a>
+    </div>
+    <partial name="_RiwayatPelatihan" />
+</div>
 
 
 
 @section Scripts {
-
-    <script>
-        $('#list_pendidikan').load("/Biodata/LoadPendidikanPartial/?biodataId=1");
-    </script>
-
-    <script>
-        tinymce.init({
-            selector: 'textarea',
-            plugins: 'anchor autolink charmap codesample emoticons  lists   table visualblocks wordcount',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough |  align lineheight | numlist bullist indent outdent',
-        });
-    </script>
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

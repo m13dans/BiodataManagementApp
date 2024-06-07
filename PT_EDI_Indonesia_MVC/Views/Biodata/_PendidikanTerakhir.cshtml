@@ -1,32 +1,44 @@
-@model List<PendidikanTerakhir>
+@model Biodata
 
-@if (Model is not null)
-{
-    foreach (var pendidikan in Model)
-    {
-        <h4>Pendidikan Terakhir</h4>
-        <form method="post" class="row" enctype="multipart/form-data">
-            <input asp-for="@pendidikan.Id" hidden />
-            <input asp-for="@pendidikan.BiodataId" hidden />
+<div class="table-responsive card shadow">
+    <table id="pendidikanTerakhir" class=" table text-center table-sm align-middle ">
+        <thead class="">
+            <tr>
+                <th style="width: 150px;">
+                    Jenjang Pendidikan Terakhir
+                </th>
+                <th style="width: 150px;">
+                    Nama Institusi Akademik
+                </th>
+                <th style="width: 150px;">
+                    Jurusan
+                </th>
+                <th style="width: 150px;">
+                    Tahun Lulus
+                </th>
+                <th style="width: 50px;">
+                    IPK
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model is null)
+            {
 
-            <div class="row">
-                <div class="col-10">
-                    <div class="border p-3">
-                        @*<div asp-validation-summary="ModelOnly"></div>*@
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="@pendidikan.JenjangPendidikanTerakhir" class="form-control border-0 shadow" />
-                            <label asp-for="@pendidikan.JenjangPendidikanTerakhir" class="ms-2"></label>
-                            <span asp-validation-for="@pendidikan.JenjangPendidikanTerakhir" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-    }
-
-}
-else
-{
-    <p>No Pendidikan Terakhir Found</p>
-}
+            }
+            else
+            {
+                @foreach (var biodata in Model.PendidikanTerakhir)
+                {
+                    <tr>
+                        <td>@biodata.JenjangPendidikanTerakhir</td>
+                        <td>@biodata.NamaInstitusiAkademik</td>
+                        <td>@biodata.Jurusan</td>
+                        <td>@biodata.TahunLulus.ToShortDateString()</td>
+                        <td>@biodata.IPK</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

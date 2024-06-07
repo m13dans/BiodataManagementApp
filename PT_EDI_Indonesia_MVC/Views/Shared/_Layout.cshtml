@@ -29,13 +29,23 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home"
                                 asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Biodata"
+                                    asp-action="index">Biodata</a>
+                            </li>
+                        }
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Biodata"
+                                    asp-action="Detail">Detail</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Biodata"
-                                asp-action="index">Biodata</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Biodata"
-                                asp-action="Upsert">Create</a>
+                                asp-action="Create">Create</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

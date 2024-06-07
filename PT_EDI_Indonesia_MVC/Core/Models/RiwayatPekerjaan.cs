@@ -7,5 +7,5 @@ public class RiwayatPekerjaan
     public string? NamaPerusahaan { get; set; }
     public string? PosisiTerakhir { get; set; }
     public decimal PendapatanTerakhir { get; set; }
-    public DateOnly Tahun { get; set; }
+    public DateTime Tahun { get; set; }
 }

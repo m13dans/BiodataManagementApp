@@ -1,0 +1,123 @@
+@model Biodata
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<h1>Details</h1>
+<div>
+    <h4>@Model.Nama</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PosisiDilamar)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PosisiDilamar)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nama)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nama)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NoKTP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NoKTP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TempatLahir)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TempatLahir)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TanggalLahir)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TanggalLahir)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.JenisKelamin)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.JenisKelamin)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Agama)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Agama)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.GolonganDarah)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GolonganDarah)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AlamatKTP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AlamatKTP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AlamatTinggal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AlamatTinggal)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NoTelepon)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NoTelepon)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.KontakOrangTerdekat)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.KontakOrangTerdekat)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Skill)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Skill)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BersediaDitempatkan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BersediaDitempatkan)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PenghasilanDiharapkan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PenghasilanDiharapkan)
+        </dd>
+    </dl>
+</div>
+<div>
+    <partial name="_PendidikanTerakhir" />
+</div>
+<hr />
+<div>
+    <a asp-action="Update" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>

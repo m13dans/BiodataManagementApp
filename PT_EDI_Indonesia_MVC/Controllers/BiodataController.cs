@@ -1,7 +1,9 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PT_EDI_Indonesia_MVC.Core.Models;
 using PT_EDI_Indonesia_MVC.Data.IRepository;
+using PT_EDI_Indonesia_MVC.Data.Repository;
 using PT_EDI_Indonesia_MVC.Data.Seed;
 
 namespace PT_EDI_Indonesia_MVC.Controllers
@@ -12,8 +14,12 @@ namespace PT_EDI_Indonesia_MVC.Controllers
         private readonly ILogger<BiodataController> _logger;
         private readonly IBiodataRepository _bioRepo;
 
-        public BiodataController(ILogger<BiodataController> logger, IBiodataRepository bioRepo)
+        private readonly AccountRepository _accountRepo;
+
+        public BiodataController(ILogger<BiodataController> logger, IBiodataRepository bioRepo,
+        AccountRepository accounRepo)
         {
+            _accountRepo = accounRepo;
             _bioRepo = bioRepo;
             _logger = logger;
         }
@@ -42,19 +48,86 @@ namespace PT_EDI_Indonesia_MVC.Controllers
 
             return Json(result);
         }
-        public IActionResult Detail()
-        {
-            return View();
-        }
 
-        public async Task<IActionResult> Upsert(int id)
+
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> Detail(int id)
         {
-            var biodata = await _bioRepo.GetBiodataAsync(id);
+            var email = User.FindFirstValue(ClaimTypes.Email);
+
+            if (User.IsInRole("Admin") & id != 0)
+            {
+                var bio = await _bioRepo.GetBiodataAsync(id);
+                return View(bio);
+            }
+
+            var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
+
+            if (biodata == null && User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Biodata");
+            }
+
+            if (biodata is null)
+            {
+                return RedirectToAction("Create", "Biodata");
+            }
+
             return View(biodata);
         }
 
+
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> Create()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
+
+            if (biodata is not null)
+            {
+                return RedirectToAction("Update");
+            }
+
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
-        public async Task<IActionResult> Upsert(Biodata biodata)
+        public async Task<IActionResult> Create(Biodata biodata)
+        {
+            var result = await _bioRepo.CreateBiodataAsync(biodata);
+            if (result is false)
+            {
+                return Error();
+            }
+            return RedirectToAction("Detail", "Biodata", new { id = biodata.Id });
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> Update(int id)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+
+            if (User.IsInRole("Admin"))
+            {
+                var bio = await _bioRepo.GetBiodataAsync(id);
+                return View(bio);
+            }
+
+            var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
+
+            if (biodata != null)
+            {
+                return View(biodata);
+            }
+
+            return RedirectToAction("create");
+
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost]
+        public async Task<IActionResult> Update(Biodata biodata)
         {
             var result = await _bioRepo.UpdateBiodataAsync(biodata);
             if (result is false)
@@ -65,17 +138,7 @@ namespace PT_EDI_Indonesia_MVC.Controllers
         }
 
 
-        public async Task<IActionResult> LoadListPendidikan(int id)
-        {
-            var listPendidikan = await _bioRepo.GetPendidikansAsync(id);
-            return View(listPendidikan);
-        }
-        public async Task<IActionResult> LoadPendidikanPartial(int biodataId)
-        {
-            var listPendidikan = await _bioRepo.GetPendidikansAsync(biodataId);
-            return PartialView("_PendidikanTerakhir", listPendidikan);
-        }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _bioRepo.DeleteBiodataAsync(id);

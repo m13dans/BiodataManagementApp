@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PT_EDI_Indonesia_MVC.Core.Models;
+using PT_EDI_Indonesia_MVC.Data.Repository;
 
 namespace PT_EDI_Indonesia_MVC.Controllers
 {
@@ -12,9 +13,12 @@ namespace PT_EDI_Indonesia_MVC.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly AccountRepository _accountRepo;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
+        AccountRepository accountRepo)
         {
+            _accountRepo = accountRepo;
             _signInManager = signInManager;
             _userManager = userManager;
         }
@@ -47,6 +51,8 @@ namespace PT_EDI_Indonesia_MVC.Controllers
                 userModel.RememberMe,
                 false);
 
+
+
             // if (User.IsInRole("Admin"))
             // {
             //     return RedirectToAction(nameof(BiodataController.Index), "Biodata");
@@ -54,6 +60,19 @@ namespace PT_EDI_Indonesia_MVC.Controllers
 
             if (result.Succeeded)
             {
+                var userIdInDatabase = await _accountRepo.GetUserIdAndEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+                if (userIdInDatabase is null)
+                {
+                    return RedirectToLocal(returnUrl);
+                }
+                var claims = new List<Claim>
+                {
+                    new Claim("BioId", userIdInDatabase.Id.ToString())
+                };
+
+                var appIdentity = new ClaimsIdentity(claims);
+                User.AddIdentity(appIdentity);
+
                 return RedirectToLocal(returnUrl);
             }
             else
@@ -136,7 +155,7 @@ namespace PT_EDI_Indonesia_MVC.Controllers
 
             await _userManager.AddToRoleAsync(user, "User");
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 
         [HttpPost]
