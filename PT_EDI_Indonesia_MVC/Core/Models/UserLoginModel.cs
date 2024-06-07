@@ -2,11 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PT_EDI_Indonesia_MVC.Core.Models
 {
-    public class UserSignUpModel
+    public class UserLoginModel
     {
-        [Required]
-        public string? NamaLengkap { get; set; }
-
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; }
@@ -15,9 +12,9 @@ namespace PT_EDI_Indonesia_MVC.Core.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+
 
     }
 }

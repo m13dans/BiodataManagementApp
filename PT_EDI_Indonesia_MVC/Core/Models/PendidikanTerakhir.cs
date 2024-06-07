@@ -6,7 +6,7 @@ public class PendidikanTerakhir
     public int BiodataId { get; set; }
     public string? JenjangPendidikanTerakhir { get; set; }
     public string? NamaInstitusiAkademik { get; set; }
-    public decimal Jurusan { get; set; }
-    public DateOnly TahunLulus { get; set; }
+    public string Jurusan { get; set; }
+    public DateTime TahunLulus { get; set; }
     public float IPK { get; set; }
 }
