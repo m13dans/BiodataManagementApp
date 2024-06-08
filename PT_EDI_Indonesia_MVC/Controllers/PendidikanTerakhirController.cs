@@ -41,7 +41,7 @@ namespace PT_EDI_Indonesia_MVC.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email);
             var pendidikan = await _pendidikanRepo.GetPendidikanWithEmailAsync(email);
 
-            if (pendidikan.Count != 0)
+            if (pendidikan.Count > 3)
             {
                 return RedirectToAction("Update");
             }
@@ -78,7 +78,7 @@ namespace PT_EDI_Indonesia_MVC.Controllers
 
             var pendidikans = await _pendidikanRepo.GetPendidikanWithEmailAsync(email);
 
-            if (pendidikans != null)
+            if (pendidikans.Count > 0)
             {
                 return View(pendidikans);
             }

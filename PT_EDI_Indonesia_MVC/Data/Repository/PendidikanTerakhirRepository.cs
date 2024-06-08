@@ -74,15 +74,32 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
 
             return pendidikan > 0;
         }
+        internal async Task<bool> UpdatePendidikanAsync(PendidikanTerakhir pendidikans)
+        {
+            var query = "usp_PendidikanTerakhir_Update";
+            using var connection = _context.CreateConnection();
+
+            var pendidikan = await connection.ExecuteAsync(
+                query,
+                new
+                {
+                    id = pendidikans.Id,
+                    jenjangPendidikanTerakhir = pendidikans.JenjangPendidikanTerakhir,
+                    namaInstitusiAkademik = pendidikans.NamaInstitusiAkademik,
+                    jurusan = pendidikans.Jurusan,
+                    tahunLulus = pendidikans.TahunLulus,
+                    ipk = pendidikans.IPK
+                },
+                commandType: CommandType.StoredProcedure);
+
+            return pendidikan > 0;
+
+        }
 
         internal async Task<bool> DeletePendidikanAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        internal async Task<bool> UpdatePendidikanAsync(PendidikanTerakhir biodata)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
