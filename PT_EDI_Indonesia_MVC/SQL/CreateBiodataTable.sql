@@ -16,6 +16,6 @@ create table Biodata (
 	KontakOrangTerdekat varchar (50),
 	Skill varchar(255),
 	BersediaDiTempatkan bit default 0,
-	PenghasilanDiHarapkan money, 
+	PenghasilanDiHarapkan money
 
 )

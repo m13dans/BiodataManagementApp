@@ -14,7 +14,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddDbContext<AccountContext>(o =>
 {
-    o.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
+    // o.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
+    o.UseSqlServer(builder.Configuration.GetConnectionString("SQLExpress"));
 });
 builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {

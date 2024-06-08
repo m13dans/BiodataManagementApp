@@ -26,7 +26,6 @@ begin
 	Jurusan = @jurusan,
 	TahunLulus = @tahunLulus,
 	IPK = @ipk
+	where Id = @id
 end
 GO
-
-

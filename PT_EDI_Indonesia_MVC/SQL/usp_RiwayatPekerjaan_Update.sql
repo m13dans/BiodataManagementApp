@@ -9,8 +9,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-create procedure [dbo].[usp_RiwayatPekerjaan_Insert](
-  @biodataId int
+create procedure [dbo].[usp_RiwayatPekerjaan_Update](
+  @id int
 , @namaPerusahaan varchar(255)
 , @posisiTerakhir varchar(255)
 , @pendapatanTerakhir varchar(255)
@@ -19,22 +19,13 @@ create procedure [dbo].[usp_RiwayatPekerjaan_Insert](
 as 
 begin
 	--set nocount on
-	insert into RiwayatPekerjaan(
-		BiodataId
-		, NamaPerusahaan
-		, PosisiTerakhir
-		, PendapatanTerakhir
-		, Tahun
-
-	)
-	values(
-	  @BiodataId
-	, @namaPerusahaan
-	, @posisiTerakhir
-	, @pendapatanTerakhir
-	, @tahun
-	)
+	update RiwayatPekerjaan
+		set 
+		NamaPerusahaan = @namaPerusahaan
+		, PosisiTerakhir = @posisiTerakhir
+		, PendapatanTerakhir = @pendapatanTerakhir
+		, Tahun = @tahun
+	where Id = @id
 end
 GO
-
 

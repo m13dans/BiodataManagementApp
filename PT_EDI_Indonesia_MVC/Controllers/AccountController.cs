@@ -60,7 +60,7 @@ namespace PT_EDI_Indonesia_MVC.Controllers
 
             if (result.Succeeded)
             {
-                var userIdInDatabase = await _accountRepo.GetUserIdAndEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+                var userIdInDatabase = await _accountRepo.GetUserIdAndEmailAsync(userModel.Email);
                 if (userIdInDatabase is null)
                 {
                     return RedirectToLocal(returnUrl);

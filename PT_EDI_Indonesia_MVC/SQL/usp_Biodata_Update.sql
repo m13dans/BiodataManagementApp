@@ -1,4 +1,4 @@
-alter procedure usp_Biodata_Update(
+create procedure usp_Biodata_Update(
 	@id int
 	,@posisiDilamar varchar(255)
 	,@nama varchar(255)

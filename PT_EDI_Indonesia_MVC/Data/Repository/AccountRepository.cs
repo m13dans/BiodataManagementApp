@@ -20,14 +20,14 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
 
         public async Task<UserIdAndEmail> GetUserIdAndEmailAsync(string email)
         {
-            var query = @"SELECT B.ID, B.EMAIL FROM Biodata b
+            var query = @"SELECT B.ID, B.EMAIL FROM Biodata B
                         join AspNetUsers U ON B.Email = @UEmail";
 
             using var connection = _context.CreateConnection();
             connection.Open();
 
             var biodatas = await connection.QueryAsync<UserIdAndEmail>(
-                query, new { @UEmail = email });
+                query, new { UEmail = email });
 
             return biodatas.FirstOrDefault();
         }

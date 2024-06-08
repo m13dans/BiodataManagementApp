@@ -10,7 +10,11 @@ namespace PT_EDI_Indonesia_MVC.Data.Context
         public DapperContext(IConfiguration configuration)
         {
             _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("SqlConnection");
+
+            // SWITCH BETWEEN SQL SERVER AND SQL SERVER EXPRESS CONNECTION STRING
+
+            // _connectionString = _configuration.GetConnectionString("SqlConnection");
+            _connectionString = _configuration.GetConnectionString("SQLExpress");
         }
         public IDbConnection CreateConnection()
             => new SqlConnection(_connectionString);
