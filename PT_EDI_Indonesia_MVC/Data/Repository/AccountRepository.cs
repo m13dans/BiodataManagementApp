@@ -26,16 +26,16 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
             using var connection = _context.CreateConnection();
             connection.Open();
 
-            var biodatas = await connection.QueryAsync<UserIdAndEmail>(
+            var biodatas = await connection.QuerySingleAsync<UserIdAndEmail>(
                 query, new { UEmail = email });
 
-            return biodatas.FirstOrDefault();
+            return biodatas;
         }
     }
 
     public class UserIdAndEmail
     {
         public int Id { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
     }
 }

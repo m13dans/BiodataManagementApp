@@ -60,14 +60,14 @@ namespace PT_EDI_Indonesia_MVC.Controllers
 
             if (result.Succeeded)
             {
-                var userIdInDatabase = await _accountRepo.GetUserIdAndEmailAsync(userModel.Email);
-                if (userIdInDatabase is null)
+                var userHaveBiodata = await _accountRepo.GetUserIdAndEmailAsync(userModel.Email);
+                if (userHaveBiodata is null)
                 {
                     return RedirectToLocal(returnUrl);
                 }
                 var claims = new List<Claim>
                 {
-                    new Claim("BioId", userIdInDatabase.Id.ToString())
+                    new Claim("BioId", userHaveBiodata.Id.ToString())
                 };
 
                 var appIdentity = new ClaimsIdentity(claims);
