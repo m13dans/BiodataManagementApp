@@ -1,5 +1,6 @@
 using System.Data;
 using Dapper;
+using MethodTimer;
 using PT_EDI_Indonesia_MVC.Core.Models;
 using PT_EDI_Indonesia_MVC.Core.ViewModels;
 using PT_EDI_Indonesia_MVC.Data.Context;
@@ -38,6 +39,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
 
         }
 
+        [Time]
         public async Task<Biodata> GetBiodataAsync(int bioId)
         {
             var query = "usp_Biodata_GetById";
@@ -74,6 +76,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
             return biodata;
         }
 
+        [Time]
         public async Task<Biodata> GetBiodataWithEmailAsync(string userEmail)
         {
             var query = "usp_Biodata_GetByEmail";

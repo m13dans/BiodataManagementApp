@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PT_EDI_Indonesia_MVC.Core.Models;
@@ -29,7 +30,12 @@ builder.Services.AddIdentity<User, IdentityRole>(opt =>
 
 }).AddEntityFrameworkStores<AccountContext>();
 
-// builder.Services.AddAuthorization();
+builder.Services.AddTransient<IAuthorizationHandler, UserIsAuthorAuthorizationHandler>();
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy("UserIsAuthorPolicy", policy => policy.Requirements.Add(new UserIsAuthorRequirement()));
+});
+
 
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
 builder.Services.AddScoped<AccountRepository>();
@@ -42,6 +48,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();

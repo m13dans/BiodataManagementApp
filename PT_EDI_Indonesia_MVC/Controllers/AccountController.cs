@@ -51,27 +51,20 @@ namespace PT_EDI_Indonesia_MVC.Controllers
                 userModel.RememberMe,
                 false);
 
-
-
-            // if (User.IsInRole("Admin"))
-            // {
-            //     return RedirectToAction(nameof(BiodataController.Index), "Biodata");
-            // }
-
             if (result.Succeeded)
             {
-                var userHaveBiodata = await _accountRepo.GetUserIdAndEmailAsync(userModel.Email);
-                if (userHaveBiodata is null)
+                var userBioId = await _accountRepo.GetUserBioIdAsync(userModel.Email);
+                if (userBioId is 0)
                 {
                     return RedirectToLocal(returnUrl);
                 }
                 var claims = new List<Claim>
                 {
-                    new Claim("BioId", userHaveBiodata.Id.ToString())
+                    new("BioId", userBioId.ToString())
                 };
 
-                var appIdentity = new ClaimsIdentity(claims);
-                User.AddIdentity(appIdentity);
+                var user = await _userManager.FindByEmailAsync(userModel.Email);
+                var addClaimResult = await _userManager.AddClaimsAsync(user, claims);
 
                 return RedirectToLocal(returnUrl);
             }
