@@ -5,6 +5,7 @@ using PT_EDI_Indonesia_MVC.Data.Repository;
 using PT_EDI_Indonesia_MVC.Domain.Entities;
 using PT_EDI_Indonesia_MVC.Service.Accounts;
 using PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
+using PT_EDI_Indonesia_MVC.Service.AccountService;
 
 namespace PT_EDI_Indonesia_MVC.Controllers
 {
@@ -13,11 +14,11 @@ namespace PT_EDI_Indonesia_MVC.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly AccountRepository _accountRepo;
+        private readonly IAccountRepository _accountRepo;
         private readonly AccountService _service;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-        AccountRepository accountRepo, AccountService service)
+        IAccountRepository accountRepo, AccountService service)
         {
             _service = service;
             _accountRepo = accountRepo;
@@ -30,13 +31,13 @@ namespace PT_EDI_Indonesia_MVC.Controllers
             return View();
         }
 
-        [HttpGet("SignUp")]
+        [HttpGet("signup")]
         public IActionResult SignUp()
         {
             return View();
         }
 
-        [HttpPost("SignUp")]
+        [HttpPost("signup")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp(SignupDTO model)
         {
@@ -47,7 +48,7 @@ namespace PT_EDI_Indonesia_MVC.Controllers
 
             User user = model.MapSignUpToUser();
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)

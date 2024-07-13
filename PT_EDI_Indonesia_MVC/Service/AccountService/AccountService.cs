@@ -1,4 +1,5 @@
 using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Service.AccountService;
 
 namespace PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
 
@@ -8,7 +9,6 @@ public class AccountService
     public AccountService(IAccountRepository repo)
     {
         _repo = repo;
-
     }
 
 }
@@ -20,8 +20,8 @@ public static class AccountServiceExtensions
         return new User
         {
             NamaLengkap = model.NamaLengkap,
-            UserName = model.Email,
-            Email = model.Email
+            UserName = string.Empty,
+            Email = model.Email,
         };
     }
 }

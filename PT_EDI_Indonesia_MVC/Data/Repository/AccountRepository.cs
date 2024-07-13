@@ -1,9 +1,10 @@
 using Dapper;
 using PT_EDI_Indonesia_MVC.Data.Context;
+using PT_EDI_Indonesia_MVC.Service.Accounts;
 
 namespace PT_EDI_Indonesia_MVC.Data.Repository
 {
-    public class AccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly DapperContext _context;
         public AccountRepository(DapperContext context)
@@ -27,9 +28,5 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
         }
     }
 
-    public class UserIdAndEmail
-    {
-        public int Id { get; set; }
-        public string Email { get; set; }
-    }
+
 }

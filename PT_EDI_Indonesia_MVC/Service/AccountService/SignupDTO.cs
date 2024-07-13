@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PT_EDI_Indonesia_MVC.Service.Accounts;
+namespace PT_EDI_Indonesia_MVC.Service.AccountService;
 
 public class SignupDTO
 {
-    [Required]
+    [Display(Name = "Nama Lengkap")]
     public string NamaLengkap { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Email is required")]
@@ -16,6 +16,7 @@ public class SignupDTO
     public string Password { get; set; } = string.Empty;
 
     [DataType(DataType.Password)]
+    [Display(Name = "Confirm Password")]
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
     public string ConfirmPassword { get; set; } = string.Empty;
 

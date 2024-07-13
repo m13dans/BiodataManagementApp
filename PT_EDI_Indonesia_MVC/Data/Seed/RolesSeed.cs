@@ -31,7 +31,9 @@ namespace PT_EDI_Indonesia_MVC.Data.Seed
             };
 
             string userPwd = "Password123!";
-            var _user = await userManager.FindByEmailAsync(powerUser.Email);
+
+            string powerUserEmail = powerUser.Email;
+            var _user = await userManager.FindByEmailAsync(powerUserEmail);
 
             if (_user is null)
             {

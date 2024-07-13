@@ -4,6 +4,8 @@ using PT_EDI_Indonesia_MVC.Data.Context;
 using PT_EDI_Indonesia_MVC.Data.Repository;
 using PT_EDI_Indonesia_MVC.Data.Seed;
 using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Service.Accounts;
+using PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
 using PT_EDI_Indonesia_MVC.Service.BiodataService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,9 @@ builder.Services.AddDbContext<AccountContext>(o =>
 });
 builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {
+    var allowedChar = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
+    opt.User.AllowedUserNameCharacters = allowedChar;
+
     opt.Password.RequiredLength = 6;
     // opt.Password.RequireDigit = false;
     // opt.Password.RequireUppercase = false;
@@ -31,13 +36,17 @@ builder.Services.AddIdentity<User, IdentityRole>(opt =>
 // builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
-builder.Services.AddScoped<AccountRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
+builder.Services.AddScoped<AccountService>();
+
 builder.Services.AddScoped<PendidikanTerakhirRepository>();
 builder.Services.AddScoped<GenerateData>();
 
 
 var app = builder.Build();
 
+await app.CreateRoles();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -58,6 +67,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-await app.CreateRoles();
 
 app.Run();
