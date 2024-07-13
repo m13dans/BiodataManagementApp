@@ -56,9 +56,9 @@ public class Biodata
     [Required]
     [Display(Name = "Penghasilan Yang Diharapkan")]
     public decimal PenghasilanDiharapkan { get; set; }
-    public List<PendidikanTerakhir>? PendidikanTerakhir { get; set; } = new List<PendidikanTerakhir>();
-    public List<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; } = new List<RiwayatPekerjaan>();
-    public List<RiwayatPelatihan>? RiwayatPelatihan { get; set; } = new List<RiwayatPelatihan>();
+    public ICollection<PendidikanTerakhir>? PendidikanTerakhir { get; set; }
+    public ICollection<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; }
+    public ICollection<RiwayatPelatihan>? RiwayatPelatihan { get; set; }
 
 }
 

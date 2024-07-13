@@ -46,7 +46,7 @@ public class AccountController : Controller
 
         User user = model.MapSignUpToUser();
 
-        var result = await CreateUserWithRole(user, model.Password);
+        bool result = await CreateUserWithRole(user, model.Password);
 
         if (result is false)
             return View(model);
