@@ -9,6 +9,6 @@ public class User : IdentityUser
     public string NamaLengkap { get; set; } = string.Empty;
     [BindNever]
     [ValidateNever()]
-    public string? Username { get; set; }
+    public override string? UserName { get; set; }
 
 }

@@ -20,9 +20,6 @@ builder.Services.AddDbContext<AccountContext>(o =>
 });
 builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {
-    var allowedChar = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
-    opt.User.AllowedUserNameCharacters = allowedChar;
-
     opt.Password.RequiredLength = 6;
     // opt.Password.RequireDigit = false;
     // opt.Password.RequireUppercase = false;

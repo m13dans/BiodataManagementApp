@@ -20,7 +20,7 @@ public static class AccountServiceExtensions
         return new User
         {
             NamaLengkap = model.NamaLengkap,
-            UserName = string.Empty,
+            UserName = model.Email,
             Email = model.Email,
         };
     }
