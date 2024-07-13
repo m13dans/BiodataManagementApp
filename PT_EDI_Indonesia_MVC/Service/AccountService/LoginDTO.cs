@@ -1,17 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PT_EDI_Indonesia_MVC.Core.Models
+namespace PT_EDI_Indonesia_MVC.Service.Accounts
 {
-    public class UserLoginModel
+    public class LoginDTO
     {
-        public int Id { get; set; }
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }

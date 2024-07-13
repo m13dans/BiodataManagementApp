@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PT_EDI_Indonesia_MVC.Core.Models;
 using PT_EDI_Indonesia_MVC.Data.Configuration;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
 
 namespace PT_EDI_Indonesia_MVC.Data.Context
 {

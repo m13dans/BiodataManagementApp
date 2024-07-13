@@ -1,10 +1,8 @@
 using System.Data;
 using Dapper;
-using PT_EDI_Indonesia_MVC.Core.Models;
-using PT_EDI_Indonesia_MVC.Core.ViewModels;
 using PT_EDI_Indonesia_MVC.Data.Context;
-using PT_EDI_Indonesia_MVC.Data.IRepository;
-using PT_EDI_Indonesia_MVC.Data.Seed;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Service.BiodataService;
 
 namespace PT_EDI_Indonesia_MVC.Data.Repository
 {
@@ -17,14 +15,14 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
 
         }
 
-        public async Task<List<BiodataVM>> GetBiodatasAsync()
+        public async Task<List<BiodataDTO>> GetBiodatasAsync()
         {
             var query = "usp_Biodata_SelectForVM";
             using var connection = _context.CreateConnection();
 
             var biodatas = await connection.QueryAsync<Biodata>(query, CommandType.StoredProcedure);
 
-            var listBiodataVM = biodatas.Select(x => new BiodataVM
+            var listBiodataVM = biodatas.Select(x => new BiodataDTO
             {
                 Id = x.Id,
                 Nama = x.Nama,

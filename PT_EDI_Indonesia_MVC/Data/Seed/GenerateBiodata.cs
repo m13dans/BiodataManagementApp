@@ -1,11 +1,9 @@
 using System.Data;
-using System.Data.SqlTypes;
 using Bogus;
 using Bogus.Extensions;
 using Dapper;
-using Microsoft.Data.SqlClient;
-using PT_EDI_Indonesia_MVC.Core.Models;
 using PT_EDI_Indonesia_MVC.Data.Context;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
 
 namespace PT_EDI_Indonesia_MVC.Data.Seed;
 

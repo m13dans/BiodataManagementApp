@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PT_EDI_Indonesia_MVC.Core.Models;
 using PT_EDI_Indonesia_MVC.Data.Context;
-using PT_EDI_Indonesia_MVC.Data.IRepository;
 using PT_EDI_Indonesia_MVC.Data.Repository;
 using PT_EDI_Indonesia_MVC.Data.Seed;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Service.BiodataService;
 
 var builder = WebApplication.CreateBuilder(args);
 

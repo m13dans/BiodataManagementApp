@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using PT_EDI_Indonesia_MVC.Core.Models;
-using PT_EDI_Indonesia_MVC.Data.IRepository;
 using PT_EDI_Indonesia_MVC.Data.Repository;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Service.BiodataService;
 
 namespace PT_EDI_Indonesia_MVC.Controllers
 {

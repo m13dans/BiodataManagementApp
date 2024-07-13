@@ -1,10 +1,10 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PT_EDI_Indonesia_MVC.Core.Models;
-using PT_EDI_Indonesia_MVC.Data.IRepository;
 using PT_EDI_Indonesia_MVC.Data.Repository;
 using PT_EDI_Indonesia_MVC.Data.Seed;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Service.BiodataService;
 
 namespace PT_EDI_Indonesia_MVC.Controllers
 {

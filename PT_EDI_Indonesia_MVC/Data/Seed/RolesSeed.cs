@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using PT_EDI_Indonesia_MVC.Core.Models;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
 
 namespace PT_EDI_Indonesia_MVC.Data.Seed
 {

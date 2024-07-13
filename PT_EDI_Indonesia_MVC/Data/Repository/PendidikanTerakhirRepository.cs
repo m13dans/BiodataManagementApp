@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using Dapper;
-using PT_EDI_Indonesia_MVC.Core.Models;
 using PT_EDI_Indonesia_MVC.Data.Context;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
 
 namespace PT_EDI_Indonesia_MVC.Data.Repository
 {

@@ -1,23 +1,25 @@
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PT_EDI_Indonesia_MVC.Core.Models;
 using PT_EDI_Indonesia_MVC.Data.Repository;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Service.Accounts;
+using PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
 
 namespace PT_EDI_Indonesia_MVC.Controllers
 {
-    [Route("[controller]")]
+    [Route("account")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly AccountRepository _accountRepo;
+        private readonly AccountService _service;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-        AccountRepository accountRepo)
+        AccountRepository accountRepo, AccountService service)
         {
+            _service = service;
             _accountRepo = accountRepo;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -28,17 +30,50 @@ namespace PT_EDI_Indonesia_MVC.Controllers
             return View();
         }
 
-        [HttpGet("Login")]
-        public IActionResult Login(string? returnUrl = null)
+        [HttpGet("SignUp")]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost("SignUp")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignUp(SignupDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            User user = model.MapSignUpToUser();
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+
+                return View(model);
+            }
+
+            await _userManager.AddToRoleAsync(user, "User");
+
+            return RedirectToAction(nameof(Login), "Account");
+        }
+
+        [HttpGet("login")]
+        public IActionResult Login(string? returnUrl)
         {
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(UserLoginModel userModel,
-            string? returnUrl = null)
+        public async Task<IActionResult> Login(LoginDTO userModel,
+            string? returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -120,43 +155,7 @@ namespace PT_EDI_Indonesia_MVC.Controllers
         // }
 
 
-        [HttpGet("SignUp")]
-        public IActionResult SignUp()
-        {
-            return View();
-        }
 
-        [HttpPost("SignUp")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp(UserSignUpModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = new User
-            {
-                NamaLengkap = model.NamaLengkap,
-                UserName = model.Email,
-                Email = model.Email
-            };
-
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
-
-                return View(model);
-            }
-
-            await _userManager.AddToRoleAsync(user, "User");
-
-            return RedirectToAction(nameof(AccountController.Login), "Account");
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

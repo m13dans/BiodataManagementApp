@@ -18,4 +18,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domain\ViewModels\" />
+    <Folder Include="Service\Biodata\" />
+    <Folder Include="Service\PendidikanTerakhir\" />
+    <Folder Include="Service\RiwayatPealatihan\" />
+    <Folder Include="Service\RiwayatPekerjaan\" />
+  </ItemGroup>
+
 </Project>

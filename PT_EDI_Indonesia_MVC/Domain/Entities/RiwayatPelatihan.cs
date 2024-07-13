@@ -1,4 +1,4 @@
-namespace PT_EDI_Indonesia_MVC.Core.Models;
+namespace PT_EDI_Indonesia_MVC.Domain.Entities;
 
 public class RiwayatPelatihan
 {
