@@ -46,7 +46,9 @@ builder.Services.AddScoped<GenerateData>();
 
 var app = builder.Build();
 
+await app.ApplyMigration();
 await app.CreateRoles();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
