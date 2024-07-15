@@ -1,8 +1,38 @@
-﻿@{
+﻿@inject UserManager<AppUser> _userManager
+@{
     ViewData["Title"] = "Home Page";
+    var claims = User.Claims;
+    var identity = User.Identity;
+
+    var appUser = await _userManager.GetUserAsync(User);
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Train Biodata Management System</p>
 </div>
+
+<div>
+    @foreach (var claim in claims)
+    {
+        <li>@claim.Type</li>
+        <li>@claim.Value</li>
+    }
+</div>
+
+<div>
+    User role is :
+</div>
+
+@if (appUser is not null)
+{
+    var userRole = await _userManager.GetRolesAsync(appUser);
+    @foreach (var role in userRole)
+    {
+        <li>@role</li>
+    }
+}
+else
+{
+    <p>User don't have any role</p>
+}

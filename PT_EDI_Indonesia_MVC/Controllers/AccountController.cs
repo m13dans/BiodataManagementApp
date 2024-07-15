@@ -14,15 +14,18 @@ public class AccountController : Controller
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IAccountRepository _accountRepo;
 
     public AccountController(
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
+        RoleManager<IdentityRole> roleManager,
         IAccountRepository accountRepo)
     {
         _accountRepo = accountRepo;
         _signInManager = signInManager;
+        _roleManager = roleManager;
         _userManager = userManager;
     }
 
@@ -79,26 +82,12 @@ public class AccountController : Controller
 
         if (!result.Succeeded)
         {
-            // var userIdInDatabase = await _accountRepo.GetUserIdAndEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-            // if (userIdInDatabase is null)
-            // {
-            //     return RedirectToLocal(returnUrl);
-            // }
-            // var claims = new List<Claim>
-            // {
-            //     new Claim("BioId", userIdInDatabase.Id.ToString())
-            // };
-
-            // var appIdentity = new ClaimsIdentity(claims);
-            // User.Claims.
-            // User.AddIdentity(appIdentity);
-
             ModelState.AddModelError("", "Invalid UserName or Password");
-            return View();
+            return View(userModel);
         }
 
+        await AssignDefaultRole(userModel.Email, _userManager);
         return RedirectToLocal(returnUrl);
-
     }
 
     [HttpPost]
@@ -145,5 +134,17 @@ public class AccountController : Controller
 
         await userManager.AddToRoleAsync(user, role);
         return true;
+    }
+
+    private static async Task<bool> AssignDefaultRole(string email, UserManager<AppUser> userManager)
+    {
+        AppUser appUser = await userManager.FindByNameAsync(email);
+        var result = email switch
+        {
+            "admin@test.com" => await userManager.AddToRoleAsync(appUser, "Admin"),
+            _ => await userManager.AddToRoleAsync(appUser, "User")
+        };
+
+        return result.Succeeded;
     }
 }
