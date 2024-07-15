@@ -6,6 +6,7 @@ using PT_EDI_Indonesia_MVC.Data.Repository;
 using PT_EDI_Indonesia_MVC.Service.Accounts;
 using PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
 using PT_EDI_Indonesia_MVC.Service.AccountService;
+using static PT_EDI_Indonesia_MVC.Controllers.ControllerHelper;
 
 namespace PT_EDI_Indonesia_MVC.Controllers;
 
@@ -49,7 +50,7 @@ public class AccountController : Controller
 
         AppUser user = model.MapSignUpToUser();
 
-        bool result = await CreateUserWithRole(user, _userManager, model.Password);
+        bool result = await CreateUserWithRole(user, _userManager, model.Password, this);
 
         if (result is false)
             return View(model);
@@ -111,40 +112,5 @@ public class AccountController : Controller
             return Redirect(returnUrl);
         }
         return RedirectToAction(nameof(HomeController.Index), "Home");
-    }
-
-    private async Task<bool> CreateUserWithRole(
-        AppUser user,
-        UserManager<AppUser> userManager,
-        string password,
-        string role = "User")
-    {
-        IdentityResult result = await userManager.CreateAsync(user, password);
-        if (!result.Succeeded)
-        {
-            foreach (var error in result.Errors)
-            {
-                if (error.Code == "DuplicateUserName")
-                    continue;
-                ModelState.TryAddModelError(error.Code, error.Description);
-            }
-
-            return false;
-        }
-
-        await userManager.AddToRoleAsync(user, role);
-        return true;
-    }
-
-    private static async Task<bool> AssignDefaultRole(string email, UserManager<AppUser> userManager)
-    {
-        AppUser appUser = await userManager.FindByNameAsync(email);
-        var result = email switch
-        {
-            "admin@test.com" => await userManager.AddToRoleAsync(appUser, "Admin"),
-            _ => await userManager.AddToRoleAsync(appUser, "User")
-        };
-
-        return result.Succeeded;
     }
 }
