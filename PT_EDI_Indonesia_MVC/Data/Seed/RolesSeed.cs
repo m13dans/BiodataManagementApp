@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Data.Identity;
 
 namespace PT_EDI_Indonesia_MVC.Data.Seed;
 
@@ -10,7 +10,7 @@ public static class RolesSeed
         using var scope = app.Services.CreateScope();
 
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
         string[] roleNames = new string[] { "Admin", "User" };
         IdentityResult roleResult;
@@ -24,7 +24,7 @@ public static class RolesSeed
             }
         }
 
-        var powerUser = new User
+        var powerUser = new AppUser
         {
             UserName = "admin@test.com",
             Email = "admin@test.com"

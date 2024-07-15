@@ -1,5 +1,5 @@
 
-create procedure [dbo].[usp_Biodata_BulkInsert](
+create procedure [usp_Biodata_BulkInsert](
 @udtBiodata UDT_Biodata readonly
 )
 as 

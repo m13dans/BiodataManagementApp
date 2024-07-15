@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PT_EDI_Indonesia_MVC.Data.Context;
+using PT_EDI_Indonesia_MVC.Data.Identity;
 using PT_EDI_Indonesia_MVC.Data.Repository;
 using PT_EDI_Indonesia_MVC.Data.Seed;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
 using PT_EDI_Indonesia_MVC.Service.Accounts;
 using PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
 using PT_EDI_Indonesia_MVC.Service.BiodataService;
@@ -18,7 +18,7 @@ builder.Services.AddDbContext<AccountContext>(o =>
 {
     o.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
 });
-builder.Services.AddIdentity<User, IdentityRole>(opt =>
+builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
 {
     opt.Password.RequiredLength = 6;
     // opt.Password.RequireDigit = false;

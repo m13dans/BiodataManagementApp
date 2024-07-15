@@ -1,5 +1,6 @@
 using System.Data;
 using Dapper;
+using ErrorOr;
 using PT_EDI_Indonesia_MVC.Data.Context;
 using PT_EDI_Indonesia_MVC.Domain.Entities;
 using PT_EDI_Indonesia_MVC.Service.BiodataService;
@@ -12,28 +13,22 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
         public BiodataRepository(DapperContext context)
         {
             _context = context;
-
         }
 
-        public async Task<List<BiodataDTO>> GetBiodatasAsync()
+        public async Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync()
         {
-            var query = "usp_Biodata_SelectForVM";
+            var query = "usp_Biodata_SelectForDTO";
             using var connection = _context.CreateConnection();
 
-            var biodatas = await connection.QueryAsync<Biodata>(query, CommandType.StoredProcedure);
+            var biodataDTOs = await connection.QueryAsync<BiodataDTO>(query, CommandType.StoredProcedure);
 
-            var listBiodataVM = biodatas.Select(x => new BiodataDTO
+            if (biodataDTOs.Count() <= 0)
             {
-                Id = x.Id,
-                Nama = x.Nama,
-                TempatLahir = x.TempatLahir,
-                TanggalLahir = x.TanggalLahir,
-                PosisiDilamar = x.PosisiDilamar
-            });
+                return Error.NotFound(code: "Biodata.NotFound", description: "Biodata List is Empty");
+            }
 
-            var result = listBiodataVM.ToList();
+            var result = biodataDTOs.ToList();
             return result;
-
         }
 
         public async Task<Biodata> GetBiodataAsync(int bioId)

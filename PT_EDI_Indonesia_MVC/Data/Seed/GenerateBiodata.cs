@@ -108,10 +108,10 @@ public class GenerateData
 
         using var conn = _context.CreateConnection();
 
-        var tvp = tvpBiodata.AsTableValuedParameter("dbo.UDT_Biodata");
+        var tvp = tvpBiodata.AsTableValuedParameter("UDT_Biodata");
 
         var result = await conn.ExecuteAsync(
-            "dbo.usp_Biodata_BulkInsert",
+            "usp_Biodata_BulkInsert",
             new { udtBiodata = tvp },
             commandType: CommandType.StoredProcedure);
 

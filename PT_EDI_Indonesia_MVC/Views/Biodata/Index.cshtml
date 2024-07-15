@@ -1,95 +1,63 @@
 ﻿@model List<BiodataDTO>
 
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
-
-@* <h2>Claim details</h2>
-<ul>
-@foreach (var claim in User.Claims)
-{
-<li><strong>@claim.Type</strong>: @claim.Value</li>
-}
-</ul> *@
 
 @if (User.IsInRole("Admin"))
 {
-    <div class="mb-3 d-flex justify-content-end me-2 pe-1">
+	<!--Toast-->
+	<div id="genereate50DataToast">
+		<partial name="_InfoToast" />
+	</div>
 
-        <button id="btnGenerate" onclick="GenerateData()" class="row btn btn-info text-white">
-            Generate 50 FakeData
-        </button>
-    </div>
+	<div class="mb-3 d-flex justify-content-end me-2 pe-1">
+		<button id="btnGenerate" onclick="GenerateData()" class="row btn btn-info text-white mx-3">
+			Generate 50 FakeData
+		</button>
+	</div>
 
-    <div class="table-responsive">
-        <table id="tblPersonals" class="table text-center table-sm align-middle ">
-            <thead class=" table-secondary">
-                <tr>
-                    <th style="width: 150px;">
-                        Nama
-                    </th>
-                    <th style="width: 150px;">
-                        Tempat Lahir
-                    </th>
-                    <th style="width: 150px;">
-                        Tanggal Lahir
-                    </th>
-                    <th style="width: 150px;">
-                        Posisi Dilamar
-                    </th>
-                    <th style="width: 150px">
-                        Modify Data
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var biodata in Model)
-                {
-                    <tr>
-                        <td>@biodata.Nama</td>
-                        <td>@biodata.TempatLahir</td>
-                        <td>@(DateOnly.FromDateTime(biodata.TanggalLahir))</td>
-                        <td>@biodata.PosisiDilamar</td>
-                        <td>
-                            <div class="">
-                                <a asp-controller="Biodata" asp-action="Detail" asp-route-id="@biodata.Id" class="
-                                    btn btn-sm text-info">
-                                    <i class="bi bi-eye"></i> Detail
-                                </a>
-                                <a asp-controller="Biodata" asp-action="Update" asp-route-id="@biodata.Id" class="
-                                    btn btn-sm text-info">
-                                    <i class="bi bi-pencil-square"></i> Edit
-                                </a>
-                                <a asp-controller="Biodata" asp-action="Delete" asp-route-id="@biodata.Id"
-                                    class="btn btn-sm text-danger">
-                                    <i class="bi bi-trash-fill"></i> Delete
-                                </a>
-                            </div>
-                        </td>
-
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+	<div id="biodataListPartial">
+		<partial name="_BiodataListPartial" model="@Model" />
+	</div>
 }
 
 @section Scripts {
-    <script>
-        function GenerateData() {
-            $.ajax({
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                url: '@Url.Action("GenerateData", "Biodata")',
-                data: {},
-                success: function (r) {
-                    alert(r + ' Records submited');
-                },
-                error: function (response) {
-                    alert('Submit Data Failed');
-                }
-            })
-        }
-    </script>
+	<script>
+		function GenerateData() {
+			debugger
+			$.ajax({
+				type: 'POST',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				url: '@Url.Action("GenerateData", "Biodata")',
+				data: {},
+				success: function (r) {
+					$('.toast').toast('show');
+					DisplayData();
+					debugger
+				},
+				error: function (response) {
+					debugger
+					alert('Submit Data Failed');
+
+				}
+			})
+		}
+
+		function DisplayData() {
+			$.ajax({
+				type: 'GET',
+				url: '@Url.Action("DisplayData", "Biodata")',
+				data: {},
+				success: function (data) {
+					$('#biodataListPartial').html(data)
+				},
+				error: function (response) {
+					alert('Display data failed');
+
+				}
+			})
+		}
+	</script>
 }

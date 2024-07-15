@@ -1,5 +1,6 @@
 using Dapper;
 using PT_EDI_Indonesia_MVC.Data.Context;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
 using PT_EDI_Indonesia_MVC.Service.Accounts;
 
 namespace PT_EDI_Indonesia_MVC.Data.Repository
@@ -13,7 +14,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
 
         }
 
-        public async Task<UserIdAndEmail> GetUserIdAndEmailAsync(string email)
+        public async Task<AppUserBiodata> GetUserIdAndEmailAsync(string email)
         {
             var query = @"SELECT B.ID, B.EMAIL FROM Biodata b
                         join AspNetUsers U ON B.Email = @UEmail";
@@ -21,7 +22,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository
             using var connection = _context.CreateConnection();
             connection.Open();
 
-            var biodatas = await connection.QueryAsync<UserIdAndEmail>(
+            var biodatas = await connection.QueryAsync<AppUserBiodata>(
                 query, new { @UEmail = email });
 
             return biodatas.FirstOrDefault();

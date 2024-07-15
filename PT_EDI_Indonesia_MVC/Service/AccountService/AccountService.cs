@@ -1,4 +1,4 @@
-using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Data.Identity;
 using PT_EDI_Indonesia_MVC.Service.AccountService;
 
 namespace PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
@@ -15,9 +15,9 @@ public class AccountService
 
 public static class AccountServiceExtensions
 {
-    public static User MapSignUpToUser(this SignupDTO model)
+    public static AppUser MapSignUpToUser(this SignupDTO model)
     {
-        return new User
+        return new AppUser
         {
             NamaLengkap = model.NamaLengkap,
             UserName = model.Email,

@@ -1,7 +1,9 @@
-﻿namespace PT_EDI_Indonesia_MVC.Service.Accounts;
+﻿using PT_EDI_Indonesia_MVC.Domain.Entities;
+
+namespace PT_EDI_Indonesia_MVC.Service.Accounts;
 
 public interface IAccountRepository
 {
-    public Task<UserIdAndEmail> GetUserIdAndEmailAsync(string email);
+    public Task<AppUserBiodata> GetUserIdAndEmailAsync(string email);
 
 }

@@ -18,7 +18,7 @@ create table RiwayatPekerjaan(
 	NamaPerusahaan varchar(255),
 	PosisiTerakhir varchar(255),
 	PendapatanTerakhir money,
-	Tahun Date
+	Tahun int
 )
 
 create table RiwayatPelatihan (

@@ -1,159 +1,169 @@
 using System.Security.Claims;
+using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PT_EDI_Indonesia_MVC.Data.Repository;
 using PT_EDI_Indonesia_MVC.Data.Seed;
 using PT_EDI_Indonesia_MVC.Domain.Entities;
+using PT_EDI_Indonesia_MVC.Service.Accounts;
 using PT_EDI_Indonesia_MVC.Service.BiodataService;
 
-namespace PT_EDI_Indonesia_MVC.Controllers
+namespace PT_EDI_Indonesia_MVC.Controllers;
+
+[Authorize]
+public class BiodataController : Controller
 {
-    [Authorize]
-    public class BiodataController : Controller
+    private readonly ILogger<BiodataController> _logger;
+    private readonly IBiodataRepository _bioRepo;
+
+    private readonly IAccountRepository _accountRepo;
+
+    public BiodataController(ILogger<BiodataController> logger, IBiodataRepository bioRepo,
+    IAccountRepository accounRepo)
     {
-        private readonly ILogger<BiodataController> _logger;
-        private readonly IBiodataRepository _bioRepo;
+        _accountRepo = accounRepo;
+        _bioRepo = bioRepo;
+        _logger = logger;
+    }
 
-        private readonly AccountRepository _accountRepo;
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Index()
+    {
+        ErrorOr<List<BiodataDTO>> errorOrResult = await _bioRepo.GetBiodataListAsync();
 
-        public BiodataController(ILogger<BiodataController> logger, IBiodataRepository bioRepo,
-        AccountRepository accounRepo)
+        return errorOrResult.MatchFirst(
+            onValue: result => View(result),
+            onFirstError: error =>
+            {
+                _logger.LogWarning($"{error.Code} {error.Description}");
+                return View();
+            });
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public async Task<JsonResult> GenerateData([FromServices] GenerateData generateData)
+    {
+        var result = await generateData.SubmitBiodata();
+
+        // var result = await _bioRepo.GetBiodataListAsync();
+
+        return Json(result);
+    }
+
+    public async Task<IActionResult> DisplayData()
+    {
+        var result = await _bioRepo.GetBiodataListAsync();
+
+        return PartialView("_BiodataListPartial", result.Value);
+    }
+
+
+    [Authorize(Roles = "Admin, User")]
+    public async Task<IActionResult> Detail(int id)
+    {
+        var email = User.FindFirstValue(ClaimTypes.Email);
+
+        if (User.IsInRole("Admin") & id != 0)
         {
-            _accountRepo = accounRepo;
-            _bioRepo = bioRepo;
-            _logger = logger;
+            var bio = await _bioRepo.GetBiodataAsync(id);
+            return View(bio);
         }
 
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
-        {
-            try
-            {
-                var bioVm = await _bioRepo.GetBiodatasAsync();
-                return View(bioVm);
+        var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return Error();
-            }
+        if (biodata == null && User.IsInRole("Admin"))
+        {
+            return RedirectToAction("Index", "Biodata");
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<JsonResult> GenerateData([FromServices] GenerateData generateData)
+        if (biodata is null)
         {
-            var result = await generateData.SubmitBiodata();
-
-            return Json(result);
+            return RedirectToAction("Create", "Biodata");
         }
 
+        return View(biodata);
+    }
 
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Detail(int id)
+
+    [Authorize(Roles = "Admin, User")]
+    public async Task<IActionResult> Create()
+    {
+        var email = User.FindFirstValue(ClaimTypes.Email);
+        var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
+
+        if (biodata is not null)
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            return RedirectToAction("Update");
+        }
 
-            if (User.IsInRole("Admin") & id != 0)
-            {
-                var bio = await _bioRepo.GetBiodataAsync(id);
-                return View(bio);
-            }
+        return View();
+    }
 
-            var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
+    [Authorize(Roles = "Admin, User")]
+    [HttpPost]
+    public async Task<IActionResult> Create(Biodata biodata)
+    {
+        var result = await _bioRepo.CreateBiodataAsync(biodata);
+        if (result is false)
+        {
+            return Error();
+        }
+        return RedirectToAction("Detail", "Biodata", new { id = biodata.Id });
+    }
 
-            if (biodata == null && User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Biodata");
-            }
+    [Authorize(Roles = "Admin, User")]
+    public async Task<IActionResult> Update(int id)
+    {
+        var email = User.FindFirstValue(ClaimTypes.Email);
 
-            if (biodata is null)
-            {
-                return RedirectToAction("Create", "Biodata");
-            }
+        if (User.IsInRole("Admin"))
+        {
+            var bio = await _bioRepo.GetBiodataAsync(id);
+            return View(bio);
+        }
 
+        var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
+
+        if (biodata != null)
+        {
             return View(biodata);
         }
 
+        return RedirectToAction("create");
 
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Create()
+    }
+
+    [Authorize(Roles = "Admin, User")]
+    [HttpPost]
+    public async Task<IActionResult> Update(Biodata biodata)
+    {
+        var result = await _bioRepo.UpdateBiodataAsync(biodata);
+        if (result is false)
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
-            var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
-
-            if (biodata is not null)
-            {
-                return RedirectToAction("Update");
-            }
-
-            return View();
+            return Error();
         }
+        return RedirectToAction("Index", "Home");
+    }
 
-        [Authorize(Roles = "Admin, User")]
-        [HttpPost]
-        public async Task<IActionResult> Create(Biodata biodata)
+
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var result = await _bioRepo.DeleteBiodataAsync(id);
+        if (result is false)
         {
-            var result = await _bioRepo.CreateBiodataAsync(biodata);
-            if (result is false)
-            {
-                return Error();
-            }
-            return RedirectToAction("Detail", "Biodata", new { id = biodata.Id });
+            return Error();
         }
+        return RedirectToAction("Index", "Home");
 
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Update(int id)
-        {
-            var email = User.FindFirstValue(ClaimTypes.Email);
+    }
 
-            if (User.IsInRole("Admin"))
-            {
-                var bio = await _bioRepo.GetBiodataAsync(id);
-                return View(bio);
-            }
-
-            var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
-
-            if (biodata != null)
-            {
-                return View(biodata);
-            }
-
-            return RedirectToAction("create");
-
-        }
-
-        [Authorize(Roles = "Admin, User")]
-        [HttpPost]
-        public async Task<IActionResult> Update(Biodata biodata)
-        {
-            var result = await _bioRepo.UpdateBiodataAsync(biodata);
-            if (result is false)
-            {
-                return Error();
-            }
-            return RedirectToAction("Index", "Home");
-        }
-
-
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var result = await _bioRepo.DeleteBiodataAsync(id);
-            if (result is false)
-            {
-                return Error();
-            }
-            return RedirectToAction("Index", "Home");
-
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View("Error!");
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [HttpGet("error")]
+    public IActionResult Error(string? errorCode = "")
+    {
+        ViewData["ErrorCode"] = errorCode;
+        return View(errorCode);
     }
 }

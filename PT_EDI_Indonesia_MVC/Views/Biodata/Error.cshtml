@@ -1,0 +1,12 @@
+@model string;
+@{
+    ViewData["Title"] = "There is some error";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <p>@ViewData["ErrorCode"]</p>
+
+    <p>Error from model : @Model</p>
+</div>

@@ -1,10 +1,11 @@
+using ErrorOr;
 using PT_EDI_Indonesia_MVC.Domain.Entities;
 
 namespace PT_EDI_Indonesia_MVC.Service.BiodataService;
 
 public interface IBiodataRepository
 {
-    public Task<List<BiodataDTO>> GetBiodatasAsync();
+    public Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync();
     public Task<Biodata> GetBiodataAsync(int id);
     public Task<Biodata> GetBiodataWithEmailAsync(string email);
     public Task<List<PendidikanTerakhir>> GetPendidikansAsync(int biodataId);

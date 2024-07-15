@@ -1,6 +1,5 @@
-USE PTEdiIndonesia;
-create table Biodata (
-	Id int primary key clustered identity(1,1),
+CREATE TYPE UDT_Biodata AS TABLE
+(
 	PosisiDilamar varchar(255) not null,
 	Nama varchar(255) not null,
 	NoKTP varchar(50) unique not null,
@@ -17,6 +16,5 @@ create table Biodata (
 	KontakOrangTerdekat varchar (50),
 	Skill varchar(255),
 	BersediaDiTempatkan bit default 0,
-	PenghasilanDiHarapkan money, 
-
+	PenghasilanDiHarapkan money
 )
