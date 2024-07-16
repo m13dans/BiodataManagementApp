@@ -28,6 +28,7 @@ public class BiodataController : Controller
     }
 
     [Authorize(Roles = "Admin")]
+    [HttpGet]
     [HttpGet("index")]
     public async Task<IActionResult> Index()
     {
@@ -43,7 +44,7 @@ public class BiodataController : Controller
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpPost]
+    [HttpPost("GenerateData")]
     public async Task<JsonResult> GenerateData([FromServices] GenerateData generateData)
     {
         var result = await generateData.SubmitBiodata();
@@ -70,6 +71,10 @@ public class BiodataController : Controller
         if (id is null)
         {
             var result = await _bioRepo.GetBiodataWithEmailAsync(email);
+            if (result.IsError)
+            {
+                return NotFound();
+            }
             return View(result.Value);
         }
 
@@ -85,7 +90,7 @@ public class BiodataController : Controller
             };
         }
 
-        if (biodata.Value.Email != email)
+        if (biodata.Value.Email != email && !User.IsInRole("Admin"))
         {
             return NotFound();
         }
@@ -110,7 +115,7 @@ public class BiodataController : Controller
     }
 
     [Authorize(Roles = "Admin, User")]
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> Create(Biodata biodata)
     {
         if (!ModelState.IsValid)
@@ -150,7 +155,7 @@ public class BiodataController : Controller
     }
 
     [Authorize(Roles = "Admin, User")]
-    [HttpPost]
+    [HttpPost("update")]
     public async Task<IActionResult> Update(Biodata biodata)
     {
         var result = await _bioRepo.UpdateBiodataAsync(biodata);
@@ -163,6 +168,7 @@ public class BiodataController : Controller
 
 
     [Authorize(Roles = "Admin")]
+    [HttpDelete("delete")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _bioRepo.DeleteBiodataAsync(id);
