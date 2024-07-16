@@ -13,4 +13,6 @@ public interface IBiodataRepository
     public Task<bool> DeleteBiodataAsync(int id);
     public Task<bool> CreateBiodataAsync(Biodata biodata);
     public Task<int> GetCurrentUserId(string email);
+
+    public Task<string> GetBiodataOwnerId(Guid userId);
 }
