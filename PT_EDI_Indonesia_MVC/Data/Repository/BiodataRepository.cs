@@ -10,8 +10,10 @@ namespace PT_EDI_Indonesia_MVC.Data.Repository;
 public class BiodataRepository : IBiodataRepository
 {
     private readonly DapperContext _context;
-    public BiodataRepository(DapperContext context)
+    private readonly IHttpContextAccessor _httpContext;
+    public BiodataRepository(DapperContext context, IHttpContextAccessor httpContext)
     {
+        _httpContext = httpContext;
         _context = context;
     }
 
@@ -31,14 +33,12 @@ public class BiodataRepository : IBiodataRepository
         return result;
     }
 
-    public async Task<Biodata> GetBiodataAsync(int bioId)
+    public async Task<ErrorOr<Biodata>> GetBiodataByIdAsync(int bioId)
     {
-        var query = "usp_Biodata_GetById";
+        string query = "usp_Biodata_GetById";
         using var connection = _context.CreateConnection();
-        connection.Open();
 
-        Biodata biodata;
-        var biodatas = await connection.QueryAsync<Biodata, PendidikanTerakhir,
+        IEnumerable<Biodata>? biodatas = await connection.QueryAsync<Biodata, PendidikanTerakhir,
         RiwayatPekerjaan, RiwayatPelatihan, Biodata>(
             query,
             (bio, pendidikanTerakhir, riwayatPekerjaan, riwayatPelatihan) =>
@@ -55,25 +55,29 @@ public class BiodataRepository : IBiodataRepository
             splitOn: "Id",
             commandType: CommandType.StoredProcedure);
 
-        biodata = biodatas.GroupBy(x => x.Id).Select(x =>
+        if (biodatas is null)
+            return Error.NotFound("Biodata.NotFound");
+
+        var biodata = biodatas.GroupBy(x => x.Id).Select(x =>
         {
             Biodata bio = x.First();
-            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir).ToList();
-            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan).ToList();
-            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan).ToList();
+            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? Enumerable.Empty<PendidikanTerakhir>()).ToList();
+            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? Enumerable.Empty<RiwayatPekerjaan>()).ToList();
+            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? Enumerable.Empty<RiwayatPelatihan>()).ToList();
             return bio;
         }).FirstOrDefault();
+
+        if (biodata is null)
+            return Error.NotFound("Biodata.NotFound");
 
         return biodata;
     }
 
-    public async Task<Biodata> GetBiodataWithEmailAsync(string userEmail)
+    public async Task<ErrorOr<Biodata>> GetBiodataWithEmailAsync(string userEmail)
     {
         var query = "usp_Biodata_GetByEmail";
         using var connection = _context.CreateConnection();
-        connection.Open();
 
-        Biodata biodata;
         var biodatas = await connection.QueryAsync<Biodata, PendidikanTerakhir,
         RiwayatPekerjaan, RiwayatPelatihan, Biodata>(
             query,
@@ -91,45 +95,23 @@ public class BiodataRepository : IBiodataRepository
             splitOn: "Id",
             commandType: CommandType.StoredProcedure);
 
-        biodata = biodatas.GroupBy(x => x.Id).Select(x =>
+        if (biodatas is null)
+            return Error.NotFound("Biodata.NotFound");
+
+        var biodata = biodatas.GroupBy(x => x.Id).Select(x =>
         {
             Biodata bio = x.First();
-            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir).ToList();
-            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan).ToList();
-            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan).ToList();
+            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? Enumerable.Empty<PendidikanTerakhir>()).ToList();
+            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? Enumerable.Empty<RiwayatPekerjaan>()).ToList();
+            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? Enumerable.Empty<RiwayatPelatihan>()).ToList();
             return bio;
         }).FirstOrDefault();
 
+        if (biodata is null)
+            return Error.NotFound("Biodata.NotFound");
+
         return biodata;
     }
-    // public async Task<BiodataWithChild> GetBiodataWithRelationAsync(int bioId)
-    // {
-    //     var query = "usp_Biodata_GetById";
-    //     using var connection = _context.CreateConnection();
-
-    //     var biodata = await connection.QueryAsync<Biodata, PendidikanTerakhir,
-    //     RiwayatPekerjaan, RiwayatPelatihan, Biodata>(
-    //         query,
-    //         (bio, pedidikanTerakhir, riwayatPekerjaan, riwayatPelatihan) =>
-    //         {
-    //             bio.PendidikanTerakhir = pedidikanTerakhir;
-    //             bio.RiwayatPekerjaan = riwayatPekerjaan;
-    //             bio.RiwayatPelatihan = riwayatPelatihan;
-
-    //             return bio;
-    //         },
-    //         param: new { id = bioId },
-    //         splitOn: "Id",
-    //         commandType: CommandType.StoredProcedure);
-
-    //     var bioWithRelation = biodata.Select(x => new BiodataWithChild
-    //     {
-    //         Id = x.Id,
-    //         PosisiDilamar = x.PosisiDilamar
-    //     });
-
-    //     return biodata.First();
-    // }
 
     public async Task<List<PendidikanTerakhir>> GetPendidikansAsync(int biodataId)
     {
@@ -208,6 +190,7 @@ public class BiodataRepository : IBiodataRepository
         tvpBiodata.Columns.Add("Skill", typeof(string));
         tvpBiodata.Columns.Add("BersediaDitempatkan", typeof(bool));
         tvpBiodata.Columns.Add("PenghasilanDiHarapkan", typeof(decimal));
+        tvpBiodata.Columns.Add("UserId", typeof(string));
 
         tvpBiodata.Rows.Add(biodata.PosisiDilamar,
             biodata.Nama,
@@ -248,13 +231,39 @@ public class BiodataRepository : IBiodataRepository
         return userId;
     }
 
-    public async Task<string> GetBiodataOwnerId(Guid userId)
+    public async Task<string> GetBiodataOwnerId(string userId)
     {
-        var query = "SELECT UserId FROM Biodata WHERE UserId = @UserId";
+        var query = "SELECT AppUserId FROM AppUserBiodata WHERE AppUserId = @UserId";
         using var connection = _context.CreateConnection();
 
         var result = await connection.QuerySingleOrDefaultAsync<string>(query, new { UserId = userId });
 
         return result ?? string.Empty;
+    }
+
+    public async Task<ErrorOr<Biodata>> GetBiodataWithUserId(string userId)
+    {
+        var query = @"SELECT * FROM Biodata
+                        JOIN AppUserBiodata ON Biodata.Id = AppUserBiodata.BiodataId
+                        WHERE AppUserBiodata.UserId = @UserId ";
+
+        using var connection = _context.CreateConnection();
+
+        var result = await connection.QuerySingleOrDefaultAsync<Biodata>(query, new { UserId = userId });
+
+        if (result is null)
+            return Error.NotFound("Biodata.NotFound");
+
+        return result;
+    }
+
+    public async Task<bool> ValidateBiodataOwner(string userEmail)
+    {
+        var query = "SELECT Email FROM Biodata WHERE Email = @UserEmail";
+        using var connection = _context.CreateConnection();
+
+        var result = await connection.QuerySingleOrDefaultAsync<string>(query, new { UserEmail = userEmail });
+
+        return result is not null;
     }
 }

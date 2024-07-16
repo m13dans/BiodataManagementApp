@@ -18,5 +18,6 @@ create table Biodata (
 	Skill varchar(255),
 	BersediaDiTempatkan bit default 0,
 	PenghasilanDiHarapkan money, 
+	UserId NVARCHAR(450) NULL
 
 )

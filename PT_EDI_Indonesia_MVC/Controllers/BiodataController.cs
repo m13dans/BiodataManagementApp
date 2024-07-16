@@ -11,6 +11,7 @@ using PT_EDI_Indonesia_MVC.Service.BiodataService;
 namespace PT_EDI_Indonesia_MVC.Controllers;
 
 [Authorize]
+[Route("biodata")]
 public class BiodataController : Controller
 {
     private readonly ILogger<BiodataController> _logger;
@@ -27,6 +28,7 @@ public class BiodataController : Controller
     }
 
     [Authorize(Roles = "Admin")]
+    [HttpGet("index")]
     public async Task<IActionResult> Index()
     {
         ErrorOr<List<BiodataDTO>> errorOrResult = await _bioRepo.GetBiodataListAsync();
@@ -51,6 +53,7 @@ public class BiodataController : Controller
         return Json(result);
     }
 
+    [HttpGet("displaydata")]
     public async Task<IActionResult> DisplayData()
     {
         var result = await _bioRepo.GetBiodataListAsync();
@@ -59,40 +62,46 @@ public class BiodataController : Controller
     }
 
 
-    [Authorize(Roles = "Admin, User")]
-    public async Task<IActionResult> Detail(int id)
+    [Authorize(Policy = "BiodataOwner")]
+    [HttpGet("detail/{id:int?}")]
+    public async Task<IActionResult> Detail(int? id)
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
-
-        if (User.IsInRole("Admin") & id != 0)
+        if (id is null)
         {
-            var bio = await _bioRepo.GetBiodataAsync(id);
-            return View(bio);
+            var result = await _bioRepo.GetBiodataWithEmailAsync(email);
+            return View(result.Value);
         }
 
-        var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
+        var biodata = await _bioRepo.GetBiodataByIdAsync(id.Value);
 
-        if (biodata == null && User.IsInRole("Admin"))
+        if (biodata.IsError)
         {
-            return RedirectToAction("Index", "Biodata");
+            var error = biodata.FirstError;
+            return error.Code switch
+            {
+                "Biodata.NotFound" => NotFound(),
+                _ => BadRequest()
+            };
         }
 
-        if (biodata is null)
+        if (biodata.Value.Email != email)
         {
-            return RedirectToAction("Create", "Biodata");
+            return NotFound();
         }
 
-        return View(biodata);
+        return View(biodata.Value);
     }
 
 
     [Authorize(Roles = "Admin, User")]
+    [HttpGet("create")]
     public async Task<IActionResult> Create()
     {
-        var email = User.FindFirstValue(ClaimTypes.Email);
-        var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var biodata = await _bioRepo.GetBiodataWithUserId(userId);
 
-        if (biodata is not null)
+        if (!biodata.IsError)
         {
             return RedirectToAction("Update");
         }
@@ -104,6 +113,11 @@ public class BiodataController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(Biodata biodata)
     {
+        if (!ModelState.IsValid)
+            return View(biodata);
+
+        biodata.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         var result = await _bioRepo.CreateBiodataAsync(biodata);
         if (result is false)
         {
@@ -113,19 +127,20 @@ public class BiodataController : Controller
     }
 
     [Authorize(Roles = "Admin, User")]
+    [HttpGet("update")]
     public async Task<IActionResult> Update(int id)
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
 
         if (User.IsInRole("Admin"))
         {
-            var bio = await _bioRepo.GetBiodataAsync(id);
+            var bio = await _bioRepo.GetBiodataByIdAsync(id);
             return View(bio);
         }
 
         var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
 
-        if (biodata != null)
+        if (biodata.IsError)
         {
             return View(biodata);
         }

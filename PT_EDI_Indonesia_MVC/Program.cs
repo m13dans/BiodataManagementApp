@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PT_EDI_Indonesia_MVC.Authorization;
 using PT_EDI_Indonesia_MVC.Data.Context;
 using PT_EDI_Indonesia_MVC.Data.Identity;
 using PT_EDI_Indonesia_MVC.Data.Repository;
@@ -13,31 +15,37 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// DbContext for dapper and EFCore
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddDbContext<AccountContext>(o =>
 {
     o.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
 });
+
+// Asp.Net Core Identity for authentication and authorization
 builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
 {
     opt.Password.RequiredLength = 6;
-    // opt.Password.RequireDigit = false;
-    // opt.Password.RequireUppercase = false;
-    // opt.Password.RequireNonAlphanumeric = false;
-
     opt.User.RequireUniqueEmail = true;
-
-
 }).AddEntityFrameworkStores<AccountContext>();
 
-// builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(configure =>
+{
+    configure.AddPolicy("BiodataOwner", policy =>
+    {
+        policy.AddRequirements(new BiodataOwnerOrAdminPolicy.BiodataOwnerOrAdminRequirement());
+    });
+});
+builder.Services.AddScoped<IAuthorizationHandler, BiodataOwnerOrAdminPolicy.Handler>();
 
+
+// Registering Entity Repository and Service
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<PendidikanTerakhirRepository>();
 
 builder.Services.AddScoped<AccountService>();
 
-builder.Services.AddScoped<PendidikanTerakhirRepository>();
 builder.Services.AddScoped<GenerateData>();
 
 

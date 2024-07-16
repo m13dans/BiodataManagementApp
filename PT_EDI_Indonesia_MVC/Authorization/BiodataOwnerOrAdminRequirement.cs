@@ -21,19 +21,24 @@ public static class BiodataOwnerOrAdminPolicy
         {
             _biodataRepository = biodataRepository;
         }
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, BiodataOwnerOrAdminRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, BiodataOwnerOrAdminRequirement requirement)
         {
             if (context.User.IsInRole("Admin"))
                 context.Succeed(requirement);
 
             var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
-            {
-                context.Fail(requirement);
-            }
-            var biodataId = _biodataRepository.GetBiodataOwnerId()
+                context.Fail();
 
-            if (context.User.FindFirst(ClaimTypes.Email) == )
+            var biodataId = await _biodataRepository.GetBiodataOwnerId(userId);
+
+            if (userId == biodataId)
+                context.Succeed(requirement);
+
+            var userEmail = context.User.FindFirstValue(ClaimTypes.Email);
+            var validateBiodataOwner = await _biodataRepository.ValidateBiodataOwner(userEmail);
+            if (validateBiodataOwner)
+                context.Succeed(requirement);
         }
     }
 
