@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using PT_EDI_Indonesia_MVC.Data.Identity;
+using PT_EDI_Indonesia_MVC.Domain.Entities;
 using PT_EDI_Indonesia_MVC.Service.BiodataService;
 
 namespace PT_EDI_Indonesia_MVC.Authorization;
@@ -14,31 +16,33 @@ public static class BiodataOwnerOrAdminPolicy
     {
     }
 
-    public class Handler : AuthorizationHandler<BiodataOwnerOrAdminRequirement>
+    public class Handler : AuthorizationHandler<BiodataOwnerOrAdminRequirement, Biodata>
     {
         private readonly IBiodataRepository _biodataRepository;
         public Handler(IBiodataRepository biodataRepository)
         {
             _biodataRepository = biodataRepository;
         }
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, BiodataOwnerOrAdminRequirement requirement)
+        protected override Task HandleRequirementAsync(
+            AuthorizationHandlerContext context,
+            BiodataOwnerOrAdminRequirement requirement,
+            Biodata resource)
         {
             if (context.User.IsInRole("Admin"))
+            {
                 context.Succeed(requirement);
+                return Task.CompletedTask;
+            }
 
             var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId))
-                context.Fail();
-
-            var biodataId = await _biodataRepository.GetBiodataOwnerId(userId);
-
-            if (userId == biodataId)
+            if (userId == resource.UserId)
+            {
                 context.Succeed(requirement);
+                return Task.CompletedTask;
+            }
 
-            var userEmail = context.User.FindFirstValue(ClaimTypes.Email);
-            var validateBiodataOwner = await _biodataRepository.ValidateBiodataOwner(userEmail);
-            if (validateBiodataOwner)
-                context.Succeed(requirement);
+            context.Fail();
+            return Task.CompletedTask;
         }
     }
 

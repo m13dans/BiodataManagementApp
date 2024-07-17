@@ -17,5 +17,6 @@ public interface IBiodataRepository
     public Task<string> GetBiodataOwnerId(string userId);
     public Task<ErrorOr<Biodata>> GetBiodataWithUserId(string userId);
     public Task<bool> ValidateBiodataOwner(string userEmail);
+    public Task<ErrorOr<AppUserBiodata>> GetAppUserBiodataAsync(string userId);
 
 }

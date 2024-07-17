@@ -1,5 +1,5 @@
 
-create procedure [usp_Biodata_BulkInsert](
+ALTER procedure [usp_Biodata_BulkInsert](
 @udtBiodata UDT_Biodata readonly
 )
 as 
@@ -23,6 +23,7 @@ begin
 		,Skill
 		,BersediaDiTempatkan
 		,PenghasilanDiHarapkan
+		,UserId
 	)
 	select * from @udtBiodata
 end

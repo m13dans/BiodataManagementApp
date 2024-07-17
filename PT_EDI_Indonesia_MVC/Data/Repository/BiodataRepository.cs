@@ -2,6 +2,7 @@ using System.Data;
 using Dapper;
 using ErrorOr;
 using PT_EDI_Indonesia_MVC.Data.Context;
+using PT_EDI_Indonesia_MVC.Data.Identity;
 using PT_EDI_Indonesia_MVC.Domain.Entities;
 using PT_EDI_Indonesia_MVC.Service.BiodataService;
 
@@ -192,7 +193,8 @@ public class BiodataRepository : IBiodataRepository
         tvpBiodata.Columns.Add("PenghasilanDiHarapkan", typeof(decimal));
         tvpBiodata.Columns.Add("UserId", typeof(string));
 
-        tvpBiodata.Rows.Add(biodata.PosisiDilamar,
+        tvpBiodata.Rows.Add(
+            biodata.PosisiDilamar,
             biodata.Nama,
             biodata.NoKTP,
             biodata.TempatLahir,
@@ -208,7 +210,8 @@ public class BiodataRepository : IBiodataRepository
             biodata.KontakOrangTerdekat,
             biodata.Skill,
             biodata.BersediaDitempatkan,
-            biodata.PenghasilanDiharapkan);
+            biodata.PenghasilanDiharapkan,
+            biodata.UserId);
 
         using var conn = _context.CreateConnection();
 
@@ -243,12 +246,9 @@ public class BiodataRepository : IBiodataRepository
 
     public async Task<ErrorOr<Biodata>> GetBiodataWithUserId(string userId)
     {
-        var query = @"SELECT * FROM Biodata
-                        JOIN AppUserBiodata ON Biodata.Id = AppUserBiodata.BiodataId
-                        WHERE AppUserBiodata.UserId = @UserId ";
+        var query = "SELECT * FROM Biodata WHERE UserId = @UserId ";
 
         using var connection = _context.CreateConnection();
-
         var result = await connection.QuerySingleOrDefaultAsync<Biodata>(query, new { UserId = userId });
 
         if (result is null)
@@ -265,5 +265,18 @@ public class BiodataRepository : IBiodataRepository
         var result = await connection.QuerySingleOrDefaultAsync<string>(query, new { UserEmail = userEmail });
 
         return result is not null;
+    }
+
+    public async Task<ErrorOr<AppUserBiodata>> GetAppUserBiodataAsync(string userId)
+    {
+        var query = "SELECT * FROM AppUserBiodata WHERE AppUserId = @AppUserId";
+        using var connection = _context.CreateConnection();
+
+        var result = await connection.QuerySingleOrDefaultAsync<AppUserBiodata>(query, new { AppUserId = userId });
+
+        if (result is null)
+            return Error.NotFound("AppUserBiodata.NotFound");
+
+        return result;
     }
 }

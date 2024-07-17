@@ -16,5 +16,6 @@ CREATE TYPE UDT_Biodata AS TABLE
 	KontakOrangTerdekat varchar (50),
 	Skill varchar(255),
 	BersediaDiTempatkan bit default 0,
-	PenghasilanDiHarapkan money
+	PenghasilanDiHarapkan money,
+	UserId NVARCHAR(450) null
 )

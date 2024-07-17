@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices;
 using System.Security.Claims;
+using System.Security.Permissions;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +17,16 @@ namespace PT_EDI_Indonesia_MVC.Controllers;
 public class BiodataController : Controller
 {
     private readonly ILogger<BiodataController> _logger;
+    private readonly IAuthorizationService _authorizeService;
     private readonly IBiodataRepository _bioRepo;
 
-    private readonly IAccountRepository _accountRepo;
 
-    public BiodataController(ILogger<BiodataController> logger, IBiodataRepository bioRepo,
-    IAccountRepository accounRepo)
+    public BiodataController(
+        ILogger<BiodataController> logger,
+        IBiodataRepository bioRepo,
+        IAuthorizationService authorizationService)
     {
-        _accountRepo = accounRepo;
+        _authorizeService = authorizationService;
         _bioRepo = bioRepo;
         _logger = logger;
     }
@@ -48,9 +52,6 @@ public class BiodataController : Controller
     public async Task<JsonResult> GenerateData([FromServices] GenerateData generateData)
     {
         var result = await generateData.SubmitBiodata();
-
-        // var result = await _bioRepo.GetBiodataListAsync();
-
         return Json(result);
     }
 
@@ -62,38 +63,33 @@ public class BiodataController : Controller
         return PartialView("_BiodataListPartial", result.Value);
     }
 
-
-    [Authorize(Policy = "BiodataOwner")]
-    [HttpGet("detail/{id:int?}")]
-    public async Task<IActionResult> Detail(int? id)
+    [HttpGet("detail")]
+    public async Task<IActionResult> Detail()
     {
-        var email = User.FindFirstValue(ClaimTypes.Email);
-        if (id is null)
-        {
-            var result = await _bioRepo.GetBiodataWithEmailAsync(email);
-            if (result.IsError)
-            {
-                return NotFound();
-            }
-            return View(result.Value);
-        }
-
-        var biodata = await _bioRepo.GetBiodataByIdAsync(id.Value);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var biodata = await _bioRepo.GetBiodataWithUserId(userId);
 
         if (biodata.IsError)
-        {
-            var error = biodata.FirstError;
-            return error.Code switch
-            {
-                "Biodata.NotFound" => NotFound(),
-                _ => BadRequest()
-            };
-        }
-
-        if (biodata.Value.Email != email && !User.IsInRole("Admin"))
-        {
             return NotFound();
-        }
+
+        var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
+        if (!authorizeResult.Succeeded)
+            return Problem(statusCode: 404);
+
+        return View(biodata.Value);
+    }
+
+    [Authorize]
+    [HttpGet("detail/{id:int}")]
+    public async Task<IActionResult> Detail(int id)
+    {
+        var biodata = await _bioRepo.GetBiodataByIdAsync(id);
+        if (biodata.IsError)
+            return NotFound();
+
+        var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
+        if (!authorizeResult.Succeeded)
+            return StatusCode(StatusCodes.Status403Forbidden);
 
         return View(biodata.Value);
     }
@@ -174,10 +170,9 @@ public class BiodataController : Controller
         var result = await _bioRepo.DeleteBiodataAsync(id);
         if (result is false)
         {
-            return Error();
+            return NotFound();
         }
         return RedirectToAction("Index", "Home");
-
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

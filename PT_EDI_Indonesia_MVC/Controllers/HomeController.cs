@@ -17,10 +17,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var userName = User.FindFirstValue(ClaimTypes.Name);
-        var email = User.FindFirstValue(ClaimTypes.Email);
-
         return View();
     }
 

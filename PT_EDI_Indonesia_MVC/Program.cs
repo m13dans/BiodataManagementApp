@@ -27,7 +27,13 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
 {
     opt.Password.RequiredLength = 6;
     opt.User.RequireUniqueEmail = true;
+
 }).AddEntityFrameworkStores<AccountContext>();
+
+// builder.Services.ConfigureApplicationCookie(o =>
+// {
+//     o.AccessDeniedPath = "/errors/404";
+// });
 
 builder.Services.AddAuthorization(configure =>
 {
@@ -61,6 +67,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseStatusCodePages("/error/{0}", "text/html");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
