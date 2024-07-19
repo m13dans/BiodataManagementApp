@@ -279,4 +279,14 @@ public class BiodataRepository : IBiodataRepository
 
         return result;
     }
+
+    public async Task<bool> IsBiodataExist(string userId)
+    {
+        var query = "SELECT 1 FROM Biodata WHERE UserId = @UserId";
+        using var connection = _context.CreateConnection();
+
+        var result = await connection.QuerySingleOrDefaultAsync<int>(query, new { UserId = userId });
+
+        return result is 1;
+    }
 }

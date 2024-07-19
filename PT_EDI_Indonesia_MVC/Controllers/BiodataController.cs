@@ -71,7 +71,7 @@ public class BiodataController : Controller
 
         var result = biodata.MatchFirst(
             onValue: View,
-            onFirstError: error => View("BiodataNotFound")
+            onFirstError: error => View("Biodata.NotFound")
         );
 
         return result;
@@ -83,34 +83,17 @@ public class BiodataController : Controller
     {
         var biodata = await _bioRepo.GetBiodataByIdAsync(id);
 
-        var result = await biodata
-            .FailIf(_ => biodata.IsError, Error.NotFound())
-            .ThenAsync<AuthorizationResult?>(async biodata =>
-                await _authorizeService.AuthorizeAsync(User, biodata, "BiodataOwner"))
-            .FailIf();
-
-        ErrorOr<string> foo = await result
-    .ThenDoAsync(val => Task.Delay(val))
-    .FailIf(val => val > 2, Error.Validation(description: $"{val} is too big"))
-    .ThenDo(val => Console.WriteLine($"Finished waiting {val} seconds."))
-    .ThenAsync(val => Task.FromResult(val * 2))
-    .Then(val => $"The result is {val}")
-    .Else(errors => Error.Unexpected())
-    .MatchFirst(
-        value => value,
-        firstError => $"An error occurred: {firstError.Description}");
-
         if (biodata.IsError)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-            return View("BiodataNotFound", id);
+            return View("Biodata.NotFound", id);
         }
 
         var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
         if (!authorizeResult.Succeeded)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
-            return View("BiodataForbidden");
+            return View("Biodata.Forbidden");
         }
 
         return View(biodata.Value);
@@ -139,13 +122,18 @@ public class BiodataController : Controller
         if (!ModelState.IsValid)
             return View(biodata);
 
-        biodata.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        biodata.UserId = userId;
 
-        var result = await _bioRepo.CreateBiodataAsync(biodata);
-        if (result is false)
+        var biodataExist = await _bioRepo.IsBiodataExist(userId);
+
+        if (biodataExist)
         {
-            return Error();
+            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            return View("Biodata.BadRequest");
         }
+
+        await _bioRepo.CreateBiodataAsync(biodata);
         return RedirectToAction("Detail", "Biodata", new { id = biodata.Id });
     }
 
@@ -176,10 +164,16 @@ public class BiodataController : Controller
     [HttpPost("update")]
     public async Task<IActionResult> Update(Biodata biodata)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(biodata);
+        }
+
         var result = await _bioRepo.UpdateBiodataAsync(biodata);
         if (result is false)
         {
-            return Error();
+            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            return View("Biodata.BadRequest");
         }
         return RedirectToAction("Index", "Home");
     }
