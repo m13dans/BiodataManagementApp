@@ -1,0 +1,18 @@
+@model int;
+@{
+    ViewData["Title"] = "Biodata Not Found";
+}
+
+
+@if (Model == 0)
+{
+    <div class="">
+        <h3 class="text-center">You dont have any biodata, try to create one</h3>
+    </div>
+}
+else
+{
+    <div class="">
+        <h3 class="text-center">Biodata with id @Model cannot be found</h3>
+    </div>
+}

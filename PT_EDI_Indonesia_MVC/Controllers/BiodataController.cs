@@ -39,7 +39,7 @@ public class BiodataController : Controller
         ErrorOr<List<BiodataDTO>> errorOrResult = await _bioRepo.GetBiodataListAsync();
 
         return errorOrResult.MatchFirst(
-            onValue: result => View(result),
+            onValue: View,
             onFirstError: error =>
             {
                 _logger.LogWarning($"{error.Code} {error.Description}");
@@ -69,14 +69,12 @@ public class BiodataController : Controller
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var biodata = await _bioRepo.GetBiodataWithUserId(userId);
 
-        if (biodata.IsError)
-            return NotFound();
+        var result = biodata.MatchFirst(
+            onValue: View,
+            onFirstError: error => View("BiodataNotFound")
+        );
 
-        var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
-        if (!authorizeResult.Succeeded)
-            return Problem(statusCode: 404);
-
-        return View(biodata.Value);
+        return result;
     }
 
     [Authorize]
@@ -84,12 +82,36 @@ public class BiodataController : Controller
     public async Task<IActionResult> Detail(int id)
     {
         var biodata = await _bioRepo.GetBiodataByIdAsync(id);
+
+        var result = await biodata
+            .FailIf(_ => biodata.IsError, Error.NotFound())
+            .ThenAsync<AuthorizationResult?>(async biodata =>
+                await _authorizeService.AuthorizeAsync(User, biodata, "BiodataOwner"))
+            .FailIf();
+
+        ErrorOr<string> foo = await result
+    .ThenDoAsync(val => Task.Delay(val))
+    .FailIf(val => val > 2, Error.Validation(description: $"{val} is too big"))
+    .ThenDo(val => Console.WriteLine($"Finished waiting {val} seconds."))
+    .ThenAsync(val => Task.FromResult(val * 2))
+    .Then(val => $"The result is {val}")
+    .Else(errors => Error.Unexpected())
+    .MatchFirst(
+        value => value,
+        firstError => $"An error occurred: {firstError.Description}");
+
         if (biodata.IsError)
-            return NotFound();
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+            return View("BiodataNotFound", id);
+        }
 
         var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
         if (!authorizeResult.Succeeded)
-            return StatusCode(StatusCodes.Status403Forbidden);
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return View("BiodataForbidden");
+        }
 
         return View(biodata.Value);
     }
@@ -175,11 +197,11 @@ public class BiodataController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    [HttpGet("error")]
-    public IActionResult Error(string? errorCode = "")
-    {
-        ViewData["ErrorCode"] = errorCode;
-        return View(errorCode);
-    }
+    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    // [HttpGet("error")]
+    // public IActionResult Error(string? errorCode = "")
+    // {
+    //     ViewData["ErrorCode"] = errorCode;
+    //     return View(errorCode);
+    // }
 }

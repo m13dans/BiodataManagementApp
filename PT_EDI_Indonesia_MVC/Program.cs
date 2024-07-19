@@ -68,7 +68,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStatusCodePages("/error/{0}", "text/html");
+// app.UseStatusCodePages();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
