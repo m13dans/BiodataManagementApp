@@ -17,6 +17,7 @@ alter procedure usp_Biodata_Update(
 	,@skill varchar(255)
 	,@bersediaDitempatkan bit
 	,@penghasilanDiharapkan money
+	,@userId VARCHAR(450)
 )
 as
 begin
@@ -37,7 +38,8 @@ begin
 	KontakOrangTerdekat = @kontakOrangTerdekat,
 	Skill = @skill,
 	BersediaDiTempatkan = @bersediaDitempatkan,
-	PenghasilanDiHarapkan = @penghasilanDiharapkan
+	PenghasilanDiHarapkan = @penghasilanDiharapkan,
+	UserId = @userId
 
 where Id = @id
 end

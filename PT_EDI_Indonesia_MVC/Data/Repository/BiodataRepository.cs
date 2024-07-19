@@ -150,6 +150,7 @@ public class BiodataRepository : IBiodataRepository
             skill = biodata.Skill,
             bersediaDitempatkan = biodata.BersediaDitempatkan,
             penghasilanDiharapkan = biodata.PenghasilanDiharapkan,
+            userId = biodata.UserId
 
         },
         commandType: CommandType.StoredProcedure);
@@ -280,12 +281,12 @@ public class BiodataRepository : IBiodataRepository
         return result;
     }
 
-    public async Task<bool> IsBiodataExist(string userId)
+    public async Task<bool> IsBiodataExist(string userId, string userEmail)
     {
-        var query = "SELECT 1 FROM Biodata WHERE UserId = @UserId";
+        var query = "SELECT 1 FROM Biodata WHERE UserId = @UserId OR Email = @Email;";
         using var connection = _context.CreateConnection();
 
-        var result = await connection.QuerySingleOrDefaultAsync<int>(query, new { UserId = userId });
+        var result = await connection.QuerySingleOrDefaultAsync<int>(query, new { UserId = userId, Email = userEmail });
 
         return result is 1;
     }

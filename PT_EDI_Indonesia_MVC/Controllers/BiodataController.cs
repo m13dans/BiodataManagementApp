@@ -13,7 +13,7 @@ using PT_EDI_Indonesia_MVC.Service.BiodataService;
 namespace PT_EDI_Indonesia_MVC.Controllers;
 
 [Authorize]
-[Route("biodata")]
+[Route("Biodata")]
 public class BiodataController : Controller
 {
     private readonly ILogger<BiodataController> _logger;
@@ -33,7 +33,6 @@ public class BiodataController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpGet]
-    [HttpGet("index")]
     public async Task<IActionResult> Index()
     {
         ErrorOr<List<BiodataDTO>> errorOrResult = await _bioRepo.GetBiodataListAsync();
@@ -49,13 +48,14 @@ public class BiodataController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpPost("GenerateData")]
-    public async Task<JsonResult> GenerateData([FromServices] GenerateData generateData)
+    public async Task<JsonResult> GenerateData(GenerateData generateData)
     {
         var result = await generateData.SubmitBiodata();
         return Json(result);
     }
 
-    [HttpGet("displaydata")]
+    [Authorize(Roles = "Admin")]
+    [HttpGet("Displaydata")]
     public async Task<IActionResult> DisplayData()
     {
         var result = await _bioRepo.GetBiodataListAsync();
@@ -63,7 +63,7 @@ public class BiodataController : Controller
         return PartialView("_BiodataListPartial", result.Value);
     }
 
-    [HttpGet("detail")]
+    [HttpGet("Detail")]
     public async Task<IActionResult> Detail()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -77,8 +77,7 @@ public class BiodataController : Controller
         return result;
     }
 
-    [Authorize]
-    [HttpGet("detail/{id:int}")]
+    [HttpGet("Detail/{id:int}")]
     public async Task<IActionResult> Detail(int id)
     {
         var biodata = await _bioRepo.GetBiodataByIdAsync(id);
@@ -100,24 +99,75 @@ public class BiodataController : Controller
     }
 
 
-    [Authorize(Roles = "Admin, User")]
-    [HttpGet("create")]
+    [HttpGet("Create")]
     public async Task<IActionResult> Create()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var biodata = await _bioRepo.GetBiodataWithUserId(userId);
 
         if (!biodata.IsError)
-        {
-            return RedirectToAction("Update");
-        }
+            return RedirectToAction("Update", new { id = biodata.Value.Id });
 
         return View();
     }
 
-    [Authorize(Roles = "Admin, User")]
-    [HttpPost("create")]
+    [HttpPost("Create")]
     public async Task<IActionResult> Create(Biodata biodata)
+    {
+        if (!ModelState.IsValid)
+            return View(biodata);
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+        var biodataExist = await _bioRepo.IsBiodataExist(userId, userEmail);
+
+        if (biodataExist)
+            return View("Biodata.BadRequest", "Biodata.AlreadyExist");
+
+        biodata.UserId = userId;
+        await _bioRepo.CreateBiodataAsync(biodata);
+        return RedirectToAction("Detail", "Biodata", new { id = biodata.Id });
+    }
+
+    [HttpGet("Update")]
+    public async Task<IActionResult> Update()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var biodata = await _bioRepo.GetBiodataWithUserId(userId);
+
+        var result = biodata.MatchFirst(
+            onValue: View,
+            onFirstError: error => View("Biodata.NotFound")
+        );
+
+        return result;
+    }
+
+    [HttpGet("Update/{id:int}")]
+    public async Task<IActionResult> Update(int id)
+    {
+        var biodata = await _bioRepo.GetBiodataByIdAsync(id);
+
+        if (biodata.IsError)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+            return View("Biodata.NotFound", id);
+        }
+
+        var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
+        if (!authorizeResult.Succeeded)
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return View("Biodata.Forbidden");
+        }
+
+        return View(biodata.Value);
+    }
+
+    [Authorize(Roles = "Admin, User")]
+    [HttpPost("Update/{id:int}")]
+    public async Task<IActionResult> Update(int id, Biodata biodata)
     {
         if (!ModelState.IsValid)
             return View(biodata);
@@ -125,69 +175,24 @@ public class BiodataController : Controller
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         biodata.UserId = userId;
 
-        var biodataExist = await _bioRepo.IsBiodataExist(userId);
-
-        if (biodataExist)
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-            return View("Biodata.BadRequest");
-        }
-
-        await _bioRepo.CreateBiodataAsync(biodata);
-        return RedirectToAction("Detail", "Biodata", new { id = biodata.Id });
-    }
-
-    [Authorize(Roles = "Admin, User")]
-    [HttpGet("update")]
-    public async Task<IActionResult> Update(int id)
-    {
-        var email = User.FindFirstValue(ClaimTypes.Email);
-
-        if (User.IsInRole("Admin"))
-        {
-            var bio = await _bioRepo.GetBiodataByIdAsync(id);
-            return View(bio);
-        }
-
-        var biodata = await _bioRepo.GetBiodataWithEmailAsync(email);
-
-        if (biodata.IsError)
-        {
-            return View(biodata);
-        }
-
-        return RedirectToAction("create");
-
-    }
-
-    [Authorize(Roles = "Admin, User")]
-    [HttpPost("update")]
-    public async Task<IActionResult> Update(Biodata biodata)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(biodata);
-        }
-
         var result = await _bioRepo.UpdateBiodataAsync(biodata);
         if (result is false)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
             return View("Biodata.BadRequest");
         }
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Detail");
     }
 
 
     [Authorize(Roles = "Admin")]
-    [HttpDelete("delete")]
+    [HttpDelete("Delete")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _bioRepo.DeleteBiodataAsync(id);
         if (result is false)
-        {
             return NotFound();
-        }
+
         return RedirectToAction("Index", "Home");
     }
 
