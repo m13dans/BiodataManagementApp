@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-namespace PT_EDI_Indonesia_MVC.Data.Identity;
+namespace BiodataManagement.Data.Identity;
 
 public class AppUser : IdentityUser
 {

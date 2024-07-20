@@ -1,9 +1,9 @@
 using Dapper;
-using PT_EDI_Indonesia_MVC.Data.Context;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
-using PT_EDI_Indonesia_MVC.Service.Accounts;
+using BiodataManagement.Data.Context;
+using BiodataManagement.Domain.Entities;
+using BiodataManagement.Service.Accounts;
 
-namespace PT_EDI_Indonesia_MVC.Data.Repository
+namespace BiodataManagement.Data.Repository
 {
     public class AccountRepository : IAccountRepository
     {

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using PT_EDI_Indonesia_MVC.Data.Identity;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
-using PT_EDI_Indonesia_MVC.Service.BiodataService;
+using BiodataManagement.Data.Identity;
+using BiodataManagement.Domain.Entities;
+using BiodataManagement.Service.BiodataService;
 
-namespace PT_EDI_Indonesia_MVC.Authorization;
+namespace BiodataManagement.Authorization;
 
 public static class BiodataOwnerOrAdminPolicy
 {

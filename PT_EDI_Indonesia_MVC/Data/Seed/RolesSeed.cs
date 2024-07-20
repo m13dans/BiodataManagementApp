@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using PT_EDI_Indonesia_MVC.Data.Identity;
+using BiodataManagement.Data.Identity;
 
-namespace PT_EDI_Indonesia_MVC.Data.Seed;
+namespace BiodataManagement.Data.Seed;
 
 public static class RolesSeed
 {

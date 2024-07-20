@@ -1,11 +1,11 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PT_EDI_Indonesia_MVC.Data.Repository;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
-using PT_EDI_Indonesia_MVC.Service.BiodataService;
+using BiodataManagement.Data.Repository;
+using BiodataManagement.Domain.Entities;
+using BiodataManagement.Service.BiodataService;
 
-namespace PT_EDI_Indonesia_MVC.Controllers
+namespace BiodataManagement.Controllers
 {
     [Authorize]
     public class PendidikanTerakhirController : Controller

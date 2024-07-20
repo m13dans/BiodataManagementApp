@@ -4,13 +4,13 @@ using System.Security.Permissions;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PT_EDI_Indonesia_MVC.Data.Repository;
-using PT_EDI_Indonesia_MVC.Data.Seed;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
-using PT_EDI_Indonesia_MVC.Service.Accounts;
-using PT_EDI_Indonesia_MVC.Service.BiodataService;
+using BiodataManagement.Data.Repository;
+using BiodataManagement.Data.Seed;
+using BiodataManagement.Domain.Entities;
+using BiodataManagement.Service.Accounts;
+using BiodataManagement.Service.BiodataService;
 
-namespace PT_EDI_Indonesia_MVC.Controllers;
+namespace BiodataManagement.Controllers;
 
 [Authorize]
 [Route("Biodata")]

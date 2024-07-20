@@ -1,6 +1,6 @@
-﻿using PT_EDI_Indonesia_MVC.Domain.Entities;
+﻿using BiodataManagement.Domain.Entities;
 
-namespace PT_EDI_Indonesia_MVC.Service.Accounts;
+namespace BiodataManagement.Service.Accounts;
 
 public interface IAccountRepository
 {

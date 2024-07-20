@@ -1,7 +1,7 @@
-using PT_EDI_Indonesia_MVC.Data.Identity;
-using PT_EDI_Indonesia_MVC.Service.AccountService;
+using BiodataManagement.Data.Identity;
+using BiodataManagement.Service.AccountService;
 
-namespace PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
+namespace BiodataManagement.Service.Accounts.AccountService;
 
 public class AccountService
 {

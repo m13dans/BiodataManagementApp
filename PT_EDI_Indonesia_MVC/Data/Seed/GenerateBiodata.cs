@@ -2,10 +2,10 @@ using System.Data;
 using Bogus;
 using Bogus.Extensions;
 using Dapper;
-using PT_EDI_Indonesia_MVC.Data.Context;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
+using BiodataManagement.Data.Context;
+using BiodataManagement.Domain.Entities;
 
-namespace PT_EDI_Indonesia_MVC.Data.Seed;
+namespace BiodataManagement.Data.Seed;
 
 public class GenerateData
 {

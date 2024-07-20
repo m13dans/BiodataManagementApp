@@ -1,12 +1,12 @@
 using System.Data;
 using Dapper;
 using ErrorOr;
-using PT_EDI_Indonesia_MVC.Data.Context;
-using PT_EDI_Indonesia_MVC.Data.Identity;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
-using PT_EDI_Indonesia_MVC.Service.BiodataService;
+using BiodataManagement.Data.Context;
+using BiodataManagement.Data.Identity;
+using BiodataManagement.Domain.Entities;
+using BiodataManagement.Service.BiodataService;
 
-namespace PT_EDI_Indonesia_MVC.Data.Repository;
+namespace BiodataManagement.Data.Repository;
 
 public class BiodataRepository : IBiodataRepository
 {

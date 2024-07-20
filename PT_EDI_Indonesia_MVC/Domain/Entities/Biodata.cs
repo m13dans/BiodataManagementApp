@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PT_EDI_Indonesia_MVC.Domain.Entities;
+namespace BiodataManagement.Domain.Entities;
 
 public class Biodata
 {

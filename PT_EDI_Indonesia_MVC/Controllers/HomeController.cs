@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using PT_EDI_Indonesia_MVC.Service.ErrorService;
+using BiodataManagement.Service.ErrorService;
 
-namespace PT_EDI_Indonesia_MVC.Controllers;
+namespace BiodataManagement.Controllers;
 
 public class HomeController : Controller
 {

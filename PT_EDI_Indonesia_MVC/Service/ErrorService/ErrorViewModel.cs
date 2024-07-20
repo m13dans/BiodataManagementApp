@@ -1,4 +1,4 @@
-namespace PT_EDI_Indonesia_MVC.Service.ErrorService;
+namespace BiodataManagement.Service.ErrorService;
 
 public class ErrorViewModel
 {

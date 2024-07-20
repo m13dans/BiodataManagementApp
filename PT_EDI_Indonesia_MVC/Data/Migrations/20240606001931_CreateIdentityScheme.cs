@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace PT_EDI_Indonesia_MVC.Data.Migrations
+namespace BiodataManagement.Data.Migrations
 {
     public partial class CreateIdentityScheme : Migration
     {

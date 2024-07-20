@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using PT_EDI_Indonesia_MVC.Data.Context;
+using BiodataManagement.Data.Context;
 
-namespace PT_EDI_Indonesia_MVC.Data.Seed;
+namespace BiodataManagement.Data.Seed;
 
 public static class DatabaseExtension
 {

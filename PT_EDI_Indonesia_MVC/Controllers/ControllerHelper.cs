@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PT_EDI_Indonesia_MVC.Data.Identity;
+using BiodataManagement.Data.Identity;
 
-namespace PT_EDI_Indonesia_MVC.Controllers;
+namespace BiodataManagement.Controllers;
 
 public static class ControllerHelper
 {

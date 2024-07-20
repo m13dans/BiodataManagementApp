@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PT_EDI_Indonesia_MVC.Service.AccountService
+namespace BiodataManagement.Service.AccountService
 {
     public class LoginDTO
     {

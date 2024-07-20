@@ -1,7 +1,7 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 
-namespace PT_EDI_Indonesia_MVC.Data.Context
+namespace BiodataManagement.Data.Context
 {
     public class DapperContext
     {

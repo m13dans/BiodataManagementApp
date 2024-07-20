@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace PT_EDI_Indonesia_MVC.Controllers;
+namespace BiodataManagement.Controllers;
 
 [Route("error")]
 public class ErrorsController : Controller

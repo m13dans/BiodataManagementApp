@@ -1,7 +1,7 @@
 using ErrorOr;
-using PT_EDI_Indonesia_MVC.Domain.Entities;
+using BiodataManagement.Domain.Entities;
 
-namespace PT_EDI_Indonesia_MVC.Service.BiodataService;
+namespace BiodataManagement.Service.BiodataService;
 
 public interface IBiodataRepository
 {

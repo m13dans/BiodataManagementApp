@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PT_EDI_Indonesia_MVC.Data.Configuration;
-using PT_EDI_Indonesia_MVC.Data.Identity;
+using BiodataManagement.Data.Configuration;
+using BiodataManagement.Data.Identity;
 
-namespace PT_EDI_Indonesia_MVC.Data.Context
+namespace BiodataManagement.Data.Context
 {
     public class AccountContext : IdentityDbContext<AppUser>
     {

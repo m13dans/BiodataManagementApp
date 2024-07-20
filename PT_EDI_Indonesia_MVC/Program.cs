@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PT_EDI_Indonesia_MVC.Authorization;
-using PT_EDI_Indonesia_MVC.Data.Context;
-using PT_EDI_Indonesia_MVC.Data.Identity;
-using PT_EDI_Indonesia_MVC.Data.Repository;
-using PT_EDI_Indonesia_MVC.Data.Seed;
-using PT_EDI_Indonesia_MVC.Service.Accounts;
-using PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
-using PT_EDI_Indonesia_MVC.Service.BiodataService;
+using BiodataManagement.Authorization;
+using BiodataManagement.Data.Context;
+using BiodataManagement.Data.Identity;
+using BiodataManagement.Data.Repository;
+using BiodataManagement.Data.Seed;
+using BiodataManagement.Service.Accounts;
+using BiodataManagement.Service.Accounts.AccountService;
+using BiodataManagement.Service.BiodataService;
 
 var builder = WebApplication.CreateBuilder(args);
 

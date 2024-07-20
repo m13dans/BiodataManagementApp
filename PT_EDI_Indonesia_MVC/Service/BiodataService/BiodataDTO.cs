@@ -1,4 +1,4 @@
-namespace PT_EDI_Indonesia_MVC.Service.BiodataService;
+namespace BiodataManagement.Service.BiodataService;
 
 public class BiodataDTO
 {

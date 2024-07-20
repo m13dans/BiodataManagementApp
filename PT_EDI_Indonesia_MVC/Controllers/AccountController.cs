@@ -1,14 +1,14 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PT_EDI_Indonesia_MVC.Data.Identity;
-using PT_EDI_Indonesia_MVC.Data.Repository;
-using PT_EDI_Indonesia_MVC.Service.Accounts;
-using PT_EDI_Indonesia_MVC.Service.Accounts.AccountService;
-using PT_EDI_Indonesia_MVC.Service.AccountService;
-using static PT_EDI_Indonesia_MVC.Controllers.ControllerHelper;
+using BiodataManagement.Data.Identity;
+using BiodataManagement.Data.Repository;
+using BiodataManagement.Service.Accounts;
+using BiodataManagement.Service.Accounts.AccountService;
+using BiodataManagement.Service.AccountService;
+using static BiodataManagement.Controllers.ControllerHelper;
 
-namespace PT_EDI_Indonesia_MVC.Controllers;
+namespace BiodataManagement.Controllers;
 
 [Route("account")]
 public class AccountController : Controller

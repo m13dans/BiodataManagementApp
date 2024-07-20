@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PT_EDI_Indonesia_MVC.Data.Context;
+using BiodataManagement.Data.Context;
 
 #nullable disable
 
-namespace PT_EDI_Indonesia_MVC.Data.Migrations
+namespace BiodataManagement.Data.Migrations
 {
     [DbContext(typeof(AccountContext))]
     [Migration("20240606003117_AddAdminAndUserRoles")]
@@ -173,7 +173,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PT_EDI_Indonesia_MVC.Core.Models.User", b =>
+            modelBuilder.Entity("BiodataManagement.Core.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -252,7 +252,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("PT_EDI_Indonesia_MVC.Core.Models.User", null)
+                    b.HasOne("BiodataManagement.Core.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -261,7 +261,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("PT_EDI_Indonesia_MVC.Core.Models.User", null)
+                    b.HasOne("BiodataManagement.Core.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,7 +276,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PT_EDI_Indonesia_MVC.Core.Models.User", null)
+                    b.HasOne("BiodataManagement.Core.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -285,7 +285,7 @@ namespace PT_EDI_Indonesia_MVC.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("PT_EDI_Indonesia_MVC.Core.Models.User", null)
+                    b.HasOne("BiodataManagement.Core.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
