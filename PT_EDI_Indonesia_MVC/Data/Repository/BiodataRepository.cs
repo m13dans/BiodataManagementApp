@@ -2,7 +2,6 @@ using System.Data;
 using Dapper;
 using ErrorOr;
 using BiodataManagement.Data.Context;
-using BiodataManagement.Data.Identity;
 using BiodataManagement.Domain.Entities;
 using BiodataManagement.Service.BiodataService;
 

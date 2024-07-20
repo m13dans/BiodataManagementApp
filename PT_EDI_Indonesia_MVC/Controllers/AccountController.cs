@@ -1,8 +1,6 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using BiodataManagement.Data.Identity;
-using BiodataManagement.Data.Repository;
 using BiodataManagement.Service.Accounts;
 using BiodataManagement.Service.Accounts.AccountService;
 using BiodataManagement.Service.AccountService;

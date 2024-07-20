@@ -1,13 +1,9 @@
-using System.Runtime.InteropServices;
 using System.Security.Claims;
-using System.Security.Permissions;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using BiodataManagement.Data.Repository;
 using BiodataManagement.Data.Seed;
 using BiodataManagement.Domain.Entities;
-using BiodataManagement.Service.Accounts;
 using BiodataManagement.Service.BiodataService;
 
 namespace BiodataManagement.Controllers;
