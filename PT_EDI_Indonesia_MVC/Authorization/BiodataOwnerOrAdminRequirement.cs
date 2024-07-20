@@ -30,7 +30,8 @@ public static class BiodataOwnerOrAdminPolicy
             }
 
             var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == resource.UserId)
+            var userEmail = context.User.FindFirstValue(ClaimTypes.Email);
+            if (userId == resource.UserId || userEmail == resource.Email)
             {
                 context.Succeed(requirement);
                 return Task.CompletedTask;

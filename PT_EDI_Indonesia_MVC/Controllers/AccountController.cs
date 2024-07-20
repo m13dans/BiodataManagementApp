@@ -28,9 +28,10 @@ public class AccountController : Controller
         _userManager = userManager;
     }
 
+    [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        return View("Login");
     }
 
     [HttpGet("signup")]
@@ -56,14 +57,14 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Login), "account");
     }
 
-    [HttpGet("login")]
+    [HttpGet("Login")]
     public IActionResult Login(string? returnUrl)
     {
         ViewData["ReturnUrl"] = returnUrl;
         return View();
     }
 
-    [HttpPost("login")]
+    [HttpPost("Login")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginDTO userModel,
         string? returnUrl)
@@ -89,7 +90,7 @@ public class AccountController : Controller
         return RedirectToLocal(returnUrl);
     }
 
-    [HttpPost]
+    [HttpPost("Logout")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
@@ -98,6 +99,7 @@ public class AccountController : Controller
     }
 
 
+    [HttpGet("Error")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

@@ -124,14 +124,14 @@ public class BiodataRepository : IBiodataRepository
         return pendidikans.ToList();
     }
 
-    public async Task<bool> UpdateBiodataAsync(Biodata biodata)
+    public async Task<bool> UpdateBiodataAsync(int biodataId, Biodata biodata)
     {
         var query = "usp_Biodata_Update";
         using var connection = _context.CreateConnection();
 
         var result = await connection.ExecuteAsync(query, new
         {
-            id = biodata.Id,
+            id = biodataId,
             posisiDilamar = biodata.PosisiDilamar,
             nama = biodata.Nama,
             noKTP = biodata.NoKTP,
@@ -155,6 +155,36 @@ public class BiodataRepository : IBiodataRepository
         commandType: CommandType.StoredProcedure);
 
         return result > 0;
+    }
+    public async Task<bool> UpdateBiodataByAdminAsync(int biodataId, Biodata biodata)
+    {
+        var query = "usp_Biodata_UpdateByAdmin";
+        using var connection = _context.CreateConnection();
+
+        var result = await connection.ExecuteAsync(query, new
+        {
+            id = biodataId,
+            posisiDilamar = biodata.PosisiDilamar,
+            nama = biodata.Nama,
+            noKTP = biodata.NoKTP,
+            tempatLahir = biodata.TempatLahir,
+            tanggalLahir = biodata.TanggalLahir,
+            jenisKelamin = biodata.JenisKelamin,
+            agama = biodata.Agama,
+            golonganDarah = biodata.GolonganDarah,
+            status = biodata.Status,
+            alamatKtp = biodata.AlamatKTP,
+            alamatTinggal = biodata.AlamatTinggal,
+            email = biodata.Email,
+            noTelepon = biodata.NoTelepon,
+            kontakOrangTerdekat = biodata.KontakOrangTerdekat,
+            skill = biodata.Skill,
+            bersediaDitempatkan = biodata.BersediaDitempatkan,
+            penghasilanDiharapkan = biodata.PenghasilanDiharapkan,
+        },
+        commandType: CommandType.StoredProcedure);
+
+        return result is 1;
     }
 
     public async Task<bool> DeleteBiodataAsync(int bioId)

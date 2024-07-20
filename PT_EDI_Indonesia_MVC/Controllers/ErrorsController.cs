@@ -26,9 +26,10 @@ public class ErrorsController : Controller
 
         return statusCode switch
         {
-            404 => View("NotFoundPage"),
-            403 => View("ForbidPage"),
-            _ => View()
+            400 => View("BadRequest"),
+            404 => View("NotFound"),
+            403 => View("Forbidden"),
+            _ => View("ServerError")
         };
     }
 

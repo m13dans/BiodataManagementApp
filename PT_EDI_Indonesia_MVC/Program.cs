@@ -30,10 +30,10 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
 
 }).AddEntityFrameworkStores<AccountContext>();
 
-// builder.Services.ConfigureApplicationCookie(o =>
-// {
-//     o.AccessDeniedPath = "/errors/404";
-// });
+builder.Services.ConfigureApplicationCookie(o =>
+{
+    o.AccessDeniedPath = "/error/403";
+});
 
 builder.Services.AddAuthorization(configure =>
 {
@@ -68,12 +68,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// app.UseStatusCodePages();
+app.UseStatusCodePagesWithReExecute("/error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+
 
 app.UseAuthentication();
 app.UseAuthorization();
