@@ -9,6 +9,7 @@ using BiodataManagement.Data.Seed;
 using BiodataManagement.Service.Accounts;
 using BiodataManagement.Service.Accounts.AccountService;
 using BiodataManagement.Service.BiodataService;
+using PT_EDI_Indonesia_MVC.Data.Scripts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,10 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // DbContext for dapper and EFCore
+var connectionString = builder.Configuration.GetConnectionString("SQLConnection");
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddDbContext<AccountContext>(o =>
 {
-    o.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
+    o.UseSqlServer(connectionString);
 });
 
 // Asp.Net Core Identity for authentication and authorization
@@ -57,7 +59,10 @@ builder.Services.AddScoped<GenerateData>();
 
 var app = builder.Build();
 
+// migration for Identity Table
 await app.ApplyMigration();
+// migration for Entity Table and stored procedure
+DbInitializer.Initialize(connectionString);
 await app.CreateRoles();
 
 // Configure the HTTP request pipeline.

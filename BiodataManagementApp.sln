@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiiodataManagement.Web", "PT_EDI_Indonesia_MVC\BiiodataManagement.Web.csproj", "{D73AB261-895D-44C1-A103-BE64CC8053A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiiodataManagement.Web", "BiodataManagement.Web\BiiodataManagement.Web.csproj", "{06E21CA6-C21D-45BE-9253-03C141165D7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,10 @@ Global
 		{D73AB261-895D-44C1-A103-BE64CC8053A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D73AB261-895D-44C1-A103-BE64CC8053A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D73AB261-895D-44C1-A103-BE64CC8053A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06E21CA6-C21D-45BE-9253-03C141165D7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E21CA6-C21D-45BE-9253-03C141165D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E21CA6-C21D-45BE-9253-03C141165D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E21CA6-C21D-45BE-9253-03C141165D7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

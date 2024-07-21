@@ -1,4 +1,4 @@
-create procedure usp_Biodata_GetById @id int
+create or alter procedure usp_Biodata_GetById @id int
 as 
 begin
 	select * from Biodata b 

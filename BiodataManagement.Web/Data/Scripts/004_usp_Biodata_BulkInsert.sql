@@ -1,9 +1,7 @@
-
-ALTER procedure [usp_Biodata_BulkInsert](
-@udtBiodata UDT_Biodata readonly
-)
+CREATE or alter procedure [usp_Biodata_BulkInsert](
+@udtBiodata UDT_Biodata readonly)
 as 
-begin
+begin	
 	--set nocount on
 	insert into Biodata (
 		PosisiDilamar
