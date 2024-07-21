@@ -61,9 +61,9 @@ var app = builder.Build();
 
 // migration for Identity Table
 await app.ApplyMigration();
+await app.CreateRoles();
 // migration for Entity Table and stored procedure
 DbInitializer.Initialize(connectionString);
-await app.CreateRoles();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
