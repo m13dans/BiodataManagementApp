@@ -9,7 +9,7 @@ using BiodataManagement.Data.Seed;
 using BiodataManagement.Service.Accounts;
 using BiodataManagement.Service.Accounts.AccountService;
 using BiodataManagement.Service.BiodataService;
-using PT_EDI_Indonesia_MVC.Data.Scripts;
+using BiiodataManagement.Data.Scripts;
 
 var builder = WebApplication.CreateBuilder(args);
 

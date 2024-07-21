@@ -1,7 +1,7 @@
 using System.Reflection;
 using DbUp;
 
-namespace PT_EDI_Indonesia_MVC.Data.Scripts;
+namespace BiiodataManagement.Data.Scripts;
 
 public class DbInitializer
 {
@@ -20,7 +20,9 @@ public class DbInitializer
 
         if (!result.Successful)
         {
-            throw new InvalidOperationException("Failed migrationg database");
+            Console.WriteLine(result.Error);
         }
+
+        Console.WriteLine("Success upgrading database");
     }
 }

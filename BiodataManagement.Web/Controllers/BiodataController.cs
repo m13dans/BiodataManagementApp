@@ -107,12 +107,22 @@ public class BiodataController : Controller
     public async Task<IActionResult> Create()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+        var isBiodataExist = await _bioRepo.IsBiodataExist(userId, userEmail);
+        if (!isBiodataExist)
+        {
+            return View();
+        }
+
         var biodata = await _bioRepo.GetBiodataWithUserId(userId);
 
         if (!biodata.IsError)
             return RedirectToAction("Update", new { id = biodata.Value.Id });
 
-        return View();
+        var biodataByEmail = await _bioRepo.GetBiodataWithEmailAsync(userEmail);
+        return RedirectToAction("Update", new { id = biodataByEmail.Value.Id });
+
     }
 
     [HttpPost("Create")]

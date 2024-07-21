@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace BiodataManagement.Domain.Entities;
 
@@ -56,6 +57,7 @@ public class Biodata
     [Required]
     [Display(Name = "Penghasilan Yang Diharapkan")]
     public decimal PenghasilanDiharapkan { get; set; }
+    [ValidateNever]
     public string? UserId { get; set; } = string.Empty;
     public ICollection<PendidikanTerakhir>? PendidikanTerakhir { get; set; } = new List<PendidikanTerakhir>();
     public ICollection<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; } = new List<RiwayatPekerjaan>();
