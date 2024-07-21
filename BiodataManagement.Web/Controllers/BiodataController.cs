@@ -111,9 +111,7 @@ public class BiodataController : Controller
 
         var isBiodataExist = await _bioRepo.IsBiodataExist(userId, userEmail);
         if (!isBiodataExist)
-        {
             return View();
-        }
 
         var biodata = await _bioRepo.GetBiodataWithUserId(userId);
 
