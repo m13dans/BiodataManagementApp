@@ -18,7 +18,7 @@ builder.Services.AddControllersWithViews();
 
 // DbContext for dapper and EFCore
 var connectionString = builder.Configuration.GetConnectionString("SQLConnection");
-builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddScoped<DapperContext>();
 builder.Services.AddDbContext<AccountContext>(o =>
 {
     o.UseSqlServer(connectionString);

@@ -7,13 +7,10 @@ using BiodataManagement.Domain.Entities;
 
 namespace BiodataManagement.Data.Seed;
 
-public class GenerateData
+public class GenerateData(DapperContext context)
 {
-    private readonly DapperContext _context;
-    public GenerateData(DapperContext context)
-    {
-        _context = context;
-    }
+    private readonly DapperContext _context = context;
+
     public static List<Biodata> GenerateBiodata()
     {
         var faker = new Faker<Biodata>()
@@ -84,6 +81,7 @@ public class GenerateData
         tvpBiodata.Columns.Add("Skill", typeof(string));
         tvpBiodata.Columns.Add("BersediaDitempatkan", typeof(bool));
         tvpBiodata.Columns.Add("PenghasilanDiHarapkan", typeof(decimal));
+        tvpBiodata.Columns.Add("UserId", typeof(string));
 
         foreach (var biodata in listBiodata)
         {
