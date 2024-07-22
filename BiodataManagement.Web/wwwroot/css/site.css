@@ -24,3 +24,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+a.hover-black:hover {
+  color: black !important;
+}
