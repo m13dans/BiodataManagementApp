@@ -4,12 +4,18 @@ using Bogus.Extensions;
 using Dapper;
 using BiodataManagement.Data.Context;
 using BiodataManagement.Domain.Entities;
+using ErrorOr;
 
 namespace BiodataManagement.Data.Seed;
 
-public class GenerateData(DapperContext context)
+public class GenerateData
 {
-    private readonly DapperContext _context = context;
+    private readonly DapperContext _context;
+
+    public GenerateData(DapperContext context)
+    {
+        _context = context;
+    }
 
     public static List<Biodata> GenerateBiodata()
     {
@@ -112,6 +118,16 @@ public class GenerateData(DapperContext context)
             "usp_Biodata_BulkInsert",
             new { udtBiodata = tvp },
             commandType: CommandType.StoredProcedure);
+
+        return result;
+    }
+
+    public async Task<int> DeleteAllFakeBiodata()
+    {
+        string sql = "DELETE FROM Biodata WHERE UserId IS NULL";
+
+        using var conn = _context.CreateConnection();
+        var result = await conn.ExecuteAsync(sql);
 
         return result;
     }

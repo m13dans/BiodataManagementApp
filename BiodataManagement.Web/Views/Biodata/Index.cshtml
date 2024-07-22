@@ -15,6 +15,9 @@
 		<button id="btnGenerate" onclick="GenerateData()" class="row btn btn-info text-white mx-3">
 			Generate 50 FakeData
 		</button>
+		<button class="btn btn-danger" onclick="DeleteAllFakeData()">
+			Delete All FakeData <i class="bi bi-trash-fill"></i>
+		</button>
 	</div>
 
 	<div id="biodataListPartial">
@@ -56,6 +59,21 @@
 				error: function (response) {
 					alert('Display data failed');
 
+				}
+			})
+		}
+
+		function DeleteAllFakeData() {
+			$.ajax({
+				type: 'DELETE',
+				url: '@Url.Action("DeleteAllFakeData", "Biodata")',
+				data: {},
+				success: function (data) {
+					alert('Deleted ' + data + 'Row');
+					DisplayData();
+				},
+				error: function (response) {
+					alert('Delete Failed ' + response);
 				}
 			})
 		}

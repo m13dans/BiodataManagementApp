@@ -44,7 +44,7 @@ public class BiodataController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpPost("GenerateData")]
-    public async Task<JsonResult> GenerateData(GenerateData generateData)
+    public async Task<JsonResult> GenerateData([FromServices] GenerateData generateData)
     {
         var result = await generateData.SubmitBiodata();
         return Json(result);
@@ -57,6 +57,15 @@ public class BiodataController : Controller
         var result = await _bioRepo.GetBiodataListAsync();
 
         return PartialView("_BiodataListPartial", result.Value);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("DeleteAllFakeData")]
+    public async Task<IActionResult> DeleteAllFakeData([FromServices] GenerateData generateData)
+    {
+        int result = await generateData.DeleteAllFakeBiodata();
+
+        return Json(result);
     }
 
     [HttpGet("Detail")]
