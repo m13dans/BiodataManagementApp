@@ -1,4 +1,7 @@
-@model Biodata
+@model BiodataCreateRequest
+@{
+    ViewData["Title"] = "Create Biodata";
+}
 
 <div class="card shadow border-0 my-4">
 <div class="card-header ml-0 py-3">
@@ -10,8 +13,6 @@
     </div>
     <div class="card-body p-4">
         <form method="post" class="row" enctype="multipart/form-data">
-            <input asp-for="Id" hidden />
-
             <div class="row">
                 <div class="col-10">
                     <div class="border p-3">
@@ -38,7 +39,7 @@
                             <span asp-validation-for="TempatLahir" class="text-danger"></span>
                         </div>
                         <div class="form-floating py-2 col-12">
-                            <input type="date" asp-for="TanggalLahir" class="form-control border-0 shadow" />
+                            <input asp-for="TanggalLahir" class="form-control border-0 shadow" />
                             <label asp-for="TanggalLahir" class="ms-2"></label>
                             <span asp-validation-for="TanggalLahir" class="text-danger"></span>
                         </div>
@@ -147,7 +148,7 @@
         </a>
     </div>
 
-    <partial name="_PendidikanTerakhir" />
+    <partial name="_PendidikanTerakhir" model="new List<PendidikanTerakhir>()" />
 </div>
 
 <div class="my-4">
@@ -160,7 +161,7 @@
         </a>
     </div>
 
-    <partial name="_RiwayatPekerjaan" />
+    <partial name="_RiwayatPekerjaan" model="new List<RiwayatPekerjaan>()" />
 </div>
 
 <div class="my-4">
@@ -172,7 +173,7 @@
             <i class="bi bi-plus-circle"></i> Add
         </a>
     </div>
-    <partial name="_RiwayatPelatihan" />
+    <partial name="_RiwayatPelatihan" model="new List<RiwayatPelatihan>()" />
 </div>
 
 

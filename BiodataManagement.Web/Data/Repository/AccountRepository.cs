@@ -7,8 +7,8 @@ namespace BiodataManagement.Data.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly DapperContext _context;
-        public AccountRepository(DapperContext context)
+        private readonly DbConnectionFactory _context;
+        public AccountRepository(DbConnectionFactory context)
         {
             _context = context;
 

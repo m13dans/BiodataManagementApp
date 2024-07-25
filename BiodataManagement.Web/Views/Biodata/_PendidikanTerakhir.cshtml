@@ -1,4 +1,4 @@
-@model Biodata
+@model List<PendidikanTerakhir>
 
 <div class="table-responsive card shadow">
     <table id="pendidikanTerakhir" class=" table text-center table-sm align-middle ">
@@ -28,14 +28,14 @@
             }
             else
             {
-                @foreach (var biodata in Model.PendidikanTerakhir)
+                @foreach (var pendidikanTerakhir in Model)
                 {
                     <tr>
-                        <td>@biodata.JenjangPendidikanTerakhir</td>
-                        <td>@biodata.NamaInstitusiAkademik</td>
-                        <td>@biodata.Jurusan</td>
-                        <td>@biodata.TahunLulus.ToShortDateString()</td>
-                        <td>@biodata.IPK</td>
+                        <td>@pendidikanTerakhir.JenjangPendidikanTerakhir</td>
+                        <td>@pendidikanTerakhir.NamaInstitusiAkademik</td>
+                        <td>@pendidikanTerakhir.Jurusan</td>
+                        <td>@pendidikanTerakhir.TahunLulus.ToShortDateString()</td>
+                        <td>@pendidikanTerakhir.IPK</td>
                     </tr>
                 }
             }

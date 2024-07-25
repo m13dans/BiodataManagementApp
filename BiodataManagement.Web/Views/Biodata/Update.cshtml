@@ -1,10 +1,10 @@
 @model Biodata
 
 <div class="card shadow border-0 my-4">
-<div class="card-header ml-0 py-3">
+    <div class="card-header ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class= py-2">UPDATE BIODATA</h2>
+                <h2 class="py-2">UPDATE BIODATA</h2>
             </div>
         </div>
     </div>
@@ -45,7 +45,8 @@
 
                         <div class="py-2 col-3">
                             <label asp-for="JenisKelamin" class="ms-2 dropdown-header"></label>
-                            <select class=" dropdown-item" asp-for="JenisKelamin" asp-items="Html.GetEnumSelectList<JenisKelamin>()">
+                            <select class=" dropdown-item" asp-for="JenisKelamin"
+                                asp-items="Html.GetEnumSelectList<JenisKelamin>()">
                                 <option selected="" value=""></option>
                             </select>
                         </div>
@@ -107,7 +108,8 @@
 
                         <div class="py-2 col-12">
                             <input type="checkbox" asp-for="BersediaDitempatkan" />
-                            <label class=" form-check-label" asp-for="BersediaDitempatkan">Bersedia Penempatan Di Seluruh Indonesia</label>
+                            <label class=" form-check-label" asp-for="BersediaDitempatkan">Bersedia Penempatan Di
+                                Seluruh Indonesia</label>
                         </div>
 
                         <div class="form-floating py-2 col-12">
@@ -138,7 +140,7 @@
 
                     </div>
                 </div>
-             </div>
+            </div>
 
         </form>
     </div>
@@ -162,7 +164,7 @@
         </a>
     </div>
 
-    <partial name="_PendidikanTerakhir" />
+    <partial name="_PendidikanTerakhir" model="Model.PendidikanTerakhir" />
 </div>
 
 <div class="my-4">
@@ -183,7 +185,7 @@
         </a>
     </div>
 
-    <partial name="_RiwayatPekerjaan" />
+    <partial name="_RiwayatPekerjaan" model="Model.RiwayatPekerjaan" />
 </div>
 
 <div class="my-4">
@@ -203,14 +205,14 @@
             <i class="bi bi-trash-fill"></i> Delete
         </a>
     </div>
-    <partial name="_RiwayatPelatihan" />
+    <partial name="_RiwayatPelatihan" model="Model.RiwayatPelatihan" />
 </div>
 
 
 
 @section Scripts {
 
- 
+
     <script>
         tinymce.init({
             selector: 'textarea',

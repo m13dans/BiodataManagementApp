@@ -1,6 +1,4 @@
-@model Biodata
-
-
+@model List<RiwayatPelatihan>
 <div class="table-responsive card shadow">
     <table id="riwayatPekerjaan" class=" table text-center table-sm align-middle ">
         <thead class="">
@@ -23,12 +21,12 @@
             }
             else
             {
-                @foreach (var biodata in Model.RiwayatPelatihan)
+                @foreach (var riwayatPelatihan in Model)
                 {
                     <tr>
-                        <td>@biodata.NamaKursus</td>
-                        <td>@biodata.SertifikatAda</td>
-                        <td>@biodata.Tahun</td>
+                        <td>@riwayatPelatihan.NamaKursus</td>
+                        <td>@riwayatPelatihan.SertifikatAda</td>
+                        <td>@riwayatPelatihan.Tahun</td>
                     </tr>
                 }
 

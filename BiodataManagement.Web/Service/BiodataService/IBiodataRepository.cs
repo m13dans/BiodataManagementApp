@@ -12,7 +12,7 @@ public interface IBiodataRepository
     public Task<bool> UpdateBiodataAsync(int biodataId, Biodata biodata);
     public Task<bool> UpdateBiodataByAdminAsync(int biodataId, Biodata biodata);
     public Task<bool> DeleteBiodataAsync(int id);
-    public Task<bool> CreateBiodataAsync(Biodata biodata);
+    public Task<bool> CreateListBiodataAsync(Biodata biodata);
     public Task<int> GetCurrentUserId(string email);
 
     public Task<string> GetBiodataOwnerId(string userId);
@@ -20,4 +20,8 @@ public interface IBiodataRepository
     public Task<bool> ValidateBiodataOwner(string userEmail);
     public Task<ErrorOr<AppUserBiodata>> GetAppUserBiodataAsync(string userId);
     public Task<bool> IsBiodataExist(string userId, string userEmail);
+    public Task<bool> IsKTPExists(string ktp);
+    public Task<ErrorOr<Biodata>> CreateBiodataAsync(BiodataCreateRequest biodata);
+
+
 }

@@ -4,15 +4,18 @@ using ErrorOr;
 using BiodataManagement.Data.Context;
 using BiodataManagement.Domain.Entities;
 using BiodataManagement.Service.BiodataService;
+using BiodataManagement.Data.Configuration;
+using Bogus.DataSets;
 
 namespace BiodataManagement.Data.Repository;
 
 public class BiodataRepository : IBiodataRepository
 {
-    private readonly DapperContext _context;
+    private readonly DbConnectionFactory _context;
     private readonly IHttpContextAccessor _httpContext;
-    public BiodataRepository(DapperContext context, IHttpContextAccessor httpContext)
+    public BiodataRepository(DbConnectionFactory context, IHttpContextAccessor httpContext)
     {
+
         _httpContext = httpContext;
         _context = context;
     }
@@ -200,28 +203,9 @@ public class BiodataRepository : IBiodataRepository
         return result > 0;
     }
 
-    public async Task<bool> CreateBiodataAsync(Biodata biodata)
+    public async Task<bool> CreateListBiodataAsync(Biodata biodata)
     {
-
-        var tvpBiodata = new DataTable();
-        tvpBiodata.Columns.Add("PosisiDilamar", typeof(string));
-        tvpBiodata.Columns.Add("Nama", typeof(string));
-        tvpBiodata.Columns.Add("NoKTP", typeof(string));
-        tvpBiodata.Columns.Add("TempatLahir", typeof(string));
-        tvpBiodata.Columns.Add("TanggalLahir", typeof(DateTime));
-        tvpBiodata.Columns.Add("JenisKelamin", typeof(int));
-        tvpBiodata.Columns.Add("Agama", typeof(string));
-        tvpBiodata.Columns.Add("GolonganDarah", typeof(string));
-        tvpBiodata.Columns.Add("Status", typeof(string));
-        tvpBiodata.Columns.Add("AlamatKtp", typeof(string));
-        tvpBiodata.Columns.Add("AlamatTinggal", typeof(string));
-        tvpBiodata.Columns.Add("Email", typeof(string));
-        tvpBiodata.Columns.Add("NoTelepon", typeof(string));
-        tvpBiodata.Columns.Add("KontakOrangTerdekat", typeof(string));
-        tvpBiodata.Columns.Add("Skill", typeof(string));
-        tvpBiodata.Columns.Add("BersediaDitempatkan", typeof(bool));
-        tvpBiodata.Columns.Add("PenghasilanDiHarapkan", typeof(decimal));
-        tvpBiodata.Columns.Add("UserId", typeof(string));
+        DataTable tvpBiodata = TableHelper.CreateBiodataTable();
 
         tvpBiodata.Rows.Add(
             biodata.PosisiDilamar,
@@ -253,6 +237,27 @@ public class BiodataRepository : IBiodataRepository
             commandType: CommandType.StoredProcedure);
 
         return result > 0;
+
+
+    }
+
+    public async Task<ErrorOr<Biodata>> CreateBiodataAsync(BiodataCreateRequest request)
+    {
+        var query = "usp_Biodata_Create";
+
+
+        var bioTable = TableHelper.CreateBiodataTable(request);
+        var tvp = bioTable.AsTableValuedParameter("UDT_Biodata");
+
+        using var conn = _context.CreateConnection();
+
+
+        var result = await conn.QuerySingleOrDefaultAsync<Biodata>(query, new { udtBiodata = tvp });
+
+        if (result is null)
+            return Error.Failure("Biodata.Failure");
+
+        return result;
     }
 
     public async Task<int> GetCurrentUserId(string email)
@@ -312,11 +317,22 @@ public class BiodataRepository : IBiodataRepository
 
     public async Task<bool> IsBiodataExist(string userId, string userEmail)
     {
-        var query = "SELECT 1 FROM Biodata WHERE UserId = @UserId OR Email = @Email;";
+        var query = "SELECT 1 FROM Biodata WHERE UserId = @UserId OR Email = @Email";
         using var connection = _context.CreateConnection();
 
         var result = await connection.QuerySingleOrDefaultAsync<int>(query, new { UserId = userId, Email = userEmail });
 
         return result is 1;
     }
+
+    public async Task<bool> IsKTPExists(string ktp)
+    {
+        var query = "SELECT 1 FROM Biodata WHERE NoKTP = @NoKTP";
+        using var connection = _context.CreateConnection();
+
+        var result = await connection.QuerySingleOrDefaultAsync<int>(query, new { NoKTP = ktp });
+
+        return result is 1;
+    }
+
 }

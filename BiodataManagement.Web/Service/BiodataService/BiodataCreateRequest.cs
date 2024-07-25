@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using BiodataManagement.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-namespace BiodataManagement.Domain.Entities;
+namespace BiodataManagement.Service.BiodataService;
 
-public class Biodata
+public class BiodataCreateRequest
 {
-    [ValidateNever]
-    public int Id { get; set; }
     [Required]
     [Display(Name = "Posisi Dilamar")]
     public string PosisiDilamar { get; set; } = string.Empty;
@@ -23,7 +22,7 @@ public class Biodata
     [Required]
     [Display(Name = "Tanggal Lahir")]
 
-    public DateTime TanggalLahir { get; set; }
+    public DateOnly TanggalLahir { get; set; }
     [Required]
     [Display(Name = "Jenis Kelamin")]
 
@@ -60,37 +59,5 @@ public class Biodata
     public decimal PenghasilanDiharapkan { get; set; }
     [ValidateNever]
     public string? UserId { get; set; } = string.Empty;
-    public ICollection<PendidikanTerakhir>? PendidikanTerakhir { get; set; } = new List<PendidikanTerakhir>();
-    public ICollection<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; } = new List<RiwayatPekerjaan>();
-    public ICollection<RiwayatPelatihan>? RiwayatPelatihan { get; set; } = new List<RiwayatPelatihan>();
 
-}
-
-public enum JenisKelamin
-{
-    Pria,
-    Wanita
-}
-
-public record PosisiDilamar
-{
-    public PosisiDilamar()
-    {
-        Random random = new();
-        int number = random.Next(1, 5);
-
-        _posisi = number switch
-        {
-            1 => "Backend Engineer",
-            2 => "Frontend Engineer",
-            3 => "Data Analyst",
-            4 => "IT Manager",
-            _ => "HR"
-        };
-    }
-    private string _posisi;
-    public string Posisi
-    {
-        get => _posisi;
-    }
 }

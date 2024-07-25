@@ -1,0 +1,55 @@
+@model PendidikanTerakhirRequest
+<div class="card-body p-4">
+    <form method="post" class="row" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-10">
+                <div class="border p-3">
+                    <div asp-validation-summary="All"></div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="BiodataId" class="form-control border-0 shadow" />
+                        <label asp-for="BiodataId" class="ms-2"></label>
+                        <span asp-validation-for="BiodataId" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="JenjangPendidikanTerakhir" class="form-control border-0 shadow" />
+                        <label asp-for="JenjangPendidikanTerakhir" class="ms-2"></label>
+                        <span asp-validation-for="JenjangPendidikanTerakhir" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="NamaInstitusiAkademik" class="form-control border-0 shadow" />
+                        <label asp-for="NamaInstitusiAkademik" class="ms-2"></label>
+                        <span asp-validation-for="NamaInstitusiAkademik" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="Jurusan" class="form-control border-0 shadow" />
+                        <label asp-for="Jurusan" class="ms-2"></label>
+                        <span asp-validation-for="Jurusan" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input type="number" asp-for="TahunLulus" class="form-control border-0 shadow" />
+                        <label asp-for="TahunLulus" class="ms-2"></label>
+                        <span asp-validation-for="TahunLulus" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2 col-12">
+                        <input asp-for="IPK" class="form-control border-0 shadow" />
+                        <label asp-for="IPK" class="ms-2"></label>
+                        <span asp-validation-for="IPK" class="text-danger"></span>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-6 col-md-3">
+                            <button type="submit" class="btn btn-primary form-control">Create</button>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <a asp-controller="Home" asp-action="Index"
+                                class="btn btn-outline-primary border  form-control">
+                                Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

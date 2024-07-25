@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using BiodataManagement.Data.Seed;
 using BiodataManagement.Domain.Entities;
 using BiodataManagement.Service.BiodataService;
+using BiodataManagement.Service.PendidikanTerakhirService;
+using BiodataManagement.Web.Service.PendidikanTerakhirService;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using BiodataManagement.Extensions;
 
 namespace BiodataManagement.Controllers;
 
@@ -122,10 +127,10 @@ public class BiodataController : Controller
         if (!isBiodataExist)
             return View();
 
-        var biodata = await _bioRepo.GetBiodataWithUserId(userId);
+        var biodataByUserId = await _bioRepo.GetBiodataWithUserId(userId);
 
-        if (!biodata.IsError)
-            return RedirectToAction("Update", new { id = biodata.Value.Id });
+        if (!biodataByUserId.IsError)
+            return RedirectToAction("Update", new { id = biodataByUserId.Value.Id });
 
         var biodataByEmail = await _bioRepo.GetBiodataWithEmailAsync(userEmail);
         return RedirectToAction("Update", new { id = biodataByEmail.Value.Id });
@@ -133,34 +138,38 @@ public class BiodataController : Controller
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create(Biodata biodata)
+    public async Task<IActionResult> Create([FromServices] IValidator<BiodataCreateRequest> validator, BiodataCreateRequest request)
     {
-        if (!ModelState.IsValid)
-            return View(biodata);
-
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        request.UserId = userId;
 
-        var biodataExist = await _bioRepo.IsBiodataExist(userId, userEmail);
+        var validationResult = await validator.ValidateAsync(request);
+        if (!validationResult.IsValid)
+        {
+            validationResult.AddToModelState(ModelState);
+            return View(request);
+        }
 
-        if (biodataExist)
-            return View("Biodata.BadRequest", "Biodata.AlreadyExist");
+        var biodata = await _bioRepo.CreateBiodataAsync(request);
+        if (biodata.IsError)
+        {
+            ModelState.TryAddModelError(biodata.FirstError.Code, "Cannot Create Biodata");
+            return View();
+        }
 
-        biodata.UserId = userId;
-        await _bioRepo.CreateBiodataAsync(biodata);
-        return RedirectToAction("Detail", new { id = biodata.Id });
+        return RedirectToAction("Detail");
     }
 
     [HttpGet("Update")]
     public async Task<IActionResult> Update()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         var biodata = await _bioRepo.GetBiodataWithUserId(userId);
 
-        var result = biodata.MatchFirst(
-            onValue: View,
-            onFirstError: error => View("Biodata.NotFound")
-        );
+        var result = biodata.MatchFirst<ActionResult>(
+            onValue: value => RedirectToAction("Update", new {id = biodata.Value.Id}),
+            onFirstError: error => View("Biodata.NotFound"));
 
         return result;
     }

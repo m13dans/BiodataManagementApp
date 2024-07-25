@@ -1,1 +1,0 @@
-DELETE FROM Biodata WHERE UserId = NULL

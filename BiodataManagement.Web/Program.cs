@@ -10,6 +10,10 @@ using BiodataManagement.Service.Accounts;
 using BiodataManagement.Service.Accounts.AccountService;
 using BiodataManagement.Service.BiodataService;
 using BiiodataManagement.Data.Scripts;
+using BiodataManagement.Web.Service.PendidikanTerakhirService;
+using FluentValidation;
+using BiodataManagement.Data.Configuration;
+using Dapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +22,13 @@ builder.Services.AddControllersWithViews();
 
 // DbContext for dapper and EFCore
 var connectionString = builder.Configuration.GetConnectionString("SQLConnection");
-builder.Services.AddScoped<DapperContext>();
+builder.Services.AddScoped<DbConnectionFactory>();
 builder.Services.AddDbContext<AccountContext>(o =>
 {
     o.UseSqlServer(connectionString);
 });
+
+builder.Services.AddDateOnlyTimeOnlyStringConverters();
 
 // Asp.Net Core Identity for authentication and authorization
 builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
@@ -46,11 +52,13 @@ builder.Services.AddAuthorization(configure =>
 });
 builder.Services.AddScoped<IAuthorizationHandler, BiodataOwnerOrAdminPolicy.Handler>();
 
+builder.Services.AddScoped<IValidator<BiodataCreateRequest>, BiodataValidator>();
+
 
 // Registering Entity Repository and Service
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<PendidikanTerakhirRepository>();
+builder.Services.AddScoped<IPendidikanTerakhirRepository, PendidikanTerakhirRepository>();
 
 builder.Services.AddScoped<AccountService>();
 

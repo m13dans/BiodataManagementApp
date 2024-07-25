@@ -10,9 +10,9 @@ namespace BiodataManagement.Data.Seed;
 
 public class GenerateData
 {
-    private readonly DapperContext _context;
+    private readonly DbConnectionFactory _context;
 
-    public GenerateData(DapperContext context)
+    public GenerateData(DbConnectionFactory context)
     {
         _context = context;
     }
