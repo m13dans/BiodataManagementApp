@@ -1,17 +1,7 @@
 using BiodataManagement.Data.Identity;
 using BiodataManagement.Service.AccountService;
 
-namespace BiodataManagement.Service.Accounts.AccountService;
-
-public class AccountService
-{
-    private readonly IAccountRepository _repo;
-    public AccountService(IAccountRepository repo)
-    {
-        _repo = repo;
-    }
-
-}
+namespace BiodataManagement.Service.AccountService;
 
 public static class AccountServiceExtensions
 {

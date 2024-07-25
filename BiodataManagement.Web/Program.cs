@@ -6,14 +6,10 @@ using BiodataManagement.Data.Context;
 using BiodataManagement.Data.Identity;
 using BiodataManagement.Data.Repository;
 using BiodataManagement.Data.Seed;
-using BiodataManagement.Service.Accounts;
-using BiodataManagement.Service.Accounts.AccountService;
 using BiodataManagement.Service.BiodataService;
 using BiiodataManagement.Data.Scripts;
 using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using FluentValidation;
-using BiodataManagement.Data.Configuration;
-using Dapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,10 +55,8 @@ builder.Services.AddScoped<IValidator<BiodataUpdateRequest>, BiodataUpdateValida
 
 // Registering Entity Repository and Service
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IPendidikanTerakhirRepository, PendidikanTerakhirRepository>();
 
-builder.Services.AddScoped<AccountService>();
 
 builder.Services.AddScoped<GenerateData>();
 

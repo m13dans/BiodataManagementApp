@@ -28,3 +28,7 @@ body {
 a.hover-black:hover {
   color: black !important;
 }
+
+.hover-black:hover {
+  color: black !important;
+}

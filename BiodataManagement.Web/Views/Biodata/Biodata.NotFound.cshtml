@@ -1,12 +1,11 @@
 @model int;
+@inject IHttpContextAccessor httpcontext;
 @{
+
+    httpcontext.HttpContext!.Response.StatusCode = StatusCodes.Status404NotFound;
     ViewData["Title"] = "Biodata Not Found";
 }
 
-
-@{
-    ViewData["Title"] = "Not Found";
-}
 
 <section id="hero-error" class="hero pt-0">
 

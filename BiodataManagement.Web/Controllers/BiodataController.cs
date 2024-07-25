@@ -101,17 +101,11 @@ public class BiodataController : Controller
         var biodata = await _bioRepo.GetBiodataByIdAsync(id);
 
         if (biodata.IsError)
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
             return View("Biodata.NotFound", id);
-        }
 
         var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
         if (!authorizeResult.Succeeded)
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
             return View("Biodata.Forbidden");
-        }
 
         return View(biodata.Value);
     }

@@ -1,8 +1,25 @@
+@inject IHttpContextAccessor httpcontext;
+
 @{
     ViewData["Title"] = "Biodata Forbidden";
+    httpcontext.HttpContext!.Response.StatusCode = StatusCodes.Status403Forbidden;
+
 }
 
+<section id="hero-error" class="hero pt-0">
 
-<div class="">
-    <h3 class="text-center">You dan't have permission to access this biodata</h3>
-</div>
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <h1 class="text-center" style="font-family: 'Courier New', Courier, monospace;">403 Forbidden</h1>
+                <p class="text-center" style="font-family: 'Courier New', Courier, monospace;">You dan't have permission
+                    to access this biodata</p>
+                <div class="d-flex justify-content-center">
+                    <a href="/Home" class="btn btn-outline-dark rounded-pill">Go To Home</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section><!-- /Hero Section -->

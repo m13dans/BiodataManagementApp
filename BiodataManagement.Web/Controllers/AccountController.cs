@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using BiodataManagement.Data.Identity;
-using BiodataManagement.Service.Accounts;
-using BiodataManagement.Service.Accounts.AccountService;
 using BiodataManagement.Service.AccountService;
 using static BiodataManagement.Controllers.ControllerHelper;
 
@@ -14,15 +12,12 @@ public class AccountController : Controller
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly IAccountRepository _accountRepo;
 
     public AccountController(
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
-        RoleManager<IdentityRole> roleManager,
-        IAccountRepository accountRepo)
+        RoleManager<IdentityRole> roleManager)
     {
-        _accountRepo = accountRepo;
         _signInManager = signInManager;
         _roleManager = roleManager;
         _userManager = userManager;
