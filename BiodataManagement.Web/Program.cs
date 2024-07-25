@@ -52,7 +52,9 @@ builder.Services.AddAuthorization(configure =>
 });
 builder.Services.AddScoped<IAuthorizationHandler, BiodataOwnerOrAdminPolicy.Handler>();
 
-builder.Services.AddScoped<IValidator<BiodataCreateRequest>, BiodataValidator>();
+// Registering Validator Service
+builder.Services.AddScoped<IValidator<BiodataCreateRequest>, BiodataCreateValidator>();
+builder.Services.AddScoped<IValidator<BiodataUpdateRequest>, BiodataUpdateValidator>();
 
 
 // Registering Entity Repository and Service

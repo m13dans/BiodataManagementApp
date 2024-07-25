@@ -1,42 +1,42 @@
 create or alter procedure usp_Biodata_UpdateByAdmin(
-	@id int
-	,@posisiDilamar varchar(255)
-	,@nama varchar(255)
-	,@noKTP varchar(50)
-	,@tempatLahir varchar(100)
-	,@tanggalLahir date
-	,@jenisKelamin tinyint
-	,@agama varchar(50)
-	,@golonganDarah varchar(2)
-	,@status varchar(50)
-	,@alamatKtp varchar(255)
-	,@alamatTinggal varchar(255)
-	,@email varchar (255)
-	,@noTelepon varchar(50)
-	,@kontakOrangTerdekat varchar(50)
-	,@skill varchar(255)
-	,@bersediaDitempatkan bit
-	,@penghasilanDiharapkan money
+	@Id int
+	,@PosisiDilamar varchar(255)
+	,@Nama varchar(255)
+	,@NoKTP varchar(50)
+	,@TempatLahir varchar(100)
+	,@TanggalLahir date
+	,@JenisKelamin tinyint
+	,@Agama varchar(50)
+	,@GolonganDarah varchar(2)
+	,@Status varchar(50)
+	,@AlamatKtp varchar(255)
+	,@AlamatTinggal varchar(255)
+	,@Email varchar (255)
+	,@NoTelepon varchar(50)
+	,@KontakOrangTerdekat varchar(50)
+	,@Skill varchar(255)
+	,@BersediaDitempatkan bit
+	,@PenghasilanDiharapkan money
 )
 as
 begin
 	update Biodata 
-	set PosisiDilamar = @posisiDilamar,
-	Nama = @nama,
-	NoKTP = @noKTP,
-	TempatLahir = @tempatLahir,
-	TanggalLahir = @tanggalLahir,
-	JenisKelamin = @jenisKelamin,
-	Agama = @agama,
-	GolonganDarah = @golonganDarah,
-	[Status] = @status,
-	AlamatKtp = @alamatKtp,
-	AlamatTinggal = @alamatTinggal,
-	Email = @email,
-	NoTelepon = @noTelepon,
-	KontakOrangTerdekat = @kontakOrangTerdekat,
-	Skill = @skill,
-	BersediaDiTempatkan = @bersediaDitempatkan,
-	PenghasilanDiHarapkan = @penghasilanDiharapkan
-where Id = @id
+	set PosisiDilamar = @PosisiDilamar,
+	Nama = @Nama,
+	NoKTP = @NoKTP,
+	TempatLahir = @TempatLahir,
+	TanggalLahir = @TanggalLahir,
+	JenisKelamin = @JenisKelamin,
+	Agama = @Agama,
+	GolonganDarah = @GolonganDarah,
+	[Status] = @Status,
+	AlamatKtp = @AlamatKtp,
+	AlamatTinggal = @AlamatTinggal,
+	Email = @Email,
+	NoTelepon = @NoTelepon,
+	KontakOrangTerdekat = @KontakOrangTerdekat,
+	Skill = @Skill,
+	BersediaDiTempatkan = @BersediaDitempatkan,
+	PenghasilanDiHarapkan = @PenghasilanDiharapkan
+where Id = @Id
 end

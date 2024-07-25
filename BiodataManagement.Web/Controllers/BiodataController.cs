@@ -168,7 +168,7 @@ public class BiodataController : Controller
         var biodata = await _bioRepo.GetBiodataWithUserId(userId);
 
         var result = biodata.MatchFirst<ActionResult>(
-            onValue: value => RedirectToAction("Update", new {id = biodata.Value.Id}),
+            onValue: value => RedirectToAction("Update", new { id = biodata.Value.Id }),
             onFirstError: error => View("Biodata.NotFound"));
 
         return result;
@@ -196,44 +196,29 @@ public class BiodataController : Controller
     }
 
     [HttpPost("Update/{BiodataId:int}")]
-    public async Task<IActionResult> Update(int biodataId, Biodata biodataRequest)
+    public async Task<IActionResult> Update(
+        [FromServices] IValidator<BiodataUpdateRequest> validator,
+        int biodataId,
+        BiodataUpdateRequest biodataRequest)
     {
-        if (!ModelState.IsValid)
-            return View(biodataRequest);
-
         var biodata = await _bioRepo.GetBiodataByIdAsync(biodataId);
-
         if (biodata.IsError)
-            return View("Biodata.NotFound", new { biodataId });
+            return View("Biodata.NotFound");
 
         var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
         if (!authorizeResult.Succeeded)
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
-            return View("Biodata.Forbidden");
-        }
+            return Forbid();
 
-        if (User.IsInRole("Admin"))
+        var validationResult = await validator.ValidateAsync(biodataRequest);
+        if (!validationResult.IsValid)
         {
-            var updateResult = await _bioRepo.UpdateBiodataByAdminAsync(biodataId, biodataRequest);
-            if (updateResult is false)
-            {
-                HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                return View("Biodata.BadRequest");
-            }
-
-            return RedirectToAction("Biodata");
+            validationResult.AddToModelState(ModelState);
+            return View(biodataRequest);
         }
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        biodataRequest.UserId = userId;
 
         var result = await _bioRepo.UpdateBiodataAsync(biodataId, biodataRequest);
-        if (result is false)
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-            return View("Biodata.BadRequest");
-        }
-        return RedirectToAction("Detail");
+
+        return RedirectToAction("Detail", new { id = biodataId });
     }
 
 

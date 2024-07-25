@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BiodataManagement.Service.BiodataService;
 
-public class BiodataValidator : AbstractValidator<BiodataCreateRequest>
+public class BiodataCreateValidator : AbstractValidator<BiodataCreateRequest>
 {
     private readonly IBiodataRepository _biodataRepository;
-    public BiodataValidator(IBiodataRepository biodataRepository)
+    public BiodataCreateValidator(IBiodataRepository biodataRepository)
     {
         _biodataRepository = biodataRepository;
 
@@ -19,3 +19,4 @@ public class BiodataValidator : AbstractValidator<BiodataCreateRequest>
             .WithMessage("No KTP already used");
     }
 }
+

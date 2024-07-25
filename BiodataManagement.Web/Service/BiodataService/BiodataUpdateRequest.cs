@@ -4,17 +4,14 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace BiodataManagement.Service.BiodataService;
 
-public class BiodataCreateRequest
+public class BiodataUpdateRequest
 {
     [Required]
     [Display(Name = "Posisi Dilamar")]
     public string PosisiDilamar { get; set; } = string.Empty;
     [Required]
     public string Nama { get; set; } = string.Empty;
-    [Required]
-    [Display(Name = "No KTP")]
 
-    public string NoKTP { get; set; } = string.Empty;
     [Required]
     [Display(Name = "Tempat Lahir")]
 
@@ -22,7 +19,7 @@ public class BiodataCreateRequest
     [Required]
     [Display(Name = "Tanggal Lahir")]
 
-    public DateOnly TanggalLahir { get; set; }
+    public DateTime TanggalLahir { get; set; }
     [Required]
     [Display(Name = "Jenis Kelamin")]
 
@@ -59,8 +56,8 @@ public class BiodataCreateRequest
     public decimal PenghasilanDiharapkan { get; set; }
     [ValidateNever]
     public string? UserId { get; set; } = string.Empty;
-
     public ICollection<PendidikanTerakhir>? PendidikanTerakhir { get; set; } = new List<PendidikanTerakhir>();
     public ICollection<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; } = new List<RiwayatPekerjaan>();
     public ICollection<RiwayatPelatihan>? RiwayatPelatihan { get; set; } = new List<RiwayatPelatihan>();
+
 }
