@@ -216,22 +216,21 @@ public class BiodataController : Controller
     }
 
 
-    [Authorize(Roles = "Admin")]
-    [HttpDelete("Delete")]
+    [HttpGet("Delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
+        var biodata = await _bioRepo.GetBiodataByIdAsync(id);
+        if (biodata.IsError)
+            return View("Biodata.NotFound", id);
+
+        var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
+        if (!authorizeResult.Succeeded)
+            return Forbid();
+
         var result = await _bioRepo.DeleteBiodataAsync(id);
         if (result is false)
-            return NotFound();
+            return BadRequest();
 
         return RedirectToAction("Index", "Home");
     }
-
-    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    // [HttpGet("error")]
-    // public IActionResult Error(string? errorCode = "")
-    // {
-    //     ViewData["ErrorCode"] = errorCode;
-    //     return View(errorCode);
-    // }
 }
