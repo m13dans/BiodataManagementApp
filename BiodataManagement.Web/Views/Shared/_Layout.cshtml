@@ -12,7 +12,7 @@
     @* <link rel="stylesheet" href="~/BiodataManagement.Web.style.css" asp-append-version="true" /> *@
 </head>
 
-<body>
+<body class="mb-0">
     <header class="sticky-top">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-4">
             <div class="container d-flex justify-content-around">
@@ -64,11 +64,13 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted fixed-bottom bg-dark">
-        <div class="container my-3">
-            &copy; 2024 Biodata Management System App
-        </div>
-    </footer>
+    <div class="bg-dark py-4">
+        <footer class="text-muted bg-dark py-4">
+            <span class=" ms-5">
+                &copy; 2024 Biodata Management System App
+            </span>
+        </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

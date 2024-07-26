@@ -32,3 +32,7 @@ a.hover-black:hover {
 .hover-black:hover {
   color: black !important;
 }
+
+button.hover-white:hover {
+  background-color: white !important;
+}

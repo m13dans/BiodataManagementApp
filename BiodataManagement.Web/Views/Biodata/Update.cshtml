@@ -120,18 +120,12 @@
 
                         <div class="row pt-2">
                             <div class="col-6 col-md-3">
-                                @if (Model.Id != 0)
-                                {
-                                    <button type="submit" class="btn btn-primary form-control">Update</button>
-                                }
-                                else
-                                {
-                                    <button type="submit" class="btn btn-primary form-control">Create</button>
-                                }
+                                <button type="submit" class="btn btn-dark hover-white hover-black form-control">
+                                    @(Model.Id != 0 ? "Update" : "Create")</button>
                             </div>
                             <div class="col-6 col-md-3">
                                 <a asp-controller="Home" asp-action="Index"
-                                    class="btn btn-outline-primary border  form-control">
+                                    class="btn btn-outline-dark border form-control">
                                     Back to Home
                                 </a>
                             </div>

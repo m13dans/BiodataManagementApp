@@ -34,7 +34,7 @@ public class GenerateData
                 p.Nama = f.Person.FullName.ClampLength(1, 100);
                 p.NoKTP = f.Random.Guid().ToString();
                 p.TempatLahir = f.Address.City();
-                p.TanggalLahir = f.Person.DateOfBirth;
+                p.TanggalLahir = DateOnly.FromDateTime(f.Person.DateOfBirth);
 
                 p.JenisKelamin = (JenisKelamin)f.Random.Int(1, 2);
                 p.Agama = f.Random.ArrayElement(new string[]
@@ -95,7 +95,7 @@ public class GenerateData
                 biodata.Nama,
                 biodata.NoKTP,
                 biodata.TempatLahir,
-                biodata.TanggalLahir,
+                biodata.TanggalLahir.ToDateTime(new TimeOnly()),
                 biodata.JenisKelamin,
                 biodata.Agama,
                 biodata.GolonganDarah,

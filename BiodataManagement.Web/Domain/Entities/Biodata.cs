@@ -23,7 +23,7 @@ public class Biodata
     [Required]
     [Display(Name = "Tanggal Lahir")]
 
-    public DateTime TanggalLahir { get; set; }
+    public DateOnly TanggalLahir { get; set; }
     [Required]
     [Display(Name = "Jenis Kelamin")]
 
