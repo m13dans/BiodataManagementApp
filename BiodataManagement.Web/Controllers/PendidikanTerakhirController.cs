@@ -5,6 +5,9 @@ using BiodataManagement.Data.Repository;
 using BiodataManagement.Domain.Entities;
 using BiodataManagement.Service.BiodataService;
 using BiodataManagement.Service.PendidikanTerakhirService;
+using BiodataManagement.Web.Service.PendidikanTerakhirService;
+using FluentValidation;
+using BiodataManagement.Extensions;
 
 namespace BiodataManagement.Controllers;
 
@@ -13,13 +16,13 @@ namespace BiodataManagement.Controllers;
 public class PendidikanTerakhirController : Controller
 {
     private readonly ILogger<PendidikanTerakhirController> _logger;
-    private readonly PendidikanTerakhirRepository _pendidikanRepo;
+    private readonly IPendidikanTerakhirRepository _pendidikanRepo;
     private readonly IBiodataRepository _biodataRepository;
     private readonly IAuthorizationService _autthorizationService;
 
 
     public PendidikanTerakhirController(ILogger<PendidikanTerakhirController> logger,
-        PendidikanTerakhirRepository pendidikanRepo,
+        IPendidikanTerakhirRepository pendidikanRepo,
         IBiodataRepository biodataRepository,
         IAuthorizationService authorizationService
     )
@@ -32,10 +35,19 @@ public class PendidikanTerakhirController : Controller
 
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    [Route("Biodata/{biodataId:int}/PendidikanTerakhir")]
+    public async Task<IActionResult> Index(int biodataId)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var pendidikanList = await _pendidikanRepo.GetPendidikanByUserIdAsync(userId);
+        var biodata = await _biodataRepository.GetBiodataByIdAsync(biodataId);
+
+        if (biodata.IsError)
+            return View("Biodata.NotFound");
+
+        var authResult = await _autthorizationService.AuthorizeAsync(User, biodata, "BiodataOwner");
+        if (!authResult.Succeeded)
+            return Forbid();
+
+        var pendidikanList = await _pendidikanRepo.GetAllPendidikanTerakhirForAsync(biodataId);
 
         if (pendidikanList.IsError)
             return View();
@@ -47,25 +59,29 @@ public class PendidikanTerakhirController : Controller
     public async Task<IActionResult> Create()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var result = await _pendidikanRepo.GetPendidikanByUserIdAsync(userId);
+        var biodataId = await _pendidikanRepo.GetBiodataIdForUser(userId);
 
-        // if result is null or result.Value.Count is 0 
+        if (biodataId.IsError)
+            return View("Biodata.NotFound");
+
+        var result = await _pendidikanRepo.GetAllPendidikanTerakhirForAsync(biodataId.Value);
+
         if (result.IsError)
             return View();
 
         var pendidikanList = result.Value;
         if (pendidikanList.Count >= 3)
-            return RedirectToAction("update");
+            return RedirectToAction("Update");
 
         return View();
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create(int biodataId, PendidikanTerakhirRequest request)
+    public async Task<IActionResult> Create(
+        IValidator<PendidikanTerakhirRequest> validator,
+        int biodataId,
+        PendidikanTerakhirRequest request)
     {
-        if (!ModelState.IsValid)
-            return View(request);
-
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var biodata = await _biodataRepository.GetBiodataWithUserId(userId);
 
@@ -74,6 +90,15 @@ public class PendidikanTerakhirController : Controller
             ModelState.TryAddModelError("", "You have to create biodata first");
             return View(request);
         }
+
+        var validatorResult = await validator.ValidateAsync(request);
+        if (!validatorResult.IsValid)
+        {
+            validatorResult.AddToModelState(ModelState);
+            return View(request);
+        }
+
+
 
         var authorizationResult = await _autthorizationService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
         if (!authorizationResult.Succeeded)
@@ -119,12 +144,17 @@ public class PendidikanTerakhirController : Controller
 
     [Authorize(Roles = "Admin, User")]
     [HttpPost]
-    public async Task<IActionResult> Update(PendidikanTerakhir pendidikan)
+    public async Task<IActionResult> Update(
+        [FromServices] IValidator<PendidikanTerakhirRequest> validator,
+        int id,
+        PendidikanTerakhirRequest pendidikan)
+
+
     {
-        var result = await _pendidikanRepo.UpdatePendidikanAsync(pendidikan);
-        if (result is false)
+        var result = await _pendidikanRepo.UpdataPendidikanTerakhirByIdAsync(id, pendidikan);
+        if (result.IsError)
         {
-            return Error();
+            return BadRequest();
         }
         return RedirectToAction("Index", "Home");
     }

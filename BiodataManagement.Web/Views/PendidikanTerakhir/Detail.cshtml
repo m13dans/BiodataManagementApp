@@ -1,0 +1,15 @@
+@model List<PendidikanTerakhir>
+@{
+    ViewData["Title"] = "PendidikanTerakhir";
+}
+
+
+<h1>PendidikanTerakhir</h1>
+<div>
+    <partial name="_PendidikanTerakhir" model="@Model" />
+</div>
+<hr />
+<div class="mb-5 text-info">
+    @* <a class="btn btn-info text-white mx-2" asp-action="Update" asp-route-id="@Model.Id">Edit</a> *@
+    <a class="btn btn-outline-info" asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>

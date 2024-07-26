@@ -215,4 +215,16 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
             _ => result >= 1
         };
     }
+
+    public async Task<ErrorOr<int>> GetBiodataIdForUser(string userId)
+    {
+        var query = "SELECT Id FROM Biodata WHERE UserId = @UserId";
+
+        using var conn = _context.CreateConnection();
+        var biodataId = await conn.QuerySingleOrDefaultAsync<int>(query, new { UserId = userId });
+        if (biodataId is 0)
+            return Error.NotFound("Biodata.NotFound");
+
+        return biodataId;
+    }
 }
