@@ -36,3 +36,9 @@ a.hover-black:hover {
 button.hover-white:hover {
   background-color: white !important;
 }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
