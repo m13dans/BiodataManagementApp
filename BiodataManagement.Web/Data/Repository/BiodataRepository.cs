@@ -116,17 +116,6 @@ public class BiodataRepository : IBiodataRepository
         return biodata;
     }
 
-    public async Task<List<PendidikanTerakhir>> GetPendidikansAsync(int biodataId)
-    {
-        var query = "usp_PendidikanTerakhir_GetByBioId";
-        using var connection = _context.CreateConnection();
-
-        var pendidikans = await connection.QueryAsync<PendidikanTerakhir>(query, new { bioId = biodataId },
-        commandType: CommandType.StoredProcedure);
-
-        return pendidikans.ToList();
-    }
-
     public async Task<bool> UpdateBiodataAsync(int biodataId, BiodataUpdateRequest biodata)
     {
         var query = "usp_Biodata_Update";
@@ -156,36 +145,6 @@ public class BiodataRepository : IBiodataRepository
 
         return result is 1;
     }
-    public async Task<bool> UpdateBiodataByAdminAsync(int biodataId, BiodataUpdateRequest biodata)
-    {
-        var query = "usp_Biodata_UpdateByAdmin";
-        using var connection = _context.CreateConnection();
-
-        var result = await connection.ExecuteAsync(query, new
-        {
-            id = biodataId,
-            biodata.PosisiDilamar,
-            biodata.Nama,
-            biodata.TempatLahir,
-            biodata.TanggalLahir,
-            biodata.JenisKelamin,
-            biodata.Agama,
-            biodata.GolonganDarah,
-            biodata.Status,
-            biodata.AlamatKTP,
-            biodata.AlamatTinggal,
-            biodata.Email,
-            biodata.NoTelepon,
-            biodata.KontakOrangTerdekat,
-            biodata.Skill,
-            biodata.BersediaDitempatkan,
-            biodata.PenghasilanDiharapkan,
-        },
-        commandType: CommandType.StoredProcedure);
-
-        return result is 1;
-    }
-
     public async Task<bool> DeleteBiodataAsync(int bioId)
     {
         var query = "usp_Biodata_Delete";
@@ -233,8 +192,6 @@ public class BiodataRepository : IBiodataRepository
             commandType: CommandType.StoredProcedure);
 
         return result > 0;
-
-
     }
 
     public async Task<ErrorOr<Biodata>> CreateBiodataAsync(BiodataCreateRequest request)
@@ -256,25 +213,6 @@ public class BiodataRepository : IBiodataRepository
         return result;
     }
 
-    public async Task<int> GetCurrentUserId(string email)
-    {
-        var query = "SELECT DISTINCT Id FROM Biodata WHERE EMAIL = @Email";
-        using var connection = _context.CreateConnection();
-
-        var userId = await connection.QuerySingleOrDefaultAsync<int>(query, new { Email = email });
-        return userId;
-    }
-
-    public async Task<string> GetBiodataOwnerId(string userId)
-    {
-        var query = "SELECT AppUserId FROM AppUserBiodata WHERE AppUserId = @UserId";
-        using var connection = _context.CreateConnection();
-
-        var result = await connection.QuerySingleOrDefaultAsync<string>(query, new { UserId = userId });
-
-        return result ?? string.Empty;
-    }
-
     public async Task<ErrorOr<Biodata>> GetBiodataWithUserId(string userId)
     {
         var query = "SELECT * FROM Biodata WHERE UserId = @UserId ";
@@ -286,16 +224,6 @@ public class BiodataRepository : IBiodataRepository
             return Error.NotFound("Biodata.NotFound");
 
         return result;
-    }
-
-    public async Task<bool> ValidateBiodataOwner(string userEmail)
-    {
-        var query = "SELECT Email FROM Biodata WHERE Email = @UserEmail";
-        using var connection = _context.CreateConnection();
-
-        var result = await connection.QuerySingleOrDefaultAsync<string>(query, new { UserEmail = userEmail });
-
-        return result is not null;
     }
 
     public async Task<ErrorOr<AppUserBiodata>> GetAppUserBiodataAsync(string userId)
@@ -330,5 +258,4 @@ public class BiodataRepository : IBiodataRepository
 
         return result is 1;
     }
-
 }
