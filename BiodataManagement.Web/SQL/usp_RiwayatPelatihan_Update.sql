@@ -9,28 +9,21 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-create procedure [dbo].[usp_RiwayatPelatihan_Insert](
-  @biodataId int
+create procedure [dbo].[usp_RiwayatPelatihan_Update](
+  @id int
 , @namaKursus varchar(255)
 , @sertifikatAda bit
-, @tahun date
+, @tahun int
 )
 as 
 begin
 	--set nocount on
-	insert into RiwayatPelatihan(
-		BiodataId
-		, NamaKursus
-		, SertifikatAda
-		, Tahun
-	)
-	values(
-	  @biodataId
-	, @namaKursus
-	, @sertifikatAda
-	, @tahun
-	)
+	update RiwayatPelatihan
+		set NamaKursus = @namaKursus
+		, SertifikatAda = @sertifikatAda
+		, Tahun = @tahun
+
+		where Id = @id
 end
 GO
-
 
