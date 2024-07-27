@@ -1,0 +1,17 @@
+@model string
+@{
+    ViewData["Title"] = "Biodata Bad Request";
+}
+
+<div class="">
+    <h3 class="text-center">Cannot Proccess your requeset,
+    </h3>
+</div>
+@if (Model is "Biodata.AlreadyExist")
+{
+    <div class="">
+        <h3 class="text-center">
+            You already have biodata.
+        </h3>
+    </div>
+}

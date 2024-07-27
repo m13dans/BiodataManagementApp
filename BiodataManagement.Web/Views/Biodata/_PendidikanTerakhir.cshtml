@@ -1,0 +1,46 @@
+@model List<PendidikanTerakhir>
+
+<div class="table-responsive card shadow">
+    <table id="pendidikanTerakhir" class=" table text-center table-sm align-middle ">
+        <thead class="">
+            <tr>
+                <th style="width: 150px;">
+                    Jenjang Pendidikan Terakhir
+                </th>
+                <th style="width: 150px;">
+                    Nama Institusi Akademik
+                </th>
+                <th style="width: 150px;">
+                    Jurusan
+                </th>
+                <th style="width: 150px;">
+                    Tahun Lulus
+                </th>
+                <th style="width: 50px;">
+                    IPK
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model is null || Model.Count == 0)
+            {
+                <tr>
+                    <td></td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var pendidikanTerakhir in Model)
+                {
+                    <tr>
+                        <td>@pendidikanTerakhir.JenjangPendidikanTerakhir</td>
+                        <td>@pendidikanTerakhir.NamaInstitusiAkademik</td>
+                        <td>@pendidikanTerakhir.Jurusan</td>
+                        <td>@pendidikanTerakhir.TahunLulus.ToShortDateString()</td>
+                        <td>@pendidikanTerakhir.IPK</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

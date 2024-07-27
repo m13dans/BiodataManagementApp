@@ -1,0 +1,38 @@
+@model List<RiwayatPelatihan>
+<div class="table-responsive card shadow">
+    <table id="riwayatPekerjaan" class=" table text-center table-sm align-middle ">
+        <thead class="">
+            <tr>
+                <th style="width: 150px;">
+                    Nama Kursus
+                </th>
+                <th style="width: 150px;">
+                    Sertifikat
+                </th>
+                <th style="width: 150px;">
+                    Tahun
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model is null || Model.Count == 0)
+            {
+                <tr>
+                    <td></td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var riwayatPelatihan in Model)
+                {
+                    <tr>
+                        <td>@riwayatPelatihan.NamaKursus</td>
+                        <td>@riwayatPelatihan.SertifikatAda</td>
+                        <td>@riwayatPelatihan.Tahun</td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+</div>

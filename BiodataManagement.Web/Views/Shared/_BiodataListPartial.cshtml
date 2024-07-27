@@ -1,0 +1,70 @@
+@model List<BiodataDTO>
+
+@{
+  BiodataDTO emptyBio = new();
+}
+<div class=" table table-responsive">
+  <table class="table text-center align-middle ">
+    <thead>
+      <tr>
+        <th class="width: 10px;">
+          <label>No</label>
+        </th>
+        <th class="width: 150px;">
+          <label asp-for="@emptyBio.Nama"></label>
+        </th>
+        <th class="width: 150px;">
+          <label asp-for="@emptyBio.TempatLahir"></label>
+        </th>
+        <th class="width: 150px;">
+          <label asp-for="@emptyBio.TanggalLahir"></label>
+        </th>
+        <th class="width: 150px;">
+          <label asp-for="@emptyBio.PosisiDilamar"></label>
+        </th>
+        <th class="width: 150px;">
+          <label>Edit Data</label>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (Model is not null)
+      {
+        int no = 0;
+        foreach (var biodata in Model)
+        {
+          <tr>
+            <td>
+              <label>@(no += 1)</label>
+            </td>
+            <td>
+              <label>@biodata.Nama</label>
+            </td>
+            <td>
+              <label>@biodata.TempatLahir</label>
+            </td>
+            <td>
+              <label>@(DateOnly.FromDateTime(biodata.TanggalLahir))</label>
+            </td>
+            <td>
+              <label>@biodata.PosisiDilamar</label>
+            </td>
+            <td>
+              <div class=" d-flex justify-content-center">
+                <a asp-controller="Biodata" asp-action="Detail" asp-route-id="@biodata.Id" class="btn btn-sm text-info">
+                  <i class="bi bi-eye"></i> Detail
+                </a>
+                <a asp-controller="Biodata" asp-action="Update" asp-route-id="@biodata.Id" class="btn btn-sm text-info">
+                  <i class="bi bi-pencil-square"></i> Edit
+                </a>
+                <a asp-controller="Biodata" asp-action="Delete" asp-route-id="@biodata.Id" class="btn btn-sm text-danger">
+                  <i class="bi bi-trash-fill"></i> Delete
+                </a>
+              </div>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>

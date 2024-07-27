@@ -1,0 +1,123 @@
+@model Biodata
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<h1>Details</h1>
+<div>
+    <h4>@Model.Nama</h4>
+    <hr />
+    <dl class="row">
+        <dt class="">
+            @Html.DisplayNameFor(model => model.PosisiDilamar)
+        </dt>
+        <dd class="">
+            @Html.DisplayNameFor(model => model.PosisiDilamar)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.Nama)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.Nama)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.NoKTP)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.NoKTP)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.TempatLahir)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.TempatLahir)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.TanggalLahir)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.TanggalLahir)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.JenisKelamin)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.JenisKelamin)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.Agama)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.Agama)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.GolonganDarah)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.GolonganDarah)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.AlamatKTP)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.AlamatKTP)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.AlamatTinggal)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.AlamatTinggal)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.NoTelepon)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.NoTelepon)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.KontakOrangTerdekat)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.KontakOrangTerdekat)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.Skill)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.Skill)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.BersediaDitempatkan)
+        </dt>
+        <dd class="">
+            @Html.DisplayFor(model => model.BersediaDitempatkan)
+        </dd>
+        <dt class="">
+            @Html.DisplayNameFor(model => model.PenghasilanDiharapkan)
+        </dt>
+        <dd class="">
+            Rp. @Html.DisplayFor(model => model.PenghasilanDiharapkan)
+        </dd>
+    </dl>
+</div>
+<div>
+    <partial name="_PendidikanTerakhir" model="@Model.PendidikanTerakhir" />
+</div>
+<hr />
+<div class="mb-5 text-info">
+    <a class="btn btn-info text-white mx-2" asp-action="Update" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-outline-info" asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>
