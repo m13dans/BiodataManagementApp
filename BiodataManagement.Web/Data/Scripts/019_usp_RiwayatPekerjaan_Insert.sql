@@ -1,9 +1,9 @@
 create or alter procedure [dbo].[usp_RiwayatPekerjaan_Insert](
-  @biodataId int
-, @namaPerusahaan varchar(255)
-, @posisiTerakhir varchar(255)
-, @pendapatanTerakhir varchar(255)
-, @tahun int
+  @BiodataId int
+, @NamaPerusahaan varchar(255)
+, @PosisiTerakhir varchar(255)
+, @PendapatanTerakhir varchar(255)
+, @Tahun int
 )
 as 
 begin
@@ -18,10 +18,10 @@ begin
 	)
 	values(
 	  @BiodataId
-	, @namaPerusahaan
-	, @posisiTerakhir
-	, @pendapatanTerakhir
-	, @tahun
+	, @NamaPerusahaan
+	, @PosisiTerakhir
+	, @PendapatanTerakhir
+	, @Tahun
 	)
 end
 GO
