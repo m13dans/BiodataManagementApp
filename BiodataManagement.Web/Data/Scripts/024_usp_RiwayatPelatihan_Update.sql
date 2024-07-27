@@ -9,7 +9,7 @@ begin
 	--set nocount on
 	update RiwayatPelatihan
 		set NamaKursus = @namaKursus
-		, SertifikatAda = @SertifikatAdN
+		, SertifikatAda = @SertifikatAda
 		, Tahun = @Tahun
 
 		where Id = @Id

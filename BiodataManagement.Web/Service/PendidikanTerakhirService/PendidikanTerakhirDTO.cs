@@ -11,6 +11,6 @@ public record PendidikanTerakhirRequest
     public string? NamaInstitusiAkademik { get; set; }
     [MaxLength(255)]
     public string? Jurusan { get; set; }
-    public DateTime TahunLulus { get; set; }
+    public DateOnly TahunLulus { get; set; }
     public float IPK { get; set; }
 }

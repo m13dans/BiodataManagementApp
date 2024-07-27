@@ -10,6 +10,7 @@ using BiodataManagement.Service.BiodataService;
 using BiiodataManagement.Data.Scripts;
 using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using FluentValidation;
+using BiodataManagement.Service.PendidikanTerakhirService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,7 @@ builder.Services.AddScoped<IAuthorizationHandler, BiodataOwnerOrAdminPolicy.Hand
 // Registering Validator Service
 builder.Services.AddScoped<IValidator<BiodataCreateRequest>, BiodataCreateValidator>();
 builder.Services.AddScoped<IValidator<BiodataUpdateRequest>, BiodataUpdateValidator>();
+builder.Services.AddScoped<IValidator<PendidikanTerakhirRequest>, PendidikanTerakhirValidator>();
 
 
 // Registering Entity Repository and Service

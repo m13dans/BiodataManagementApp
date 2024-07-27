@@ -10,7 +10,7 @@ using BiodataManagement.Extensions;
 namespace BiodataManagement.Controllers;
 
 [Authorize]
-[Route("{BiodataId:int}/PendidikanTerakhir")]
+[Route("Biodata/{biodataId:int}/PendidikanTerakhir")]
 public class PendidikanTerakhirController : Controller
 {
     private readonly ILogger<PendidikanTerakhirController> _logger;
@@ -33,8 +33,7 @@ public class PendidikanTerakhirController : Controller
 
 
     [HttpGet]
-    [Route("Biodata/{biodataId:int}/PendidikanTerakhir")]
-    public async Task<IActionResult> Index(int biodataId)
+    public async Task<IActionResult> Index([FromRoute] int biodataId)
     {
         var biodata = await _biodataRepository.GetBiodataByIdAsync(biodataId);
 
@@ -54,6 +53,7 @@ public class PendidikanTerakhirController : Controller
     }
 
     [HttpGet("Create")]
+
     public async Task<IActionResult> Create()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -62,19 +62,18 @@ public class PendidikanTerakhirController : Controller
         if (biodataId.IsError)
             return View("Biodata.NotFound");
 
-        var result = await _pendidikanRepo.GetAllPendidikanTerakhirForAsync(biodataId.Value);
-
-        if (result.IsError)
-            return View();
-
-        var pendidikanList = result.Value;
-        if (pendidikanList.Count >= 3)
-            return RedirectToAction("Update");
-
         return View();
+
+        // var result = await _pendidikanRepo.GetAllPendidikanTerakhirForAsync(biodataId.Value);
+
+        // if (result.IsError || result.Value.Count < 3)
+        //     return View();
+
+        // return RedirectToAction("Update");
     }
 
     [HttpPost("Create")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
         IValidator<PendidikanTerakhirRequest> validator,
         int biodataId,
@@ -95,9 +94,6 @@ public class PendidikanTerakhirController : Controller
             validatorResult.AddToModelState(ModelState);
             return View(request);
         }
-
-
-
         var authorizationResult = await _autthorizationService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
         if (!authorizationResult.Succeeded)
             return Forbid();

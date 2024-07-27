@@ -2,7 +2,7 @@ create or alter procedure [dbo].[usp_RiwayatPelatihan_Insert](
   @BiodataId int
 , @NamaKursus varchar(255)
 , @SertifikatAda bit
-, @Tahun date
+, @Tahun INT
 )
 as 
 begin

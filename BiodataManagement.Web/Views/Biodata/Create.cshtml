@@ -39,7 +39,7 @@
                             <span asp-validation-for="TempatLahir" class="text-danger"></span>
                         </div>
                         <div class="form-floating py-2 col-12">
-                            <input asp-for="TanggalLahir" class="form-control border-0 shadow" />
+                            <input type="date" asp-for="TanggalLahir" class="form-control border-0 shadow" />
                             <label asp-for="TanggalLahir" class="ms-2"></label>
                             <span asp-validation-for="TanggalLahir" class="text-danger"></span>
                         </div>
@@ -47,8 +47,9 @@
                         <div class="py-2 col-3">
                             <label asp-for="JenisKelamin" class="ms-2 dropdown-header"></label>
                             <select class=" dropdown-item" asp-for="JenisKelamin" asp-items="Html.GetEnumSelectList<JenisKelamin>()">
-                                <option selected="" value=""></option>
+                                <option selected="" value="">Jenis Kelamin</option>
                             </select>
+                            <span asp-validation-for="JenisKelamin" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating py-2 col-12">
@@ -137,46 +138,6 @@
         </form>
     </div>
 </div>
-
-<div class="my-3">
-    <h3 class="ms-2 my-0">Pendidikan Terakhir</h3>
-
-    <div class="btn btn-group-sm pt-0" role="group">
-        <a asp-controller="PendidikanTerakhir" asp-action="Create" class=" text-decoration-none text-success
-            btn btn-sm">
-            <i class="bi bi-plus-circle"></i> Add
-        </a>
-    </div>
-
-    <partial name="_PendidikanTerakhir" model="new List<PendidikanTerakhir>()" />
-</div>
-
-<div class="my-4">
-    <h3 class="ms-2 my-0">Riwayat Pekerjaan</h3>
-
-    <div class="btn btn-group-sm pt-0" role="group">
-        <a asp-controller="RiwayatPekerjaan" asp-action="Create" class=" text-decoration-none text-success
-            btn btn-sm">
-            <i class="bi bi-plus-circle"></i> Add
-        </a>
-    </div>
-
-    <partial name="_RiwayatPekerjaan" model="new List<RiwayatPekerjaan>()" />
-</div>
-
-<div class="my-4">
-    <h3 class="ms-2 my-0">Riwayat Pelatihan</h3>
-
-    <div class="btn btn-group-sm pt-0" role="group">
-        <a asp-controller="RiwayatPelatihan" asp-action="Create" class=" text-decoration-none text-success
-            btn btn-sm">
-            <i class="bi bi-plus-circle"></i> Add
-        </a>
-    </div>
-    <partial name="_RiwayatPelatihan" model="new List<RiwayatPelatihan>()" />
-</div>
-
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
