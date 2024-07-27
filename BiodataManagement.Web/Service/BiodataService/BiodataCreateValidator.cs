@@ -1,6 +1,4 @@
 using FluentValidation;
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BiodataManagement.Service.BiodataService;
 

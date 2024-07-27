@@ -1,8 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using BiodataManagement.Data.Repository;
-using BiodataManagement.Domain.Entities;
 using BiodataManagement.Service.BiodataService;
 using BiodataManagement.Service.PendidikanTerakhirService;
 using BiodataManagement.Web.Service.PendidikanTerakhirService;

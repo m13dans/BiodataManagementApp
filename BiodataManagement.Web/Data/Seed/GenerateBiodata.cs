@@ -4,7 +4,6 @@ using Bogus.Extensions;
 using Dapper;
 using BiodataManagement.Data.Context;
 using BiodataManagement.Domain.Entities;
-using ErrorOr;
 
 namespace BiodataManagement.Data.Seed;
 

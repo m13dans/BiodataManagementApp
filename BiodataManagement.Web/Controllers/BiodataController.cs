@@ -3,12 +3,8 @@ using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BiodataManagement.Data.Seed;
-using BiodataManagement.Domain.Entities;
 using BiodataManagement.Service.BiodataService;
-using BiodataManagement.Service.PendidikanTerakhirService;
-using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using BiodataManagement.Extensions;
 
 namespace BiodataManagement.Controllers;

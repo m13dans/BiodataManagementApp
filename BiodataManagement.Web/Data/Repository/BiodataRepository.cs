@@ -4,19 +4,14 @@ using ErrorOr;
 using BiodataManagement.Data.Context;
 using BiodataManagement.Domain.Entities;
 using BiodataManagement.Service.BiodataService;
-using BiodataManagement.Data.Configuration;
-using Bogus.DataSets;
 
 namespace BiodataManagement.Data.Repository;
 
 public class BiodataRepository : IBiodataRepository
 {
     private readonly DbConnectionFactory _context;
-    private readonly IHttpContextAccessor _httpContext;
-    public BiodataRepository(DbConnectionFactory context, IHttpContextAccessor httpContext)
+    public BiodataRepository(DbConnectionFactory context)
     {
-
-        _httpContext = httpContext;
         _context = context;
     }
 
