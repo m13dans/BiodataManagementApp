@@ -15,15 +15,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model is null || Model.Count == 0)
+            @if (Model.Any(x => x != null))
             {
-                <tr>
-                    <td></td>
-                </tr>
-            }
-            else
-            {
-                @foreach (var riwayatPelatihan in Model)
+                foreach (var riwayatPelatihan in Model)
                 {
                     <tr>
                         <td>@riwayatPelatihan.NamaKursus</td>
@@ -31,7 +25,6 @@
                         <td>@riwayatPelatihan.Tahun</td>
                     </tr>
                 }
-
             }
         </tbody>
     </table>

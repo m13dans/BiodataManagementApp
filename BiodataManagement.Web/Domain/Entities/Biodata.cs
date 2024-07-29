@@ -61,9 +61,9 @@ public class Biodata
     public decimal PenghasilanDiharapkan { get; set; }
     [ValidateNever]
     public string? UserId { get; set; } = string.Empty;
-    public List<PendidikanTerakhir> PendidikanTerakhir { get; set; } = new List<PendidikanTerakhir>();
-    public List<RiwayatPekerjaan> RiwayatPekerjaan { get; set; } = new List<RiwayatPekerjaan>();
-    public List<RiwayatPelatihan> RiwayatPelatihan { get; set; } = new List<RiwayatPelatihan>();
+    public List<PendidikanTerakhir>? PendidikanTerakhir { get; set; }
+    public List<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; }
+    public List<RiwayatPelatihan>? RiwayatPelatihan { get; set; }
 
 }
 

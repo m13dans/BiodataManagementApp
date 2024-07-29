@@ -5,6 +5,7 @@ using BiodataManagement.Data.Context;
 using BiodataManagement.Domain.Entities;
 
 using BiodataManagement.Service.BiodataService;
+using System.Collections.ObjectModel;
 namespace BiodataManagement.Data.Repository;
 
 public class BiodataRepository : IBiodataRepository
@@ -39,14 +40,14 @@ public class BiodataRepository : IBiodataRepository
         IEnumerable<Biodata>? biodatas = await connection.QueryAsync<Biodata, PendidikanTerakhir,
         RiwayatPekerjaan, RiwayatPelatihan, Biodata>(
             query,
-            (bio, pendidikanTerakhir, riwayatPekerjaan, riwayatPelatihan) =>
+            map: (bio, pendidikan, pekerjaan, pelatihan) =>
             {
-                if (pendidikanTerakhir is not null)
-                    bio.PendidikanTerakhir!.Add(pendidikanTerakhir);
-                if (riwayatPekerjaan is not null)
-                    bio.RiwayatPekerjaan!.Add(riwayatPekerjaan);
-                if (riwayatPelatihan is not null)
-                    bio.RiwayatPelatihan!.Add(riwayatPelatihan);
+                bio.PendidikanTerakhir ??= new List<PendidikanTerakhir>();
+                bio.RiwayatPekerjaan ??= new List<RiwayatPekerjaan>();
+                bio.RiwayatPelatihan ??= new List<RiwayatPelatihan>();
+                bio.PendidikanTerakhir.Add(pendidikan);
+                bio.RiwayatPekerjaan.Add(pekerjaan);
+                bio.RiwayatPelatihan.Add(pelatihan);
                 return bio;
             },
             param: new { id = bioId },
@@ -226,6 +227,9 @@ public class BiodataRepository : IBiodataRepository
             query,
             map: (bio, pendidikan, pekerjaan, pelatihan) =>
             {
+                bio.PendidikanTerakhir ??= new List<PendidikanTerakhir>();
+                bio.RiwayatPekerjaan ??= new List<RiwayatPekerjaan>();
+                bio.RiwayatPelatihan ??= new List<RiwayatPelatihan>();
                 bio.PendidikanTerakhir.Add(pendidikan);
                 bio.RiwayatPekerjaan.Add(pekerjaan);
                 bio.RiwayatPelatihan.Add(pelatihan);
@@ -234,12 +238,19 @@ public class BiodataRepository : IBiodataRepository
             param: new { UserId = userId }
             );
 
-        var biodata = result.GroupBy(x => x.Id).Select(x =>
+        var biodata = result.GroupBy(x => x.Id).Select(g =>
         {
-            Biodata bio = x.First();
-            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir).ToList();
-            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan).ToList();
-            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan).ToList();
+            Biodata bio = g.First();
+            bio.PendidikanTerakhir = g.SelectMany(b =>
+                b.PendidikanTerakhir ?? Enumerable.Empty<PendidikanTerakhir>())
+                .ToList();
+            bio.RiwayatPekerjaan = g.SelectMany(y =>
+                y.RiwayatPekerjaan ?? Enumerable.Empty<RiwayatPekerjaan>())
+                .ToList();
+            bio.RiwayatPelatihan = g.SelectMany(y =>
+                y.RiwayatPelatihan ?? Enumerable.Empty<RiwayatPelatihan>())
+                .ToList();
+
             return bio;
         }).FirstOrDefault();
 

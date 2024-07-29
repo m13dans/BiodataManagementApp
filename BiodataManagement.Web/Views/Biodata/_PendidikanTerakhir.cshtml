@@ -22,12 +22,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model is null || Model.Count == 0)
+            @if (Model.Any(x => x is not null))
             {
-            }
-            else
-            {
-                @foreach (var pendidikanTerakhir in Model)
+                foreach (var pendidikanTerakhir in Model)
                 {
                     <tr>
                         <td>@pendidikanTerakhir.JenjangPendidikanTerakhir</td>

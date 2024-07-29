@@ -19,15 +19,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model is null || Model.Count == 0)
+            @if (Model.Any(x => x is not null))
             {
-                <tr>
-                    <td></td>
-                </tr>
-            }
-            else
-            {
-                @foreach (var riwayatPekerjaan in Model)
+                foreach (var riwayatPekerjaan in Model)
                 {
                     <tr>
                         <td>@riwayatPekerjaan.NamaPerusahaan</td>
@@ -36,7 +30,6 @@
                         <td>@riwayatPekerjaan.Tahun</td>
                     </tr>
                 }
-
             }
         </tbody>
     </table>
