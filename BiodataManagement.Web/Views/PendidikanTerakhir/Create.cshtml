@@ -1,12 +1,11 @@
-@model PendidikanTerakhir
+@model PendidikanTerakhirRequest
 
 <h2>Pendidikan Terakhir</h2>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="PendidikanTerakhir" asp-action="Create" asp-route-biodataId="" method="post">
-            <input asp-for="Id" hidden />
+        <form asp-controller="PendidikanTerakhir" asp-action="Create" method="post">
             <input asp-for="BiodataId" hidden />
 
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -27,7 +26,7 @@
             </div>
             <div class="form-group my-2">
                 <label asp-for="TahunLulus" class="control-label"></label>
-                <input type="date" asp-for="TahunLulus" class="form-control" />
+                <input asp-for="TahunLulus" class="form-control" />
                 <span asp-validation-for="TahunLulus" class="text-danger"></span>
             </div>
             <div class="form-group my-2">

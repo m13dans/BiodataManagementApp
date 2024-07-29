@@ -3,8 +3,8 @@ using Dapper;
 using ErrorOr;
 using BiodataManagement.Data.Context;
 using BiodataManagement.Domain.Entities;
-using BiodataManagement.Service.BiodataService;
 
+using BiodataManagement.Service.BiodataService;
 namespace BiodataManagement.Data.Repository;
 
 public class BiodataRepository : IBiodataRepository
@@ -210,15 +210,44 @@ public class BiodataRepository : IBiodataRepository
 
     public async Task<ErrorOr<Biodata>> GetBiodataWithUserId(string userId)
     {
-        var query = "SELECT * FROM Biodata WHERE UserId = @UserId ";
+        var query = @"SELECT * FROM Biodata
+                        LEFT JOIN PendidikanTerakhir pt ON Biodata.Id = pt.BiodataId
+                        LEFT JOIN RiwayatPekerjaan rpk ON Biodata.Id = rpk.BiodataId
+                        LEFT JOIN RiwayatPelatihan rpt ON Biodata.Id = rpt.BiodataId
+                        WHERE Biodata.UserId = @UserId";
 
         using var connection = _context.CreateConnection();
-        var result = await connection.QuerySingleOrDefaultAsync<Biodata>(query, new { UserId = userId });
+        var result = await connection.QueryAsync<
+            Biodata,
+            PendidikanTerakhir,
+            RiwayatPekerjaan,
+            RiwayatPelatihan,
+            Biodata>(
+            query,
+            map: (bio, pendidikan, pekerjaan, pelatihan) =>
+            {
+                bio.PendidikanTerakhir.Add(pendidikan);
+                bio.RiwayatPekerjaan.Add(pekerjaan);
+                bio.RiwayatPelatihan.Add(pelatihan);
+                return bio;
+            },
+            param: new { UserId = userId }
+            );
 
-        if (result is null)
+        var biodata = result.GroupBy(x => x.Id).Select(x =>
+        {
+            Biodata bio = x.First();
+            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir).ToList();
+            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan).ToList();
+            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan).ToList();
+            return bio;
+        }).FirstOrDefault();
+
+
+        if (biodata is null)
             return Error.NotFound("Biodata.NotFound");
 
-        return result;
+        return biodata;
     }
 
     public async Task<ErrorOr<AppUserBiodata>> GetAppUserBiodataAsync(string userId)

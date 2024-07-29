@@ -1,7 +1,7 @@
 using System.Reflection;
 using DbUp;
 
-namespace BiiodataManagement.Data.Scripts;
+namespace BiodataManagement.Data.Scripts;
 
 public class DbInitializer
 {

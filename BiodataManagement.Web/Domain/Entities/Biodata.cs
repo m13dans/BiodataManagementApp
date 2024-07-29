@@ -20,10 +20,11 @@ public class Biodata
     [Display(Name = "Tempat Lahir")]
 
     public string TempatLahir { get; set; } = string.Empty;
+
     [Required]
     [Display(Name = "Tanggal Lahir")]
+    public DateTime TanggalLahir { get; set; }
 
-    public DateOnly TanggalLahir { get; set; }
     [Required]
     [Display(Name = "Jenis Kelamin")]
 
@@ -60,9 +61,9 @@ public class Biodata
     public decimal PenghasilanDiharapkan { get; set; }
     [ValidateNever]
     public string? UserId { get; set; } = string.Empty;
-    public ICollection<PendidikanTerakhir>? PendidikanTerakhir { get; set; } = new List<PendidikanTerakhir>();
-    public ICollection<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; } = new List<RiwayatPekerjaan>();
-    public ICollection<RiwayatPelatihan>? RiwayatPelatihan { get; set; } = new List<RiwayatPelatihan>();
+    public List<PendidikanTerakhir> PendidikanTerakhir { get; set; } = new List<PendidikanTerakhir>();
+    public List<RiwayatPekerjaan> RiwayatPekerjaan { get; set; } = new List<RiwayatPekerjaan>();
+    public List<RiwayatPelatihan> RiwayatPelatihan { get; set; } = new List<RiwayatPelatihan>();
 
 }
 

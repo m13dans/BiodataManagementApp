@@ -7,6 +7,6 @@ public class PendidikanTerakhir
     public string? JenjangPendidikanTerakhir { get; set; }
     public string? NamaInstitusiAkademik { get; set; }
     public string? Jurusan { get; set; }
-    public DateTime TahunLulus { get; set; }
+    public int TahunLulus { get; set; }
     public float IPK { get; set; }
 }

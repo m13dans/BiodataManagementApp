@@ -7,7 +7,7 @@ using BiodataManagement.Data.Identity;
 using BiodataManagement.Data.Repository;
 using BiodataManagement.Data.Seed;
 using BiodataManagement.Service.BiodataService;
-using BiiodataManagement.Data.Scripts;
+using BiodataManagement.Data.Scripts;
 using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using FluentValidation;
 using BiodataManagement.Service.PendidikanTerakhirService;
@@ -25,7 +25,7 @@ builder.Services.AddDbContext<AccountContext>(o =>
     o.UseSqlServer(connectionString);
 });
 
-builder.Services.AddDateOnlyTimeOnlyStringConverters();
+// builder.Services.AddDateOnlyTimeOnlyStringConverters();
 
 // Asp.Net Core Identity for authentication and authorization
 builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
@@ -58,6 +58,7 @@ builder.Services.AddScoped<IValidator<PendidikanTerakhirRequest>, PendidikanTera
 // Registering Entity Repository and Service
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
 builder.Services.AddScoped<IPendidikanTerakhirRepository, PendidikanTerakhirRepository>();
+builder.Services.AddScoped<PendidikanTerakhirService>();
 
 
 builder.Services.AddScoped<GenerateData>();

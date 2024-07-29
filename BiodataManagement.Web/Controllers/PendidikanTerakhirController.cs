@@ -54,39 +54,29 @@ public class PendidikanTerakhirController : Controller
 
     [HttpGet("Create")]
 
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create([FromRoute] int biodataId)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var biodataId = await _pendidikanRepo.GetBiodataIdForUser(userId);
+        var biodata = await _biodataRepository.GetBiodataByIdAsync(biodataId);
 
-        if (biodataId.IsError)
-            return View("Biodata.NotFound");
+        var authResult = await _autthorizationService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
+
+        if (!authResult.Succeeded)
+            return Forbid();
 
         return View();
-
-        // var result = await _pendidikanRepo.GetAllPendidikanTerakhirForAsync(biodataId.Value);
-
-        // if (result.IsError || result.Value.Count < 3)
-        //     return View();
-
-        // return RedirectToAction("Update");
     }
 
     [HttpPost("Create")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
-        IValidator<PendidikanTerakhirRequest> validator,
-        int biodataId,
+        [FromServices] IValidator<PendidikanTerakhirRequest> validator,
+        [FromRoute] int biodataId,
         PendidikanTerakhirRequest request)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var biodata = await _biodataRepository.GetBiodataWithUserId(userId);
-
-        if (biodata.IsError)
-        {
-            ModelState.TryAddModelError("", "You have to create biodata first");
-            return View(request);
-        }
+        var biodata = await _biodataRepository.GetBiodataByIdAsync(biodataId);
+        var authorizationResult = await _autthorizationService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
+        if (!authorizationResult.Succeeded)
+            return Forbid();
 
         var validatorResult = await validator.ValidateAsync(request);
         if (!validatorResult.IsValid)
@@ -94,9 +84,6 @@ public class PendidikanTerakhirController : Controller
             validatorResult.AddToModelState(ModelState);
             return View(request);
         }
-        var authorizationResult = await _autthorizationService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
-        if (!authorizationResult.Succeeded)
-            return Forbid();
 
         var result = await _pendidikanRepo.CreatePendidikanTerakhirAsync(biodataId, request);
 

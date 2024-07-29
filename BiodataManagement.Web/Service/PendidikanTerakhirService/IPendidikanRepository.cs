@@ -13,4 +13,5 @@ public interface IPendidikanTerakhirRepository
     public Task<ErrorOr<List<PendidikanTerakhir>>> CreateListPendidikanTerakhirAsync(int biodataId, IEnumerable<PendidikanTerakhirRequest> request);
     public Task<ErrorOr<bool>> DeletePendidikanTerakhirByIdAsync(int id);
     public Task<ErrorOr<int>> GetBiodataIdForUser(string userId);
+    public Task<bool> IsBiodataExist(int bioId);
 }

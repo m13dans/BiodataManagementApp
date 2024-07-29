@@ -18,12 +18,12 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
     }
     public async Task<ErrorOr<List<PendidikanTerakhir>>> GetAllPendidikanTerakhirForAsync(int biodataId)
     {
-        var query = "usp_PendidikanTerakhir_GetByBioId";
+        var query = "usp_PendidikanTerakhir_GetAllFor";
         using var connection = _context.CreateConnection();
 
         var listPendidikan = await connection.QueryAsync<PendidikanTerakhir>(
             query,
-            new { bioId = biodataId },
+            new { biodataId },
             commandType: CommandType.StoredProcedure);
 
         if (listPendidikan is null || listPendidikan.Count() is 0)
@@ -51,26 +51,6 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
         return pendidikans.ToList();
     }
 
-    public async Task<bool> CreatePendidikanAsync(PendidikanTerakhir pendidikans, int id)
-    {
-        var query = "usp_PendidikanTerakhir_Insert";
-        using var connection = _context.CreateConnection();
-
-        var pendidikan = await connection.ExecuteAsync(
-            query,
-            new
-            {
-                biodataId = id,
-                jenjangPendidikanTerakhir = pendidikans.JenjangPendidikanTerakhir,
-                namaInstitusiAkademik = pendidikans.NamaInstitusiAkademik,
-                jurusan = pendidikans.Jurusan,
-                tahunLulus = pendidikans.TahunLulus,
-                ipk = pendidikans.IPK
-            },
-            commandType: CommandType.StoredProcedure);
-
-        return pendidikan > 0;
-    }
     public async Task<bool> UpdatePendidikanAsync(PendidikanTerakhir pendidikans)
     {
         var query = "usp_PendidikanTerakhir_Update";
@@ -150,14 +130,10 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
 
     public async Task<ErrorOr<PendidikanTerakhir>> CreatePendidikanTerakhirAsync(int biodataId, PendidikanTerakhirRequest request)
     {
-        var createCommand = @"INSERT INTO PendidikanTerakhir
-        (BiodataId, JenjangPendidikanTerakhir, NamaInstitusiAkademik, Jurusan, TahunLulus, IPK)
-        OUTPUT INSERTED.*
-        VALUES 
-        (@BiodataId, @JenjangPendidikanTerakhir, @NamaInstitusiAkademik, @Jurusan, @TahunLulus, @IPK)";
+        var createCommand = "usp_PendidikanTerakhir_Insert";
 
         using var connection = _context.CreateConnection();
-        var createResult = await connection.QuerySingleAsync<PendidikanTerakhir>(
+        var createResult = await connection.QueryFirstOrDefaultAsync<PendidikanTerakhir>(
             createCommand,
             new
             {
@@ -166,8 +142,9 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
                 request.NamaInstitusiAkademik,
                 request.Jurusan,
                 request.TahunLulus,
-                request.IPK,
-            });
+                Ipk = request.IPK,
+            },
+            commandType: CommandType.StoredProcedure);
 
         if (createResult is null)
             return Error.Failure("PendidikanTerakhir.CreateFailure");
@@ -226,5 +203,14 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
             return Error.NotFound("Biodata.NotFound");
 
         return biodataId;
+    }
+
+    public async Task<bool> IsBiodataExist(int bioId)
+    {
+        var query = "SELECT 1 FROM Biodata WHERE Id = @BioId";
+
+        using var conn = _context.CreateConnection();
+        var result = await conn.QueryFirstOrDefaultAsync<int>(query, new { BioId = bioId });
+        return result is 1;
     }
 }
