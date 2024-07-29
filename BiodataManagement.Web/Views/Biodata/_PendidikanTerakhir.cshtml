@@ -1,23 +1,24 @@
 @model List<PendidikanTerakhir>
 
-<div class="table-responsive shadow">
-    <table id="pendidikanTerakhir" class=" table text-center table-sm align-middle ">
+<div class="table table-responsive">
+    <table id="pendidikanTerakhir" class="table text-center align-middle">
         <thead class="">
-            <tr>
-                <th style="width: 150px;">
-                    Jenjang Pendidikan Terakhir
-                </th>
-                <th style="width: 150px;">
+            <tr class="">
+                <th class="col-2 align-content-center">Jenjang Pendidikan Terakhir</th>
+                <th class="col-3 align-content-center">
                     Nama Institusi Akademik
                 </th>
-                <th style="width: 150px;">
+                <th class="col-2 align-content-center">
                     Jurusan
                 </th>
-                <th style="width: 150px;">
+                <th class="col-2 align-content-center">
                     Tahun Lulus
                 </th>
-                <th style="width: 50px;">
+                <th class="col-1 align-content-center">
                     IPK
+                </th>
+                <th class="col-2 align-content-center">
+                    Edit Data
                 </th>
             </tr>
         </thead>
@@ -32,6 +33,14 @@
                         <td>@pendidikanTerakhir.Jurusan</td>
                         <td>@pendidikanTerakhir.TahunLulus</td>
                         <td>@pendidikanTerakhir.IPK</td>
+                        <td>
+                            <div>
+                                <a asp-controller="PendidikanTerakhir" asp-action="Update"
+                                   asp-route-biodataId="@pendidikanTerakhir.BiodataId" asp-route-id="@pendidikanTerakhir.Id">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 }
             }

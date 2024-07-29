@@ -90,54 +90,43 @@ public class PendidikanTerakhirController : Controller
         if (result.IsError)
             return BadRequest();
 
-        return RedirectToAction("Detail", "Biodata");
+        return RedirectToAction("Detail", "Biodata", new { id = biodataId });
     }
 
     [HttpGet("Update/{id:int}")]
-    public async Task<IActionResult> Update(int id)
+    public async Task<IActionResult> Update([FromRoute] int biodataId, int id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var userEmail = User.FindFirstValue(ClaimTypes.Email);
 
-        var isUserHaveBiodata = await _biodataRepository.IsBiodataExist(userId, userEmail);
-        if (!isUserHaveBiodata)
-            return View("Biodata.NotFound");
+        var bio = await _biodataRepository.GetBiodataByIdAsync(biodataId);
+        if (bio.IsError)
+            return NotFound();
 
-        var biodata = await _biodataRepository.GetBiodataWithUserId(userId);
-        if (biodata.IsError)
-        {
-            var biodataByEmail = await _biodataRepository.GetBiodataWithEmailAsync(userEmail);
-            var authorizationResult2 = await _autthorizationService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
-            if (!authorizationResult2.Succeeded)
-                return Forbid();
-
-            return View(biodataByEmail.Value);
-        }
-
-
-        var authorizationResult = await _autthorizationService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
-        if (!authorizationResult.Succeeded)
+        var authorize = await _autthorizationService.AuthorizeAsync(User, bio.Value, "BiodataOwner");
+        if (!authorize.Succeeded)
             return Forbid();
 
+        var pendidikan = await _pendidikanRepo.GetPendidikanTerakhirByIdAsync(id);
+        if (pendidikan.IsError)
+            return NotFound();
 
-        return View("Biodata.NotFound");
+        return View(pendidikan.Value);
     }
 
-    [Authorize(Roles = "Admin, User")]
-    [HttpPost]
+    [HttpPost("Update/{id:int}")]
     public async Task<IActionResult> Update(
         [FromServices] IValidator<PendidikanTerakhirRequest> validator,
+        [FromRoute] int biodataId,
         int id,
         PendidikanTerakhirRequest pendidikan)
-
-
     {
         var result = await _pendidikanRepo.UpdataPendidikanTerakhirByIdAsync(id, pendidikan);
         if (result.IsError)
         {
             return BadRequest();
         }
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Detail", "Biodata", new {id = biodataId });
     }
 
 

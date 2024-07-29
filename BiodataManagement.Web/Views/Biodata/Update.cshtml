@@ -148,17 +148,9 @@
             btn btn-sm">
             <i class="bi bi-plus-circle"></i> Add
         </a>
-        <a asp-controller="PendidikanTerakhir" asp-action="Update" asp-route-id="@Model.Id" class="
-            btn btn-sm text-info">
-            <i class="bi bi-pencil-square"></i> Edit
-        </a>
-        <a asp-controller="PendidikanTerakhir" asp-action="Delete" asp-route-id="@Model.Id"
-            class="btn btn-sm text-danger">
-            <i class="bi bi-trash-fill"></i> Delete
-        </a>
     </div>
 
-    <partial name="_PendidikanTerakhir" model="Model.PendidikanTerakhir" />
+    <partial name="_PendidikanTerakhir" model="@Model.PendidikanTerakhir" />
 </div>
 
 <div class="my-4">

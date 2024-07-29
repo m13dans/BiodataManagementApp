@@ -42,9 +42,9 @@ public class BiodataRepository : IBiodataRepository
             query,
             map: (bio, pendidikan, pekerjaan, pelatihan) =>
             {
-                bio.PendidikanTerakhir ??= new List<PendidikanTerakhir>();
-                bio.RiwayatPekerjaan ??= new List<RiwayatPekerjaan>();
-                bio.RiwayatPelatihan ??= new List<RiwayatPelatihan>();
+                bio.PendidikanTerakhir ??= [];
+                bio.RiwayatPekerjaan ??= [];
+                bio.RiwayatPelatihan ??= [];
                 bio.PendidikanTerakhir.Add(pendidikan);
                 bio.RiwayatPekerjaan.Add(pekerjaan);
                 bio.RiwayatPelatihan.Add(pelatihan);

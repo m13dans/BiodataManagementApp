@@ -147,7 +147,7 @@ public class BiodataController : Controller
             return View();
         }
 
-        return RedirectToAction("Detail");
+        return RedirectToAction("Detail", new {id = biodata.Value.Id});
     }
 
     [HttpGet("Update")]
