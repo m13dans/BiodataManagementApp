@@ -90,7 +90,7 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
         return result;
     }
 
-    public async Task<ErrorOr<PendidikanTerakhir>> UpdataPendidikanTerakhirByIdAsync(int id, PendidikanTerakhirRequest request)
+    public async Task<ErrorOr<PendidikanTerakhir>> UpdataPendidikanTerakhirByIdAsync(int id, PendidikanTerakhir request)
     {
         var updateCommand =
             @"UPDATE PendidikanTerakhir SET

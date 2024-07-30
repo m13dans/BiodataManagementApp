@@ -1,21 +1,17 @@
 @model List<RiwayatPelatihan>
-<div class="table-responsive card shadow">
-    <table id="riwayatPekerjaan" class=" table text-center table-sm align-middle ">
+
+<div class="table table-responsive">
+    <table id="pendidikanTerakhir" class="table text-center align-middle">
         <thead class="">
-            <tr>
-                <th style="width: 150px;">
-                    Nama Kursus
-                </th>
-                <th style="width: 150px;">
-                    Sertifikat
-                </th>
-                <th style="width: 150px;">
-                    Tahun
-                </th>
+            <tr class="">
+                <th class="align-content-center">Nama Kursus</th>
+                <th class="align-content-center">Sertifikat </th>
+                <th class="align-content-center"> Tahun </th>
+                <th class="align-content-center"> Edit Data </th>
             </tr>
         </thead>
         <tbody>
-            @if (Model.Any(x => x != null))
+            @if (Model.Any(x => x is not null))
             {
                 foreach (var riwayatPelatihan in Model)
                 {
@@ -23,6 +19,14 @@
                         <td>@riwayatPelatihan.NamaKursus</td>
                         <td>@riwayatPelatihan.SertifikatAda</td>
                         <td>@riwayatPelatihan.Tahun</td>
+                        <td>
+                            <div>
+                                <a asp-controller="PendidikanTerakhir" asp-action="Update"
+                                    asp-route-biodataId="@riwayatPelatihan.BiodataId" asp-route-id="@riwayatPelatihan.Id">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 }
             }

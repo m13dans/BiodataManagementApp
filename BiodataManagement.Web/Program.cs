@@ -11,6 +11,9 @@ using BiodataManagement.Data.Scripts;
 using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using FluentValidation;
 using BiodataManagement.Service.PendidikanTerakhirService;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using BiodataManagement.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,13 @@ builder.Services.AddDbContext<AccountContext>(o =>
 });
 
 // builder.Services.AddDateOnlyTimeOnlyStringConverters();
+builder.Services.Configure<RequestLocalizationOptions>(o =>
+{
+    var supportedCulture = new[] { new CultureInfo("en-US"), new CultureInfo("id-Id") };
+    o.DefaultRequestCulture = new RequestCulture("en-US");
+    o.SupportedCultures = supportedCulture;
+    o.SupportedUICultures = supportedCulture;
+});
 
 // Asp.Net Core Identity for authentication and authorization
 builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
@@ -51,8 +61,8 @@ builder.Services.AddScoped<IAuthorizationHandler, BiodataOwnerOrAdminPolicy.Hand
 
 // Registering Validator Service
 builder.Services.AddScoped<IValidator<BiodataCreateRequest>, BiodataCreateValidator>();
-builder.Services.AddScoped<IValidator<BiodataUpdateRequest>, BiodataUpdateValidator>();
-builder.Services.AddScoped<IValidator<PendidikanTerakhirRequest>, PendidikanTerakhirValidator>();
+builder.Services.AddScoped<IValidator<Biodata>, BiodataUpdateValidator>();
+builder.Services.AddScoped<IValidator<PendidikanTerakhirRequest>, PendidikanTerakhirRequestValidator>();
 
 
 // Registering Entity Repository and Service

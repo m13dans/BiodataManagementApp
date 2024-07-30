@@ -6,6 +6,7 @@ using BiodataManagement.Data.Seed;
 using BiodataManagement.Service.BiodataService;
 using FluentValidation;
 using BiodataManagement.Extensions;
+using BiodataManagement.Domain.Entities;
 
 namespace BiodataManagement.Controllers;
 
@@ -147,7 +148,7 @@ public class BiodataController : Controller
             return View();
         }
 
-        return RedirectToAction("Detail", new {id = biodata.Value.Id});
+        return RedirectToAction("Detail", new { id = biodata.Value.Id });
     }
 
     [HttpGet("Update")]
@@ -187,9 +188,9 @@ public class BiodataController : Controller
 
     [HttpPost("Update/{BiodataId:int}")]
     public async Task<IActionResult> Update(
-        [FromServices] IValidator<BiodataUpdateRequest> validator,
+        [FromServices] IValidator<Biodata> validator,
         int biodataId,
-        BiodataUpdateRequest biodataRequest)
+        Biodata biodataRequest)
     {
         var biodata = await _bioRepo.GetBiodataByIdAsync(biodataId);
         if (biodata.IsError)

@@ -13,7 +13,7 @@
             @Html.DisplayNameFor(model => model.PosisiDilamar)
         </dt>
         <dd class="">
-            @Html.DisplayNameFor(model => model.PosisiDilamar)
+            @Html.DisplayFor(model => model.PosisiDilamar)
         </dd>
         <dt class="">
             @Html.DisplayNameFor(model => model.Nama)
@@ -114,7 +114,18 @@
     </dl>
 </div>
 <div>
-    <partial name="_PendidikanTerakhir" model="@Model.PendidikanTerakhir" />
+    <div>
+        <h4 class="text-info">Pendidikan Terakhir</h4>
+        <partial name="_PendidikanTerakhir" model="@Model.PendidikanTerakhir" />
+    </div>
+    <div>
+        <h4 class="text-info">Riwayat Pekarjaan</h4>
+        <partial name="_RiwayatPekerjaan" model="@Model.RiwayatPekerjaan" />
+    </div>
+    <div>
+        <h4 class="text-info">Riwayat Pelatihan</h4>
+        <partial name="_RiwayatPelatihan" model="@Model.RiwayatPelatihan" />
+    </div>
 </div>
 <div class="mb-5 text-info">
     <a class="btn btn-info text-white mx-2" asp-action="Update" asp-route-id="@Model.Id">Edit</a>

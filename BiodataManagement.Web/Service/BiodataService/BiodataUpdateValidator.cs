@@ -1,8 +1,9 @@
+using BiodataManagement.Domain.Entities;
 using FluentValidation;
 
 namespace BiodataManagement.Service.BiodataService;
 
-public class BiodataUpdateValidator : AbstractValidator<BiodataUpdateRequest>
+public class BiodataUpdateValidator : AbstractValidator<Biodata>
 {
     private readonly IBiodataRepository _biodataRepository;
     public BiodataUpdateValidator(IBiodataRepository biodataRepository)

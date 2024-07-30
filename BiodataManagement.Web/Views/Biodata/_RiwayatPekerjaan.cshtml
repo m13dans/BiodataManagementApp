@@ -1,21 +1,15 @@
 @model List<RiwayatPekerjaan>
 
-<div class="table-responsive card shadow">
-    <table id="riwayatPekerjaan" class=" table text-center table-sm align-middle ">
+<div class="table table-responsive">
+    <table id="pendidikanTerakhir" class="table text-center align-middle">
         <thead class="">
-            <tr>
-                <th style="width: 150px;">
-                    Nama Perusahaan
-                </th>
-                <th style="width: 150px;">
-                    Posisi Terakhir
-                </th>
-                <th style="width: 150px;">
-                    Pendapatan Terakhir
-                </th>
-                <th style="width: 150px;">
-                    Tahun
-                </th>
+            <tr class="">
+                <th class="align-content-center">Nama Perusahaan</th>
+                <th class="align-content-center"> Posisi Terakhir </th>
+                <th class="align-content-center"> Pendapatan Terakhir </th>
+                <th class="align-content-center"> Pendapatan Terakhir </th>
+                <th class="align-content-center">Tahun</th>
+                <th class="align-content-center"> Edit Data </th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +22,14 @@
                         <td>@riwayatPekerjaan.PosisiTerakhir</td>
                         <td>@riwayatPekerjaan.PendapatanTerakhir</td>
                         <td>@riwayatPekerjaan.Tahun</td>
+                        <td>
+                            <div>
+                                <a asp-controller="PendidikanTerakhir" asp-action="Update"
+                                    asp-route-biodataId="@riwayatPekerjaan.BiodataId" asp-route-id="@riwayatPekerjaan.Id">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 }
             }

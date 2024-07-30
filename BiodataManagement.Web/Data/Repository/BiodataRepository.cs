@@ -42,9 +42,9 @@ public class BiodataRepository : IBiodataRepository
             query,
             map: (bio, pendidikan, pekerjaan, pelatihan) =>
             {
-                bio.PendidikanTerakhir ??= [];
-                bio.RiwayatPekerjaan ??= [];
-                bio.RiwayatPelatihan ??= [];
+                bio.PendidikanTerakhir ??= new List<PendidikanTerakhir>();
+                bio.RiwayatPekerjaan ??= new List<RiwayatPekerjaan>();
+                bio.RiwayatPelatihan ??= new List<RiwayatPelatihan>();
                 bio.PendidikanTerakhir.Add(pendidikan);
                 bio.RiwayatPekerjaan.Add(pekerjaan);
                 bio.RiwayatPelatihan.Add(pelatihan);
@@ -112,7 +112,7 @@ public class BiodataRepository : IBiodataRepository
         return biodata;
     }
 
-    public async Task<bool> UpdateBiodataAsync(int biodataId, BiodataUpdateRequest biodata)
+    public async Task<bool> UpdateBiodataAsync(int biodataId, Biodata biodata)
     {
         var query = "usp_Biodata_Update";
         using var connection = _context.CreateConnection();

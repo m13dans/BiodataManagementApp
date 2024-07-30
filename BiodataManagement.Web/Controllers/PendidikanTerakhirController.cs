@@ -6,6 +6,7 @@ using BiodataManagement.Service.PendidikanTerakhirService;
 using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using FluentValidation;
 using BiodataManagement.Extensions;
+using BiodataManagement.Domain.Entities;
 
 namespace BiodataManagement.Controllers;
 
@@ -96,9 +97,6 @@ public class PendidikanTerakhirController : Controller
     [HttpGet("Update/{id:int}")]
     public async Task<IActionResult> Update([FromRoute] int biodataId, int id)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var userEmail = User.FindFirstValue(ClaimTypes.Email);
-
         var bio = await _biodataRepository.GetBiodataByIdAsync(biodataId);
         if (bio.IsError)
             return NotFound();
@@ -116,17 +114,23 @@ public class PendidikanTerakhirController : Controller
 
     [HttpPost("Update/{id:int}")]
     public async Task<IActionResult> Update(
-        [FromServices] IValidator<PendidikanTerakhirRequest> validator,
+        [FromServices] IValidator<PendidikanTerakhir> validator,
         [FromRoute] int biodataId,
         int id,
-        PendidikanTerakhirRequest pendidikan)
+        PendidikanTerakhir pendidikan)
     {
+        var validate = await validator.ValidateAsync(pendidikan);
+        if (!validate.IsValid)
+        {
+            validate.AddToModelState(ModelState);
+            return View(pendidikan);
+        }
         var result = await _pendidikanRepo.UpdataPendidikanTerakhirByIdAsync(id, pendidikan);
         if (result.IsError)
         {
             return BadRequest();
         }
-        return RedirectToAction("Detail", "Biodata", new {id = biodataId });
+        return RedirectToAction("Detail", "Biodata", new { id = biodataId });
     }
 
 
