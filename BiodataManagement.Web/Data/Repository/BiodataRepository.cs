@@ -293,4 +293,21 @@ public class BiodataRepository : IBiodataRepository
 
         return result is 1;
     }
+
+    public async Task<bool> CanChangeEmail(int biodataId, string email)
+    {
+        var query = "SELECT Email FROM Biodata WHERE Id = @BiodataId";
+        using var connection = _context.CreateConnection();
+
+        var selfEmail = await connection.QuerySingleOrDefaultAsync<string>(query, new { BiodataId = biodataId });
+
+        if (selfEmail is null || selfEmail == email)
+            return true;
+
+        var query2 = "SELECT Email FROM Biodata WHERE Email = @Email";
+
+        var result = await connection.QuerySingleOrDefaultAsync<string>(query2, new { Email = email });
+
+        return result is null;
+    }
 }

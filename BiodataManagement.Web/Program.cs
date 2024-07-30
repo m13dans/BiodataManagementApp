@@ -62,7 +62,8 @@ builder.Services.AddScoped<IAuthorizationHandler, BiodataOwnerOrAdminPolicy.Hand
 // Registering Validator Service
 builder.Services.AddScoped<IValidator<BiodataCreateRequest>, BiodataCreateValidator>();
 builder.Services.AddScoped<IValidator<Biodata>, BiodataUpdateValidator>();
-builder.Services.AddScoped<IValidator<PendidikanTerakhirRequest>, PendidikanTerakhirRequestValidator>();
+builder.Services.AddScoped<IValidator<PendidikanTerakhirRequest>, PendidikanTerakhirCreateValidator>();
+builder.Services.AddScoped<IValidator<PendidikanTerakhir>, PendidikanTerakhirUpdateValidator>();
 
 
 // Registering Entity Repository and Service

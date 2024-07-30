@@ -134,13 +134,22 @@ public class PendidikanTerakhirController : Controller
     }
 
 
-    public async Task<IActionResult> Delete(int id)
+    [HttpGet("Delete/{id:int}")]
+    public async Task<IActionResult> Delete([FromRoute] int biodataId, int id)
     {
+        var bio = await _biodataRepository.GetBiodataByIdAsync(biodataId);
+        if (bio.IsError)
+            return NotFound();
+
+        var authorize = await _autthorizationService.AuthorizeAsync(User, bio.Value, "BiodataOwner");
+        if (!authorize.Succeeded)
+            return Forbid();
+
         var result = await _pendidikanRepo.DeletePendidikanTerakhirByIdAsync(id);
         if (result.IsError)
             return NotFound();
 
-        return RedirectToAction("Detail", "Biodata");
+        return RedirectToAction("Detail", "Biodata", new { id = biodataId });
     }
 
 

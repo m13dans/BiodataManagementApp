@@ -192,11 +192,7 @@ public class BiodataController : Controller
         int biodataId,
         Biodata biodataRequest)
     {
-        var biodata = await _bioRepo.GetBiodataByIdAsync(biodataId);
-        if (biodata.IsError)
-            return View("Biodata.NotFound");
-
-        var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodata.Value, "BiodataOwner");
+        var authorizeResult = await _authorizeService.AuthorizeAsync(User, biodataRequest, "BiodataOwner");
         if (!authorizeResult.Succeeded)
             return Forbid();
 

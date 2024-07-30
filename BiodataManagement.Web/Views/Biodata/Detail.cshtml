@@ -115,7 +115,13 @@
 </div>
 <div>
     <div>
-        <h4 class="text-info">Pendidikan Terakhir</h4>
+        <div class="d-flex align-items-center">
+            <h4 class="text-info">Pendidikan Terakhir</h4>
+            <a asp-controller="PendidikanTerakhir" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
+            btn btn-sm">
+                <i class="bi bi-plus-circle"></i> Add
+            </a>
+        </div>
         <partial name="_PendidikanTerakhir" model="@Model.PendidikanTerakhir" />
     </div>
     <div>

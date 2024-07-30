@@ -15,4 +15,5 @@ public interface IBiodataRepository
     public Task<ErrorOr<Biodata>> GetBiodataWithUserId(string userId);
     public Task<bool> IsBiodataExist(string userId, string userEmail);
     public Task<bool> IsKTPExists(string ktp);
+    public Task<bool> CanChangeEmail(int biodataId, string email);
 }
