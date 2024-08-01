@@ -116,20 +116,32 @@
 <div>
     <div>
         <div class="d-flex align-items-center">
-            <h4 class="text-info">Pendidikan Terakhir</h4>
+            <h4 class="">Pendidikan Terakhir</h4>
             <a asp-controller="PendidikanTerakhir" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
             btn btn-sm">
                 <i class="bi bi-plus-circle"></i> Add
             </a>
         </div>
-        <partial name="_PendidikanTerakhir" model="@Model.PendidikanTerakhir" />
+        <partial name="_PendidikanTerakhir" model="@Model" />
     </div>
     <div>
-        <h4 class="text-info">Riwayat Pekarjaan</h4>
+        <div class="d-flex align-items-center">
+            <h4 class="">Riwayat Pekerjaan</h4>
+            <a asp-controller="Riwayat Pekerjaan" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
+            btn btn-sm">
+                <i class="bi bi-plus-circle"></i> Add
+            </a>
+        </div>
         <partial name="_RiwayatPekerjaan" model="@Model.RiwayatPekerjaan" />
     </div>
     <div>
-        <h4 class="text-info">Riwayat Pelatihan</h4>
+        <div class="d-flex align-items-center">
+            <h4 class="">Riwayat Pelatihan</h4>
+            <a asp-controller="RiwayatPelatihan" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
+            btn btn-sm">
+                <i class="bi bi-plus-circle"></i> Add
+            </a>
+        </div>
         <partial name="_RiwayatPelatihan" model="@Model.RiwayatPelatihan" />
     </div>
 </div>
@@ -137,3 +149,29 @@
     <a class="btn btn-info text-white mx-2" asp-action="Update" asp-route-id="@Model.Id">Edit</a>
     <a class="btn btn-outline-info" asp-controller="Home" asp-action="Index">Back to Home</a>
 </div>
+
+@section Scripts {
+
+    $("#testLink").on("click", function (e) {
+    testfunc(this, e);
+    });
+
+    function testfunc(element, event) {
+    e.preventDefault();
+
+    const deleteUrl = $(element).attr("href");
+    const deleteUrlId = deleteUrl.split("/").pop();
+
+    Swal.fire({
+    title: "Are you sure want to delete this pendidikan terakhir item ?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+    });
+    }
+
+    <script src="~/js/SweetAlert.js"></script>
+}

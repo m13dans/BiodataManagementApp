@@ -1,4 +1,4 @@
-@model List<PendidikanTerakhir>
+@model Biodata
 
 
 <!-- #Pendidikan Terakhir List-->
@@ -20,7 +20,7 @@
                 <th class="align-content-center">
                     IPK
                 </th>
-                @if (Model is null || Model.Any(x => x is null))
+                @if (Model is null || Model.PendidikanTerakhir is null || Model.PendidikanTerakhir.Any(x => x is null))
                 {
 
                 }
@@ -34,43 +34,49 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model is null)
+            @if (Model is null || Model.PendidikanTerakhir is null || Model.PendidikanTerakhir.Any(x => x is null))
             {
 
             }
-            else if (Model.Any(x => x is not null))
+            else if (Model.PendidikanTerakhir.Any(x => x is not null))
             {
-                for (var i = 0; i < Model.Count; i++)
+                for (var i = 0; i < Model.PendidikanTerakhir.Count; i++)
                 {
+
+                    @Html.HiddenFor(m => m.PendidikanTerakhir![i].Id)
+                    @Html.HiddenFor(m => m.PendidikanTerakhir![i].BiodataId)
+
                     <tr class="">
                         <td class="">
-                            @Html.EditorFor(x => x[i].JenjangPendidikanTerakhir,
+                            @Html.EditorFor(x => x.PendidikanTerakhir![i].JenjangPendidikanTerakhir,
                                      new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
                         </td>
                         <td>
-                            @Html.EditorFor(x => x[i].NamaInstitusiAkademik,
+                            @Html.EditorFor(x => x.PendidikanTerakhir![i].NamaInstitusiAkademik,
                                      new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
                         </td>
                         <td>
-                            @Html.EditorFor(x => x[i].Jurusan,
+                            @Html.EditorFor(x => x.PendidikanTerakhir![i].Jurusan,
                                      new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
                         </td>
                         <td>
-                            @Html.EditorFor(x => x[i].TahunLulus,
+                            @Html.EditorFor(x => x.PendidikanTerakhir![i].TahunLulus,
                                      new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
                         </td>
                         <td class="">
-                            @Html.EditorFor(x => x[i].IPK,
+                            @Html.EditorFor(x => x.PendidikanTerakhir![i].IPK,
                                      new { htmlAttributes = new { @class = "border-0 text-center col-xs-2", @readonly = "readonly" } })
                         </td>
                         <td class="">
                             <div class="d-flex">
                                 <a asp-controller="PendidikanTerakhir" asp-action="Update"
-                                   asp-route-biodataId="@Model[i].BiodataId" asp-route-id="@Model[i].Id">
+                                    asp-route-biodataId="@Model.PendidikanTerakhir[i].BiodataId"
+                                    asp-route-id="@Model.PendidikanTerakhir[i].Id">
                                     <i class="bi bi-pencil mx-2"></i>
                                 </a>
                                 <a asp-controller="PendidikanTerakhir" asp-action="Delete"
-                                   asp-route-biodataId="@Model[i].BiodataId" asp-route-id="@Model[i].Id">
+                                    asp-route-biodataId="@Model.PendidikanTerakhir[i].BiodataId"
+                                    asp-route-id="@Model.PendidikanTerakhir[i].Id" onclick="pendidikanDelete(this, event)">
                                     <i class="bi bi-trash text-danger"></i>
                                 </a>
                             </div>

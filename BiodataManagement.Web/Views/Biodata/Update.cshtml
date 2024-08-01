@@ -121,80 +121,91 @@
                         </div>
 
                         <!-- #Pendidikan Terakhir List-->
-                        <div class=" h3">Pendidikan Terakhir</div>
-                        <div class="table table-responsive">
-                            <table id="pendidikanTerakhir" class="table text-center align-middle ">
-                                <thead>
-                                    <tr>
-                                        <th class="align-content-center">Jenjang Pendidikan
-                                            Terakhir</th>
-                                        <th class="align-content-center">
-                                            Nama Institusi Akademik
-                                        </th>
-                                        <th class="align-content-center">
-                                            Jurusan
-                                        </th>
-                                        <th class="align-content-center">
-                                            Tahun Lulus
-                                        </th>
-                                        <th class="w-25 align-content-center">
-                                            IPK
-                                        </th>
-                                        <th class="w-100 align-content-center">
-                                            Edit Data
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (Model.PendidikanTerakhir is null)
-                                    {
-
-                                    }
-                                    else
-                                    {
-                                        for (var i = 0; i < Model.PendidikanTerakhir.Count; i++)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <input class="border-0 text-center" readonly
-                                                        asp-for="@Model.PendidikanTerakhir[i].JenjangPendidikanTerakhir">
-                                                </td>
-                                                <td>
-                                                    <input class="border-0 text-center" readonly
-                                                        asp-for="@Model.PendidikanTerakhir[i].NamaInstitusiAkademik">
-                                                </td>
-                                                <td>
-                                                    <input class="border-0 text-center" readonly
-                                                        asp-for="@Model.PendidikanTerakhir[i].Jurusan">
-                                                </td>
-                                                <td>
-                                                    <input class="border-0 text-center" readonly
-                                                        asp-for="@Model.PendidikanTerakhir[i].TahunLulus">
-                                                </td>
-                                                <td>
-                                                    <input class="border-0 text-center" readonly
-                                                        asp-for="@Model.PendidikanTerakhir[i].IPK">
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex justify-content-center">
-                                                        <a asp-controller="PendidikanTerakhir" asp-action="Update"
-                                                            asp-route-biodataId="@Model.Id"
-                                                            asp-route-id="@Model.PendidikanTerakhir[i].Id" class="mx-2">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </a>
-                                                        <a asp-controller="PendidikanTerakhir" asp-action="Delete"
-                                                            asp-route-biodataId="@Model.Id"
-                                                            asp-route-id="@Model.PendidikanTerakhir[i].Id" class="">
-                                                            <i class="bi bi-trash"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
+                        <div>
+                            <div class="d-flex align-items-center">
+                                <h4 class="">Pendidikan Terakhir</h4>
+                                <a asp-controller="PendidikanTerakhir" asp-action="Create"
+                                    asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info btn btn-sm">
+                                    <i class="bi bi-plus-circle"></i> Add
+                                </a>
+                            </div>
+                            <partial name="_PendidikanTerakhir" model="@Model" />
                         </div>
+
+                        @* <div class="table table-responsive">
+                        <table id="pendidikanTerakhir" class="table text-center align-middle ">
+                        <thead>
+                        <tr>
+                        <th class="align-content-center">Jenjang Pendidikan
+                        Terakhir</th>
+                        <th class="align-content-center">
+                        Nama Institusi Akademik
+                        </th>
+                        <th class="align-content-center">
+                        Jurusan
+                        </th>
+                        <th class="align-content-center">
+                        Tahun Lulus
+                        </th>
+                        <th class="align-content-center">
+                        IPK
+                        </th>
+                        <th class="align-content-center">
+                        Edit Data
+                        </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (Model.PendidikanTerakhir is null || Model.PendidikanTerakhir.Any(x => x is
+                        null))
+                        {
+
+                        }
+                        else
+                        {
+                        for (var i = 0; i < Model.PendidikanTerakhir.Count; i++)
+                        {
+                        <tr>
+                        <td>
+                        <input class="border-0 text-center" readonly
+                        asp-for="@Model.PendidikanTerakhir[i].JenjangPendidikanTerakhir">
+                        </td>
+                        <td>
+                        <input class="border-0 text-center" readonly
+                        asp-for="@Model.PendidikanTerakhir[i].NamaInstitusiAkademik">
+                        </td>
+                        <td>
+                        <input class="border-0 text-center" readonly
+                        asp-for="@Model.PendidikanTerakhir[i].Jurusan">
+                        </td>
+                        <td>
+                        <input class="border-0 text-center" readonly
+                        asp-for="@Model.PendidikanTerakhir[i].TahunLulus">
+                        </td>
+                        <td>
+                        <input class="border-0 text-center" readonly
+                        asp-for="@Model.PendidikanTerakhir[i].IPK">
+                        </td>
+                        <td>
+                        <div class="d-flex justify-content-center">
+                        <a asp-controller="PendidikanTerakhir" asp-action="Update"
+                        asp-route-biodataId="@Model.Id"
+                        asp-route-id="@Model.PendidikanTerakhir[i].Id" class="mx-2">
+                        <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a id="deletePendidikanButton" asp-controller="PendidikanTerakhir"
+                        asp-action="Delete" asp-route-biodataId="@Model.Id"
+                        asp-route-id="@Model.PendidikanTerakhir[i].Id" class="text-danger">
+                        <i class="bi bi-trash"></i>
+                        </a>
+                        </div>
+                        </td>
+                        </tr>
+                        }
+                        }
+                        </tbody>
+                        </table>
+                        </div> *@
 
                         <div class="row pt-2">
                             <div class="col-6 col-md-3">
@@ -281,5 +292,5 @@
 }
 
 @section Scripts {
-
+    <script src="~/js/SweetAlert.js"></script>
 }

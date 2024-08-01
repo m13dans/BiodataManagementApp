@@ -177,20 +177,20 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
         return result.ToList();
     }
 
-    public async Task<ErrorOr<bool>> DeletePendidikanTerakhirByIdAsync(int id)
+    public async Task<ErrorOr<PendidikanTerakhir>> DeletePendidikanTerakhirByIdAsync(int id)
     {
-        var query = "DELETE FROM PendidikanTerakhir WHERE Id = @Id";
+        var query = @"DELETE FROM PendidikanTerakhir WHERE Id = @Id 
+                        OUTPUT DELETED.* ";
         using var connection = _context.CreateConnection();
 
-        var result = await connection.ExecuteAsync(
+        var result = await connection.QuerySingleOrDefaultAsync<PendidikanTerakhir>(
             query,
             new { Id = id });
 
-        return result switch
-        {
-            < 1 => Error.Failure("PendidikanTerakhir.DeleteFailure"),
-            _ => result >= 1
-        };
+        if (result is null)
+            return Error.NotFound();
+
+        return result;
     }
 
     public async Task<ErrorOr<int>> GetBiodataIdForUser(string userId)

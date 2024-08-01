@@ -209,7 +209,7 @@ public class BiodataController : Controller
     }
 
 
-    [HttpGet("Delete/{id}")]
+    [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var biodata = await _bioRepo.GetBiodataByIdAsync(id);

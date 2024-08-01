@@ -134,7 +134,7 @@ public class PendidikanTerakhirController : Controller
     }
 
 
-    [HttpGet("Delete/{id:int}")]
+    [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> Delete([FromRoute] int biodataId, int id)
     {
         var bio = await _biodataRepository.GetBiodataByIdAsync(biodataId);
@@ -153,9 +153,9 @@ public class PendidikanTerakhirController : Controller
     }
 
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View("Error!");
-    }
+    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    // public IActionResult Error()
+    // {
+    //     return View("Error!");
+    // }
 }

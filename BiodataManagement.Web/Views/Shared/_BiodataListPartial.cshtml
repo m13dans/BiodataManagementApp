@@ -57,7 +57,9 @@
                 <a asp-controller="Biodata" asp-action="Update" asp-route-id="@biodata.Id" class="btn btn-sm text-info">
                   <i class="bi bi-pencil-square"></i> Edit
                 </a>
-                <a onclick="onDeleteAlert()" asp-controller="Biodata" asp-action="Delete" asp-route-id="@biodata.Id" class="btn btn-sm text-danger">
+                <a id="biodataDeleteLink" href="Biodata/Delete/@biodata.Id"
+                  onclick="biodataDeleteAlert(event, `@Url.Action("Delete", "Biodata", new { id = biodata.Id })`)"
+                  class="btn btn-sm text-danger">
                   <i class="bi bi-trash-fill"></i> Delete
                 </a>
               </div>
@@ -68,4 +70,3 @@
     </tbody>
   </table>
 </div>
-
