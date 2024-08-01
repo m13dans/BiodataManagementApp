@@ -32,7 +32,7 @@ builder.Services.AddDbContext<AccountContext>(o =>
 builder.Services.Configure<RequestLocalizationOptions>(o =>
 {
     var supportedCulture = new[] { new CultureInfo("en-US"), new CultureInfo("id-Id") };
-    o.DefaultRequestCulture = new RequestCulture("en-US");
+    o.DefaultRequestCulture = new RequestCulture("id-Id");
     o.SupportedCultures = supportedCulture;
     o.SupportedUICultures = supportedCulture;
 });

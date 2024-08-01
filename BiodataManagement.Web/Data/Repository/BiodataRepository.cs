@@ -60,9 +60,9 @@ public class BiodataRepository : IBiodataRepository
         var biodata = biodatas.GroupBy(x => x.Id).Select(x =>
         {
             Biodata bio = x.First();
-            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? Enumerable.Empty<PendidikanTerakhir>()).ToList();
-            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? Enumerable.Empty<RiwayatPekerjaan>()).ToList();
-            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? Enumerable.Empty<RiwayatPelatihan>()).ToList();
+            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? []).ToList();
+            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? []).ToList();
+            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? []).ToList();
             return bio;
         }).FirstOrDefault();
 

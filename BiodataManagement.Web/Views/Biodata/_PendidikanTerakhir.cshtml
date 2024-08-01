@@ -7,22 +7,30 @@
     <table id="pendidikanTerakhir" class="table text-center align-middle">
         <thead class="">
             <tr class="">
-                <th class="col-2 align-content-center">Jenjang Pendidikan Terakhir</th>
-                <th class="col-3 align-content-center">
+                <th class="align-content-center">Jenjang Pendidikan Terakhir</th>
+                <th class="align-content-center">
                     Nama Institusi Akademik
                 </th>
-                <th class="col-2 align-content-center">
+                <th class="align-content-center">
                     Jurusan
                 </th>
-                <th class="col-2 align-content-center">
+                <th class="align-content-center">
                     Tahun Lulus
                 </th>
-                <th class="col-1 align-content-center">
+                <th class="align-content-center">
                     IPK
                 </th>
-                <th class="col-2 align-content-center">
-                    Edit Data
-                </th>
+                @if (Model is null || Model.Any(x => x is null))
+                {
+
+                }
+                else
+                {
+                    <th class="align-content-center">
+                        Edit Data
+                    </th>
+                }
+
             </tr>
         </thead>
         <tbody>
@@ -34,32 +42,36 @@
             {
                 for (var i = 0; i < Model.Count; i++)
                 {
-                    <tr>
-                        <td>
+                    <tr class="">
+                        <td class="">
                             @Html.EditorFor(x => x[i].JenjangPendidikanTerakhir,
                                      new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
                         </td>
                         <td>
-                            @Html.EditorFor(x => x![i].NamaInstitusiAkademik,
+                            @Html.EditorFor(x => x[i].NamaInstitusiAkademik,
                                      new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
                         </td>
                         <td>
-                            @Html.EditorFor(x => x![i].Jurusan,
+                            @Html.EditorFor(x => x[i].Jurusan,
                                      new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
                         </td>
                         <td>
-                            @Html.EditorFor(x => x![i].TahunLulus,
+                            @Html.EditorFor(x => x[i].TahunLulus,
                                      new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
                         </td>
-                        <td>
-                            @Html.EditorFor(x => x![i].IPK,
-                                     new { htmlAttributes = new { @class = "border-0 text-center", @readonly = "readonly" } })
+                        <td class="">
+                            @Html.EditorFor(x => x[i].IPK,
+                                     new { htmlAttributes = new { @class = "border-0 text-center col-xs-2", @readonly = "readonly" } })
                         </td>
-                        <td>
-                            <div>
+                        <td class="">
+                            <div class="d-flex">
                                 <a asp-controller="PendidikanTerakhir" asp-action="Update"
-                                    asp-route-biodataId="@Model[i].BiodataId" asp-route-id="@Model[i].Id">
-                                    <i class="bi bi-pencil-square"></i>
+                                   asp-route-biodataId="@Model[i].BiodataId" asp-route-id="@Model[i].Id">
+                                    <i class="bi bi-pencil mx-2"></i>
+                                </a>
+                                <a asp-controller="PendidikanTerakhir" asp-action="Delete"
+                                   asp-route-biodataId="@Model[i].BiodataId" asp-route-id="@Model[i].Id">
+                                    <i class="bi bi-trash text-danger"></i>
                                 </a>
                             </div>
                         </td>

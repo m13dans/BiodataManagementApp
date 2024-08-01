@@ -29,11 +29,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\SweetAlert.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\SweetAlert.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Domain\ViewModels\" />
     <Folder Include="Service\Biodata\" />
     <Folder Include="Service\PendidikanTerakhir\" />
     <Folder Include="Service\RiwayatPealatihan\" />
     <Folder Include="Service\RiwayatPekerjaan\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\SweetAlert.js" />
   </ItemGroup>
 
 </Project>
