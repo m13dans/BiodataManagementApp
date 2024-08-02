@@ -5,6 +5,7 @@ using BiodataManagement.Domain.Entities;
 using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using ErrorOr;
 using BiodataManagement.Service.PendidikanTerakhirService;
+using Dumpify;
 
 namespace BiodataManagement.Data.Repository;
 
@@ -179,8 +180,7 @@ public class PendidikanTerakhirRepository : IPendidikanTerakhirRepository
 
     public async Task<ErrorOr<PendidikanTerakhir>> DeletePendidikanTerakhirByIdAsync(int id)
     {
-        var query = @"DELETE FROM PendidikanTerakhir WHERE Id = @Id 
-                        OUTPUT DELETED.* ";
+        var query = @"DELETE FROM PendidikanTerakhir OUTPUT DELETED.* WHERE Id = @Id";
         using var connection = _context.CreateConnection();
 
         var result = await connection.QuerySingleOrDefaultAsync<PendidikanTerakhir>(

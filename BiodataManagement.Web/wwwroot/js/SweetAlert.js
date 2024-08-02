@@ -14,6 +14,7 @@
     confirmButtonText: "Yes, delete it!",
   }).then((result) => {
     if (result.isConfirmed) {
+      debugger;
       $.ajax({
         url: deleteUrl,
         type: "DELETE",
@@ -58,19 +59,24 @@ function pendidikanDelete(element, event) {
       $.ajax({
         url: deleteUrl,
         type: "DELETE",
-        success: () => {
+        success: (response) => {
+          console.log(response);
           Swal.fire({
             title: "Pendidikan Terakhir Deleted!",
-            text: `Pendidikan Terakhir with Id ${deleteUrlId}, Deleted!`,
+            text: `Pendidikan Terakhir with Id ${deleteUrlId}, ${response.namaInstitusiAkademik} Deleted!`,
             icon: "success",
           }).then(() => {
             location.reload(true);
           });
         },
-        error: (response) => {
+        error: (response, msg, error) => {
+          console.log(response);
+          console.log(msg);
+          console.log(error);
+
           Swal.fire({
             title: "Error!",
-            text: "Something went wrong",
+            text: `Something went wrong : ${msg}`,
             icon: "error",
             confirmButtonText: "Cool",
           });

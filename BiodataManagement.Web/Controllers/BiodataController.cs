@@ -224,6 +224,6 @@ public class BiodataController : Controller
         if (result is false)
             return BadRequest();
 
-        return RedirectToAction("Index", "Home");
+        return Ok();
     }
 }

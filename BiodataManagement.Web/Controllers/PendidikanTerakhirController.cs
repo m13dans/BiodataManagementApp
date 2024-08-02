@@ -7,6 +7,7 @@ using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using FluentValidation;
 using BiodataManagement.Extensions;
 using BiodataManagement.Domain.Entities;
+using Dumpify;
 
 namespace BiodataManagement.Controllers;
 
@@ -134,7 +135,7 @@ public class PendidikanTerakhirController : Controller
     }
 
 
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("Delete/{id:int}")]
     public async Task<IActionResult> Delete([FromRoute] int biodataId, int id)
     {
         var bio = await _biodataRepository.GetBiodataByIdAsync(biodataId);
@@ -149,13 +150,6 @@ public class PendidikanTerakhirController : Controller
         if (result.IsError)
             return NotFound();
 
-        return RedirectToAction("Detail", "Biodata", new { id = biodataId });
+        return Ok(result.Value);
     }
-
-
-    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    // public IActionResult Error()
-    // {
-    //     return View("Error!");
-    // }
 }

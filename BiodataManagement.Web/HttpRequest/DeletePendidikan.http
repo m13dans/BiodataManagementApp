@@ -1,0 +1,9 @@
+
+POST http://localhost:5067/account/Login
+content-type: application/json
+{
+    "email": "admint@test.com",
+    "password": "Password123!"
+}
+
+GET http://localhost:5067/api/Biodata/51/PendidikanTerakhir
