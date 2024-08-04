@@ -2,35 +2,35 @@
 @inject IHttpContextAccessor httpcontext;
 @{
 
-    httpcontext.HttpContext!.Response.StatusCode = StatusCodes.Status404NotFound;
-    ViewData["Title"] = "Biodata Not Found";
+  httpcontext.HttpContext!.Response.StatusCode = StatusCodes.Status404NotFound;
+  ViewData["Title"] = "Biodata Not Found";
 }
 
 
 <section id="hero-error" class="hero pt-0">
 
-    <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                <h1 class="text-center" style="font-family: 'Courier New', Courier, monospace;">404 Not Found</h1>
-                @if (Model == 0)
-                {
-                    <p class="text-center" style="font-family: 'Courier New', Courier, monospace;">You don't have any
-                        biodata, try to create one</p>
-                }
-                else
-                {
-                    <p class="text-center" style="font-family: 'Courier New', Courier, monospace;">Biodata with id
-                        <strong class=" font-monospace">@Model</strong>
-                        cannot be found
-                    </p>
-                }
-                <div class="d-flex justify-content-center">
-                    <a href="/Home" class="btn btn-outline-dark rounded-pill">Go To Home</a>
-                </div>
-            </div>
-
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+        <h1 class="text-center" style="font-family: 'Courier New', Courier, monospace;">404 Not Found</h1>
+        @if (Model == 0)
+        {
+          <p class="text-center" style="font-family: 'Courier New', Courier, monospace;">You don't have any
+            biodata, try to create one</p>
+        }
+        else
+        {
+          <p class="text-center" style="font-family: 'Courier New', Courier, monospace;">Biodata with id
+            <strong class=" font-monospace">@Model</strong>
+            cannot be found
+          </p>
+        }
+        <div class="d-flex justify-content-center">
+          <a href="/Home" class="btn btn-outline-dark rounded-pill">Go To Home</a>
         </div>
-    </div>
+      </div>
 
-</section><!-- /Hero Section -->
+    </div>
+  </div>
+
+</section>

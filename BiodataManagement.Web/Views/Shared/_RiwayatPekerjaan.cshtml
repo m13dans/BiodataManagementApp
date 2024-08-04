@@ -1,4 +1,4 @@
-@model List<RiwayatPekerjaan>
+@model Biodata
 
 <div class="table table-responsive">
     <table id="pendidikanTerakhir" class="table text-center align-middle">
@@ -7,26 +7,49 @@
                 <th class="align-content-center">Nama Perusahaan</th>
                 <th class="align-content-center"> Posisi Terakhir </th>
                 <th class="align-content-center"> Pendapatan Terakhir </th>
-                <th class="align-content-center"> Pendapatan Terakhir </th>
                 <th class="align-content-center">Tahun</th>
-                <th class="align-content-center"> Edit Data </th>
+                @if (Model.RiwayatPekerjaan is null || Model.RiwayatPekerjaan.Any(x => x is null))
+                {
+
+                }
+                else
+                {
+                    <th class="align-content-center"> Edit Data </th>
+                }
             </tr>
         </thead>
         <tbody>
-            @if (Model.Any(x => x is not null))
+            @if (Model.RiwayatPekerjaan is null || Model.RiwayatPekerjaan.Any(x => x is null))
             {
-                foreach (var riwayatPekerjaan in Model)
+            }
+            else
+            {
+
+                foreach (var riwayatPekerjaan in Model.RiwayatPekerjaan)
                 {
                     <tr>
-                        <td>@riwayatPekerjaan.NamaPerusahaan</td>
-                        <td>@riwayatPekerjaan.PosisiTerakhir</td>
-                        <td>@riwayatPekerjaan.PendapatanTerakhir</td>
-                        <td>@riwayatPekerjaan.Tahun</td>
+                        <td>
+                            <input class="border-0 disabled text-center" asp-for="@riwayatPekerjaan.NamaPerusahaan">
+                        </td>
+                        <td>
+                            <input class="border-0 disabled text-center" asp-for="@riwayatPekerjaan.PosisiTerakhir">
+                        </td>
+                        <td>
+                            <input class="border-0 disabled text-center" asp-for="@riwayatPekerjaan.PendapatanTerakhir">
+                        </td>
+                        <td>
+                            <input class="border-0 disabled text-center" asp-for="@riwayatPekerjaan.Tahun">
+                        </td>
                         <td>
                             <div>
-                                <a asp-controller="PendidikanTerakhir" asp-action="Update"
-                                    asp-route-biodataId="@riwayatPekerjaan.BiodataId" asp-route-id="@riwayatPekerjaan.Id">
+                                <a class="text-info text-decoration-none mx-2" asp-controller="RiwayatPekerjaan"
+                                    asp-action="Update" asp-route-biodataId="@riwayatPekerjaan.BiodataId"
+                                    asp-route-id="@riwayatPekerjaan.Id">
                                     <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="text-danger" asp-controller="RiwayatPekerjaan" asp-action="Delete"
+                                    asp-route-biodataId="@riwayatPekerjaan.BiodataId" asp-route-id="@riwayatPekerjaan.Id">
+                                    <i class="bi bi-trash"></i>
                                 </a>
                             </div>
                         </td>

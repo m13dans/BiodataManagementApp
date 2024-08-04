@@ -5,138 +5,138 @@
 
 <div class="card shadow border-0 my-4">
 <div class="card-header ml-0 py-3">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h2 class= py-2">CREATE BIODATA</h2>
+      <div class="row">
+          <div class="col-12 text-center">
+              <h2 class= py-2">CREATE BIODATA</h2>
+          </div>
+      </div>
+  </div>
+  <div class="card-body p-4">
+      <form method="post" class="row" enctype="multipart/form-data">
+          <div class="row">
+              <div class="col-10">
+                  <div class="border p-3">
+                      <div asp-validation-summary="All"></div>
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="PosisiDilamar" class="form-control border-0 shadow" />
+                          <label asp-for="PosisiDilamar" class="ms-2"></label>
+                          <span asp-validation-for="PosisiDilamar" class="text-danger"></span>
+                      </div>
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="Nama" class="form-control border-0 shadow" />
+                          <label asp-for="Nama" class="ms-2"></label>
+                          <span asp-validation-for="Nama" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input type="number" asp-for="NoKTP" class="form-control border-0 shadow" />
+                          <label asp-for="NoKTP" class="ms-2"></label>
+                          <span asp-validation-for="NoKTP" class="text-danger"></span>
+                      </div>
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="TempatLahir" class="form-control border-0 shadow" />
+                          <label asp-for="TempatLahir" class="ms-2"></label>
+                          <span asp-validation-for="TempatLahir" class="text-danger"></span>
+                      </div>
+                      <div class="form-floating py-2 col-12">
+                          <input type="date" asp-for="TanggalLahir" class="form-control border-0 shadow" />
+                          <label asp-for="TanggalLahir" class="ms-2"></label>
+                          <span asp-validation-for="TanggalLahir" class="text-danger"></span>
+                      </div>
+
+                      <div class="py-2 col-3">
+                          <label asp-for="JenisKelamin" class="ms-2 dropdown-header"></label>
+                          <select class=" dropdown-item" asp-for="JenisKelamin" asp-items="Html.GetEnumSelectList<JenisKelamin>()">
+                              <option selected="" value="">Jenis Kelamin</option>
+                          </select>
+                          <span asp-validation-for="JenisKelamin" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="Agama" class="form-control border-0 shadow" />
+                          <label asp-for="Agama" class="ms-2"></label>
+                          <span asp-validation-for="Agama" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="GolonganDarah" class="form-control border-0 shadow" />
+                          <label asp-for="GolonganDarah" class="ms-2"></label>
+                          <span asp-validation-for="GolonganDarah" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="Status" class="form-control border-0 shadow" />
+                          <label asp-for="Status" class="ms-2"></label>
+                          <span asp-validation-for="Status" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="AlamatKTP" class="form-control border-0 shadow" />
+                          <label asp-for="AlamatKTP" class="ms-2"></label>
+                          <span asp-validation-for="AlamatKTP" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="AlamatTinggal" class="form-control border-0 shadow" />
+                          <label asp-for="AlamatTinggal" class="ms-2"></label>
+                          <span asp-validation-for="AlamatTinggal" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="Email" class="form-control border-0 shadow" />
+                          <label asp-for="Email" class="ms-2"></label>
+                          <span asp-validation-for="Email" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="NoTelepon" class="form-control border-0 shadow" />
+                          <label asp-for="NoTelepon" class="ms-2"></label>
+                          <span asp-validation-for="NoTelepon" class="text-danger"></span>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="KontakOrangTerdekat" class="form-control border-0 shadow" />
+                          <label asp-for="KontakOrangTerdekat" class="ms-2"></label>
+                          <span asp-validation-for="KontakOrangTerdekat" class="text-danger"></span>
+                      </div>
+
+
+                      <div class="form-floating py-2 col-12">
+                          <input asp-for="Skill" class="form-control border-0 shadow" />
+                          <label asp-for="Skill" class="ms-2"></label>
+                          <span asp-validation-for="Skill" class="text-danger"></span>
+                      </div>
+
+                      <div class="py-2 col-12">
+                          <input type="checkbox" asp-for="BersediaDitempatkan" />
+                          <label class=" form-check-label" asp-for="BersediaDitempatkan">Bersedia Penempatan Di Seluruh Indonesia</label>
+                      </div>
+
+                      <div class="form-floating py-2 col-12">
+                          <input type="number" asp-for="PenghasilanDiharapkan" class="form-control border-0 shadow" />
+                          <label asp-for="PenghasilanDiharapkan" class="ms-2"></label>
+                          <span asp-validation-for="PenghasilanDiharapkan" class="text-danger"></span>
+                      </div>
+
+                      <div class="row pt-2">
+                          <div class="col-6 col-md-3">
+                              <button type="submit" class="btn btn-primary form-control">Create</button>
+                          </div>
+                          <div class="col-6 col-md-3">
+                              <a asp-controller="Home" asp-action="Index"
+                                  class="btn btn-outline-primary border  form-control">
+                                  Back to Home
+                              </a>
+                          </div>
+                      </div>
+
+
+                  </div>
+              </div>
             </div>
-        </div>
-    </div>
-    <div class="card-body p-4">
-        <form method="post" class="row" enctype="multipart/form-data">
-            <div class="row">
-                <div class="col-10">
-                    <div class="border p-3">
-                        <div asp-validation-summary="All"></div>
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="PosisiDilamar" class="form-control border-0 shadow" />
-                            <label asp-for="PosisiDilamar" class="ms-2"></label>
-                            <span asp-validation-for="PosisiDilamar" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="Nama" class="form-control border-0 shadow" />
-                            <label asp-for="Nama" class="ms-2"></label>
-                            <span asp-validation-for="Nama" class="text-danger"></span>
-                        </div>
 
-                        <div class="form-floating py-2 col-12">
-                            <input type="number" asp-for="NoKTP" class="form-control border-0 shadow" />
-                            <label asp-for="NoKTP" class="ms-2"></label>
-                            <span asp-validation-for="NoKTP" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="TempatLahir" class="form-control border-0 shadow" />
-                            <label asp-for="TempatLahir" class="ms-2"></label>
-                            <span asp-validation-for="TempatLahir" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating py-2 col-12">
-                            <input type="date" asp-for="TanggalLahir" class="form-control border-0 shadow" />
-                            <label asp-for="TanggalLahir" class="ms-2"></label>
-                            <span asp-validation-for="TanggalLahir" class="text-danger"></span>
-                        </div>
-
-                        <div class="py-2 col-3">
-                            <label asp-for="JenisKelamin" class="ms-2 dropdown-header"></label>
-                            <select class=" dropdown-item" asp-for="JenisKelamin" asp-items="Html.GetEnumSelectList<JenisKelamin>()">
-                                <option selected="" value="">Jenis Kelamin</option>
-                            </select>
-                            <span asp-validation-for="JenisKelamin" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="Agama" class="form-control border-0 shadow" />
-                            <label asp-for="Agama" class="ms-2"></label>
-                            <span asp-validation-for="Agama" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="GolonganDarah" class="form-control border-0 shadow" />
-                            <label asp-for="GolonganDarah" class="ms-2"></label>
-                            <span asp-validation-for="GolonganDarah" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="Status" class="form-control border-0 shadow" />
-                            <label asp-for="Status" class="ms-2"></label>
-                            <span asp-validation-for="Status" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="AlamatKTP" class="form-control border-0 shadow" />
-                            <label asp-for="AlamatKTP" class="ms-2"></label>
-                            <span asp-validation-for="AlamatKTP" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="AlamatTinggal" class="form-control border-0 shadow" />
-                            <label asp-for="AlamatTinggal" class="ms-2"></label>
-                            <span asp-validation-for="AlamatTinggal" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="Email" class="form-control border-0 shadow" />
-                            <label asp-for="Email" class="ms-2"></label>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="NoTelepon" class="form-control border-0 shadow" />
-                            <label asp-for="NoTelepon" class="ms-2"></label>
-                            <span asp-validation-for="NoTelepon" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="KontakOrangTerdekat" class="form-control border-0 shadow" />
-                            <label asp-for="KontakOrangTerdekat" class="ms-2"></label>
-                            <span asp-validation-for="KontakOrangTerdekat" class="text-danger"></span>
-                        </div>
-
-
-                        <div class="form-floating py-2 col-12">
-                            <input asp-for="Skill" class="form-control border-0 shadow" />
-                            <label asp-for="Skill" class="ms-2"></label>
-                            <span asp-validation-for="Skill" class="text-danger"></span>
-                        </div>
-
-                        <div class="py-2 col-12">
-                            <input type="checkbox" asp-for="BersediaDitempatkan" />
-                            <label class=" form-check-label" asp-for="BersediaDitempatkan">Bersedia Penempatan Di Seluruh Indonesia</label>
-                        </div>
-
-                        <div class="form-floating py-2 col-12">
-                            <input type="number" asp-for="PenghasilanDiharapkan" class="form-control border-0 shadow" />
-                            <label asp-for="PenghasilanDiharapkan" class="ms-2"></label>
-                            <span asp-validation-for="PenghasilanDiharapkan" class="text-danger"></span>
-                        </div>
-
-                        <div class="row pt-2">
-                            <div class="col-6 col-md-3">
-                                <button type="submit" class="btn btn-primary form-control">Create</button>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <a asp-controller="Home" asp-action="Index"
-                                    class="btn btn-outline-primary border  form-control">
-                                    Back to Home
-                                </a>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-             </div>
-
-        </form>
-    </div>
+      </form>
+  </div>
 </div>
 
 @section Scripts {

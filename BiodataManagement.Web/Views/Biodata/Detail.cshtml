@@ -1,155 +1,155 @@
 @model Biodata
 @{
-    ViewData["Title"] = "Details";
+  ViewData["Title"] = "Details";
 }
 
 
 <h1>Details</h1>
 <div>
-    <h4>@Model.Nama</h4>
-    <hr />
-    <dl class="row">
-        <dt class="">
-            @Html.DisplayNameFor(model => model.PosisiDilamar)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.PosisiDilamar)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.Nama)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.Nama)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.NoKTP)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.NoKTP)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.TempatLahir)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.TempatLahir)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.TanggalLahir)
-        </dt>
-        <dd class="">
-            @(DateOnly.FromDateTime(Model.TanggalLahir))
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.JenisKelamin)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.JenisKelamin)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.Agama)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.Agama)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.GolonganDarah)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.GolonganDarah)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.AlamatKTP)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.AlamatKTP)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.AlamatTinggal)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.AlamatTinggal)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.NoTelepon)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.NoTelepon)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.KontakOrangTerdekat)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.KontakOrangTerdekat)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.Skill)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.Skill)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.BersediaDitempatkan)
-        </dt>
-        <dd class="">
-            @Html.DisplayFor(model => model.BersediaDitempatkan)
-        </dd>
-        <dt class="">
-            @Html.DisplayNameFor(model => model.PenghasilanDiharapkan)
-        </dt>
-        <dd class="">
-            Rp. @Html.DisplayFor(model => model.PenghasilanDiharapkan)
-        </dd>
-    </dl>
+  <h4>@Model.Nama</h4>
+  <hr />
+  <dl class="row">
+    <dt class="">
+      @Html.DisplayNameFor(model => model.PosisiDilamar)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.PosisiDilamar)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.Nama)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.Nama)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.NoKTP)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.NoKTP)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.TempatLahir)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.TempatLahir)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.TanggalLahir)
+    </dt>
+    <dd class="">
+      @(DateOnly.FromDateTime(Model.TanggalLahir))
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.JenisKelamin)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.JenisKelamin)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.Agama)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.Agama)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.GolonganDarah)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.GolonganDarah)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.Status)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.Status)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.AlamatKTP)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.AlamatKTP)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.AlamatTinggal)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.AlamatTinggal)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.Email)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.Email)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.NoTelepon)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.NoTelepon)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.KontakOrangTerdekat)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.KontakOrangTerdekat)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.Skill)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.Skill)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.BersediaDitempatkan)
+    </dt>
+    <dd class="">
+      @Html.DisplayFor(model => model.BersediaDitempatkan)
+    </dd>
+    <dt class="">
+      @Html.DisplayNameFor(model => model.PenghasilanDiharapkan)
+    </dt>
+    <dd class="">
+      Rp. @Html.DisplayFor(model => model.PenghasilanDiharapkan)
+    </dd>
+  </dl>
 </div>
 <div>
-    <div>
-        <div class="d-flex align-items-center">
-            <h4 class="">Pendidikan Terakhir</h4>
-            <a asp-controller="PendidikanTerakhir" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
+  <div>
+    <div class="d-flex align-items-center">
+      <h4 class="">Pendidikan Terakhir</h4>
+      <a asp-controller="PendidikanTerakhir" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
             btn btn-sm">
-                <i class="bi bi-plus-circle"></i> Add
-            </a>
-        </div>
-        <partial name="_PendidikanTerakhir" model="@Model" />
+        <i class="bi bi-plus-circle"></i> Add
+      </a>
     </div>
-    <div>
-        <div class="d-flex align-items-center">
-            <h4 class="">Riwayat Pekerjaan</h4>
-            <a asp-controller="Riwayat Pekerjaan" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
+    <partial name="_PendidikanTerakhir" model="@Model" />
+  </div>
+  <div>
+    <div class="d-flex align-items-center">
+      <h4 class="">Riwayat Pekerjaan</h4>
+      <a asp-controller="RiwayatPekerjaan" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
             btn btn-sm">
-                <i class="bi bi-plus-circle"></i> Add
-            </a>
-        </div>
-        <partial name="_RiwayatPekerjaan" model="@Model.RiwayatPekerjaan" />
+        <i class="bi bi-plus-circle"></i> Add
+      </a>
     </div>
-    <div>
-        <div class="d-flex align-items-center">
-            <h4 class="">Riwayat Pelatihan</h4>
-            <a asp-controller="RiwayatPelatihan" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
+    <partial name="_RiwayatPekerjaan" model="@Model" />
+  </div>
+  <div>
+    <div class="d-flex align-items-center">
+      <h4 class="">Riwayat Pelatihan</h4>
+      <a asp-controller="RiwayatPelatihan" asp-action="Create" asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info
             btn btn-sm">
-                <i class="bi bi-plus-circle"></i> Add
-            </a>
-        </div>
-        <partial name="_RiwayatPelatihan" model="@Model.RiwayatPelatihan" />
+        <i class="bi bi-plus-circle"></i> Add
+      </a>
     </div>
+    <partial name="_RiwayatPelatihan" model="@Model.RiwayatPelatihan" />
+  </div>
 </div>
 <div class="mb-5 text-info">
-    <a class="btn btn-info text-white mx-2" asp-action="Update" asp-route-id="@Model.Id">Edit</a>
-    <a class="btn btn-outline-info" asp-controller="Home" asp-action="Index">Back to Home</a>
+  <a class="btn btn-info text-white mx-2" asp-action="Update" asp-route-id="@Model.Id">Edit</a>
+  <a class="btn btn-outline-info" asp-controller="Home" asp-action="Index">Back to Home</a>
 </div>
 
 @section Scripts {
-    <script src="~/js/SweetAlert.js"></script>
+  <script src="~/js/SweetAlert.js"></script>
 }

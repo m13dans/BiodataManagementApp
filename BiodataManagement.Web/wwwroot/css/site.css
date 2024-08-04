@@ -25,6 +25,12 @@ body {
   margin-bottom: 60px;
 }
 
+.hover-gray:hover {
+  color: #242936;
+  color: #1f2430;
+  color: #1a1f29;
+}
+
 a.hover-black:hover {
   color: black !important;
 }

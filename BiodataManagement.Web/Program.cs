@@ -14,6 +14,8 @@ using BiodataManagement.Service.PendidikanTerakhirService;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using BiodataManagement.Domain.Entities;
+using BiodataManagement.Web.Service.RiwayatPekerjaanService;
+using BiodataManagement.Web.Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,11 +66,15 @@ builder.Services.AddScoped<IValidator<BiodataCreateRequest>, BiodataCreateValida
 builder.Services.AddScoped<IValidator<Biodata>, BiodataUpdateValidator>();
 builder.Services.AddScoped<IValidator<PendidikanTerakhirRequest>, PendidikanTerakhirCreateValidator>();
 builder.Services.AddScoped<IValidator<PendidikanTerakhir>, PendidikanTerakhirUpdateValidator>();
+builder.Services.AddScoped<IValidator<RiwayatPekerjaanCreateRequest>, CreateRiwayatPekerjaanValidator>();
+builder.Services.AddScoped<IValidator<RiwayatPekerjaan>, UpdateRiwayatPekerjaanValidator>();
 
 
 // Registering Entity Repository and Service
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
 builder.Services.AddScoped<IPendidikanTerakhirRepository, PendidikanTerakhirRepository>();
+builder.Services.AddScoped<IRiwayatPekerjaanRepository, RiwayatPekerjaanRepository>();
+
 builder.Services.AddScoped<PendidikanTerakhirService>();
 
 
