@@ -132,6 +132,30 @@
                           <partial name="_PendidikanTerakhir" model="@Model" />
                       </div>
 
+                      <!-- #Riwayat Pekerjaan List-->
+                      <div>
+                          <div class="d-flex align-items-center">
+                              <h4 class="">Riwayat Pekerjaan</h4>
+                              <a asp-controller="RiwayatPekerjaan" asp-action="Create"
+                                  asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info btn btn-sm">
+                                  <i class="bi bi-plus-circle"></i> Add
+                              </a>
+                          </div>
+                          <partial name="_RiwayatPekerjaan" for="@Model" />
+                      </div>
+
+                      <!-- #Riwayat Pelatihan List-->
+                      <div>
+                          <div class="d-flex align-items-center">
+                              <h4 class="">Riwayat Pelatihan</h4>
+                              <a asp-controller="RiwayatPelatihan" asp-action="Create"
+                                  asp-route-biodataId="@Model.Id" class=" text-decoration-none text-info btn btn-sm">
+                                  <i class="bi bi-plus-circle"></i> Add
+                              </a>
+                          </div>
+                          <partial name="_RiwayatPelatihan" for="@Model.RiwayatPelatihan"/>
+                      </div>
+
                       @* <div class="table table-responsive">
                       <table id="pendidikanTerakhir" class="table text-center align-middle ">
                       <thead>

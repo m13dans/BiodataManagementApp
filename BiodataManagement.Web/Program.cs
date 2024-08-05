@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Localization;
 using BiodataManagement.Domain.Entities;
 using BiodataManagement.Web.Service.RiwayatPekerjaanService;
 using BiodataManagement.Web.Data.Repository;
+using BiodataManagement.Web.Service.RiwayatPelatihanService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,8 +59,13 @@ builder.Services.AddAuthorization(configure =>
     {
         policy.AddRequirements(new BiodataOwnerOrAdminPolicy.BiodataOwnerOrAdminRequirement());
     });
+    configure.AddPolicy("CanEditBiodata", policy =>
+    {
+        policy.AddRequirements(new CanEditBiodataPolicy.CanEditBiodataRequirement());
+    });
 });
 builder.Services.AddScoped<IAuthorizationHandler, BiodataOwnerOrAdminPolicy.Handler>();
+builder.Services.AddScoped<IAuthorizationHandler, CanEditBiodataPolicy.Handler>();
 
 // Registering Validator Service
 builder.Services.AddScoped<IValidator<BiodataCreateRequest>, BiodataCreateValidator>();
@@ -68,15 +74,17 @@ builder.Services.AddScoped<IValidator<PendidikanTerakhirRequest>, PendidikanTera
 builder.Services.AddScoped<IValidator<PendidikanTerakhir>, PendidikanTerakhirUpdateValidator>();
 builder.Services.AddScoped<IValidator<RiwayatPekerjaanCreateRequest>, CreateRiwayatPekerjaanValidator>();
 builder.Services.AddScoped<IValidator<RiwayatPekerjaan>, UpdateRiwayatPekerjaanValidator>();
+builder.Services.AddScoped<IValidator<RiwayatPelatihanCreateRequest>, CreateRiwayatPelatihanValidator>();
+builder.Services.AddScoped<IValidator<RiwayatPelatihan>, UpdateRiwayatPelatihanValidator>();
 
 
 // Registering Entity Repository and Service
 builder.Services.AddScoped<IBiodataRepository, BiodataRepository>();
 builder.Services.AddScoped<IPendidikanTerakhirRepository, PendidikanTerakhirRepository>();
 builder.Services.AddScoped<IRiwayatPekerjaanRepository, RiwayatPekerjaanRepository>();
+builder.Services.AddScoped<IRiwayatPelatihanRepository, RiwayatPelatihanRepository>();
 
 builder.Services.AddScoped<PendidikanTerakhirService>();
-
 
 builder.Services.AddScoped<GenerateData>();
 

@@ -1,0 +1,36 @@
+@model RiwayatPelatihanCreateRequest
+
+<h2>Riwayat Pelatihan</h2>
+
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <form asp-controller="RiwayatPelatihan" asp-action="Create" method="post">
+      <input asp-for="BiodataId" hidden />
+
+      <div asp-validation-summary="All" class="text-danger"></div>
+      <div class="form-group my-2">
+        <label asp-for="NamaKursus" class="control-label"></label>
+        <input asp-for="NamaKursus" class="form-control" />
+        <span asp-validation-for="NamaKursus" class="text-danger"></span>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="SertifikatAda" value="" />
+        <label class="form-check-label">Sertifikat Ada</label>
+        <span asp-validation-for="SertifikatAda" class="text-danger"></span>
+      </div>
+      <div class="form-group my-2">
+        <label asp-for="Tahun" class="control-label"></label>
+        <input asp-for="Tahun" class="form-control" />
+        <span asp-validation-for="Tahun" class="text-danger"></span>
+      </div>
+      <div class="form-group my-3">
+        <input type="submit" value="Create" class="btn btn-outline-dark" />
+      </div>
+    </form>
+  </div>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}

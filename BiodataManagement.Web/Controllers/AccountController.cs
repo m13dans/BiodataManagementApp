@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using BiodataManagement.Data.Identity;
 using BiodataManagement.Service.AccountService;
 using static BiodataManagement.Controllers.ControllerHelper;
+using BiodataManagement.Service.BiodataService;
+using System.Security.Claims;
 
 namespace BiodataManagement.Controllers;
 
@@ -61,7 +63,7 @@ public class AccountController : Controller
 
     [HttpPost("Login")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginDTO userModel,
+    public async Task<IActionResult> Login([FromServices] IBiodataRepository bioRepo, LoginDTO userModel,
         string? returnUrl)
     {
         if (!ModelState.IsValid)
@@ -81,9 +83,16 @@ public class AccountController : Controller
             return View(userModel);
         }
 
+        var bio = await bioRepo.GetBiodataWithEmailAsync(userModel.Email);
+        if (!bio.IsError)
+        {
+            User.AddIdentity(new ClaimsIdentity(claims: [new("BiodataId", bio.Value.Id.ToString())]));
+        }
+
         await AssignDefaultRole(userModel.Email, _userManager);
         return RedirectToLocal(returnUrl);
     }
+
 
     [HttpPost("Logout")]
     [ValidateAntiForgeryToken]

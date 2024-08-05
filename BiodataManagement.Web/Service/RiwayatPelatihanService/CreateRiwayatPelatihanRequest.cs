@@ -1,10 +1,10 @@
+
 using System.ComponentModel.DataAnnotations;
 
-namespace BiodataManagement.Domain.Entities;
+namespace BiodataManagement.Web.Service.RiwayatPelatihanService;
 
-public class RiwayatPelatihan
+public class RiwayatPelatihanCreateRequest
 {
-    public int Id { get; set; }
     public int BiodataId { get; set; }
     [Display(Name = "Nama Kursus")]
     [Required]

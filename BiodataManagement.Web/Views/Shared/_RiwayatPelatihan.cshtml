@@ -6,24 +6,44 @@
             <tr class="">
                 <th class="align-content-center">Nama Kursus</th>
                 <th class="align-content-center">Sertifikat </th>
-                <th class="align-content-center"> Tahun </th>
-                <th class="align-content-center"> Edit Data </th>
+                <th class="align-content-center">Tahun</th>
+                @if (Model is null || Model.Any(x => x is null))
+                { }
+                else
+                {
+                    <th class="align-content-center"> Edit Data </th>
+                }
             </tr>
         </thead>
         <tbody>
-            @if (Model.Any(x => x is not null))
+            @if (Model is null || Model.Any(x => x is null))
             {
+            }
+            else
+            {
+
                 foreach (var riwayatPelatihan in Model)
                 {
                     <tr>
-                        <td>@riwayatPelatihan.NamaKursus</td>
-                        <td>@riwayatPelatihan.SertifikatAda</td>
-                        <td>@riwayatPelatihan.Tahun</td>
+                        <td>
+                            <input class="border-0 disabled text-center" asp-for="@riwayatPelatihan.NamaKursus">
+                        </td>
+                        <td>
+                            <input class="border-0 disabled text-center" asp-for="@riwayatPelatihan.SertifikatAda">
+                        </td>
+                        <td>
+                            <input class="border-0 disabled text-center" asp-for="@riwayatPelatihan.Tahun">
+                        </td>
                         <td>
                             <div>
-                                <a asp-controller="PendidikanTerakhir" asp-action="Update"
-                                    asp-route-biodataId="@riwayatPelatihan.BiodataId" asp-route-id="@riwayatPelatihan.Id">
+                                <a class="text-info text-decoration-none mx-2" asp-controller="RiwayatPelatihan"
+                                    asp-action="Update" asp-route-biodataId="@riwayatPelatihan.BiodataId"
+                                    asp-route-id="@riwayatPelatihan.Id">
                                     <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="text-danger" asp-controller="RiwayatPelatihan" asp-action="Delete"
+                                    asp-route-biodataId="@riwayatPelatihan.BiodataId" asp-route-id="@riwayatPelatihan.Id">
+                                    <i class="bi bi-trash"></i>
                                 </a>
                             </div>
                         </td>

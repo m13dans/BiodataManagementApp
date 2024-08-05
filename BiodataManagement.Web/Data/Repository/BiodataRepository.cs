@@ -77,39 +77,47 @@ public class BiodataRepository : IBiodataRepository
         var query = "usp_Biodata_GetByEmail";
         using var connection = _context.CreateConnection();
 
-        var biodatas = await connection.QueryAsync<Biodata, PendidikanTerakhir,
+        IEnumerable<Biodata>? biodatas = await connection.QueryAsync<Biodata, PendidikanTerakhir,
         RiwayatPekerjaan, RiwayatPelatihan, Biodata>(
             query,
             (bio, pendidikanTerakhir, riwayatPekerjaan, riwayatPelatihan) =>
             {
-                if (pendidikanTerakhir is not null)
-                    bio.PendidikanTerakhir!.Add(pendidikanTerakhir);
-                if (riwayatPekerjaan is not null)
-                    bio.RiwayatPekerjaan!.Add(riwayatPekerjaan);
-                if (riwayatPelatihan is not null)
-                    bio.RiwayatPelatihan!.Add(riwayatPelatihan);
+                bio.PendidikanTerakhir ??= [];
+                bio.RiwayatPekerjaan ??= [];
+                bio.RiwayatPelatihan ??= [];
+
+                // if (pendidikanTerakhir is not null)
+                bio.PendidikanTerakhir.Add(pendidikanTerakhir);
+
+                // if (riwayatPekerjaan is not null)
+                bio.RiwayatPekerjaan.Add(riwayatPekerjaan);
+
+                // if (riwayatPelatihan is not null)
+                bio.RiwayatPelatihan.Add(riwayatPelatihan);
+
                 return bio;
             },
             param: new { email = userEmail },
             splitOn: "Id",
             commandType: CommandType.StoredProcedure);
 
-        if (biodatas is null)
+        if (biodatas is null || biodatas.Any())
             return Error.NotFound("Biodata.NotFound");
 
         var biodata = biodatas.GroupBy(x => x.Id).Select(x =>
         {
             Biodata bio = x.First();
-            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? Enumerable.Empty<PendidikanTerakhir>()).ToList();
-            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? Enumerable.Empty<RiwayatPekerjaan>()).ToList();
-            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? Enumerable.Empty<RiwayatPelatihan>()).ToList();
+            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? []).ToList();
+            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? []).ToList();
+            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? []).ToList();
             return bio;
         }).FirstOrDefault();
 
-        if (biodata is null)
-            return Error.NotFound("Biodata.NotFound");
-
-        return biodata;
+        return biodata switch
+        {
+            null => Error.NotFound(),
+            _ => biodata
+        };
     }
 
     public async Task<bool> UpdateBiodataAsync(int biodataId, Biodata biodata)

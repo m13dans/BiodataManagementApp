@@ -111,6 +111,7 @@ public class RiwayatPekerjaanController : Controller
         return RedirectToAction("Detail", "Biodata", new { id = riwayatPekerjaan.BiodataId });
     }
 
+    [HttpDelete("Delete/{id:int}")]
     public async Task<IActionResult> Delete([FromRoute] int biodataId, int id)
     {
         var bio = await _bioRepo.GetBiodataByIdAsync(biodataId);
