@@ -56,8 +56,8 @@ public class BiodataUpdateRequest
     public decimal PenghasilanDiharapkan { get; set; }
     [ValidateNever]
     public string? UserId { get; set; } = string.Empty;
-    public ICollection<PendidikanTerakhir>? PendidikanTerakhir { get; set; } = new List<PendidikanTerakhir>();
-    public ICollection<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; } = new List<RiwayatPekerjaan>();
-    public ICollection<RiwayatPelatihan>? RiwayatPelatihan { get; set; } = new List<RiwayatPelatihan>();
+    public ICollection<PendidikanTerakhir>? PendidikanTerakhir { get; set; } = [];
+    public ICollection<RiwayatPekerjaan>? RiwayatPekerjaan { get; set; } = [];
+    public ICollection<RiwayatPelatihan>? RiwayatPelatihan { get; set; } = [];
 
 }

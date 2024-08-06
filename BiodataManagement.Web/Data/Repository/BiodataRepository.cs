@@ -42,9 +42,9 @@ public class BiodataRepository : IBiodataRepository
             query,
             map: (bio, pendidikan, pekerjaan, pelatihan) =>
             {
-                bio.PendidikanTerakhir ??= new List<PendidikanTerakhir>();
-                bio.RiwayatPekerjaan ??= new List<RiwayatPekerjaan>();
-                bio.RiwayatPelatihan ??= new List<RiwayatPelatihan>();
+                bio.PendidikanTerakhir ??= [];
+                bio.RiwayatPekerjaan ??= [];
+                bio.RiwayatPelatihan ??= [];
                 bio.PendidikanTerakhir.Add(pendidikan);
                 bio.RiwayatPekerjaan.Add(pekerjaan);
                 bio.RiwayatPelatihan.Add(pelatihan);
@@ -57,12 +57,12 @@ public class BiodataRepository : IBiodataRepository
         if (biodatas is null)
             return Error.NotFound("Biodata.NotFound");
 
-        var biodata = biodatas.GroupBy(x => x.Id).Select(x =>
+        var biodata = biodatas.GroupBy(x => x.Id).Select(g =>
         {
-            Biodata bio = x.First();
-            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? []).ToList();
-            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? []).ToList();
-            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? []).ToList();
+            Biodata bio = g.First();
+            bio.PendidikanTerakhir = g.SelectMany(x => x.PendidikanTerakhir ?? []).DistinctBy(p => p.Id).ToList();
+            bio.RiwayatPekerjaan = g.SelectMany(y => y.RiwayatPekerjaan ?? []).DistinctBy(p => p.Id).ToList();
+            bio.RiwayatPelatihan = g.SelectMany(y => y.RiwayatPelatihan ?? []).DistinctBy(p => p.Id).ToList();
             return bio;
         }).FirstOrDefault();
 
@@ -86,13 +86,8 @@ public class BiodataRepository : IBiodataRepository
                 bio.RiwayatPekerjaan ??= [];
                 bio.RiwayatPelatihan ??= [];
 
-                // if (pendidikanTerakhir is not null)
                 bio.PendidikanTerakhir.Add(pendidikanTerakhir);
-
-                // if (riwayatPekerjaan is not null)
                 bio.RiwayatPekerjaan.Add(riwayatPekerjaan);
-
-                // if (riwayatPelatihan is not null)
                 bio.RiwayatPelatihan.Add(riwayatPelatihan);
 
                 return bio;
@@ -107,9 +102,9 @@ public class BiodataRepository : IBiodataRepository
         var biodata = biodatas.GroupBy(x => x.Id).Select(x =>
         {
             Biodata bio = x.First();
-            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? []).ToList();
-            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? []).ToList();
-            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? []).ToList();
+            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? []).DistinctBy(p => p.Id).ToList();
+            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? []).DistinctBy(p => p.Id).ToList();
+            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? []).DistinctBy(p => p.Id).ToList();
             return bio;
         }).FirstOrDefault();
 
@@ -235,9 +230,9 @@ public class BiodataRepository : IBiodataRepository
             query,
             map: (bio, pendidikan, pekerjaan, pelatihan) =>
             {
-                bio.PendidikanTerakhir ??= new List<PendidikanTerakhir>();
-                bio.RiwayatPekerjaan ??= new List<RiwayatPekerjaan>();
-                bio.RiwayatPelatihan ??= new List<RiwayatPelatihan>();
+                bio.PendidikanTerakhir ??= [];
+                bio.RiwayatPekerjaan ??= [];
+                bio.RiwayatPelatihan ??= [];
                 bio.PendidikanTerakhir.Add(pendidikan);
                 bio.RiwayatPekerjaan.Add(pekerjaan);
                 bio.RiwayatPelatihan.Add(pelatihan);
