@@ -141,7 +141,7 @@
                                   <i class="bi bi-plus-circle"></i> Add
                               </a>
                           </div>
-                          <partial name="_RiwayatPekerjaan" for="@Model" />
+                          <partial name="_RiwayatPekerjaan" model="@Model" />
                       </div>
 
                       <!-- #Riwayat Pelatihan List-->
@@ -311,10 +311,7 @@
 
 -->
 
-@{
-    <partial name="_ValidationScriptsPartial" />
-}
-
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script src="~/js/SweetAlert.js"></script>
 }

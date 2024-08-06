@@ -14,7 +14,6 @@
     confirmButtonText: "Yes, delete it!",
   }).then((result) => {
     if (result.isConfirmed) {
-      debugger;
       $.ajax({
         url: deleteUrl,
         type: "DELETE",

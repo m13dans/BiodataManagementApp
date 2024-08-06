@@ -24,31 +24,37 @@
             }
             else
             {
-
-                foreach (var riwayatPekerjaan in Model.RiwayatPekerjaan)
+                // Data not inputed again if biodata udpate validation fail when using foreach loop
+                for (var i = 0; i < Model.RiwayatPekerjaan.Count; i++)
                 {
+                    <input asp-for="@Model.RiwayatPekerjaan[i].Id" hidden aria-hidden="true">
+                    <input asp-for="@Model.RiwayatPekerjaan[i].BiodataId" hidden aria-hidden="true">
                     <tr>
                         <td>
-                            <input class="border-0 disabled text-center" asp-for="@riwayatPekerjaan.NamaPerusahaan">
+                            <input class="border-0 disabled text-center" readonly
+                                asp-for="@Model.RiwayatPekerjaan[i].NamaPerusahaan">
                         </td>
                         <td>
-                            <input class="border-0 disabled text-center" asp-for="@riwayatPekerjaan.PosisiTerakhir">
+                            <input class="border-0 disabled text-center" readonly
+                                asp-for="@Model.RiwayatPekerjaan[i].PosisiTerakhir">
                         </td>
                         <td>
-                            <input class="border-0 disabled text-center" asp-for="@riwayatPekerjaan.PendapatanTerakhir">
+                            <input class="border-0 disabled text-center" readonly
+                                asp-for="@Model.RiwayatPekerjaan[i].PendapatanTerakhir">
                         </td>
                         <td>
-                            <input class="border-0 disabled text-center" asp-for="@riwayatPekerjaan.Tahun">
+                            <input class="border-0 disabled text-center" readonly asp-for="@Model.RiwayatPekerjaan[i].Tahun">
                         </td>
                         <td>
-                            <div>
+                            <div class="d-flex">
                                 <a class="text-info text-decoration-none mx-2" asp-controller="RiwayatPekerjaan"
-                                    asp-action="Update" asp-route-biodataId="@riwayatPekerjaan.BiodataId"
-                                    asp-route-id="@riwayatPekerjaan.Id">
-                                    <i class="bi bi-pencil-square"></i>
+                                    asp-action="Update" asp-route-biodataId="@Model.RiwayatPekerjaan[i].BiodataId"
+                                    asp-route-id="@Model.RiwayatPekerjaan[i].Id">
+                                    <i class="bi bi-pencil mx-1"></i>
                                 </a>
                                 <a class="text-danger" asp-controller="RiwayatPekerjaan" asp-action="Delete"
-                                    asp-route-biodataId="@riwayatPekerjaan.BiodataId" asp-route-id="@riwayatPekerjaan.Id">
+                                    asp-route-biodataId="@Model.RiwayatPekerjaan[i].BiodataId"
+                                    asp-route-id="@Model.RiwayatPekerjaan[i].Id" onclick="pekerjaanDelete(this, event)">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </div>

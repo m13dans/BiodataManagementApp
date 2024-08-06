@@ -57,12 +57,22 @@ public class BiodataRepository : IBiodataRepository
         if (biodatas is null)
             return Error.NotFound("Biodata.NotFound");
 
+        // Using LINQ to select only the distinct Id
         var biodata = biodatas.GroupBy(x => x.Id).Select(g =>
         {
             Biodata bio = g.First();
-            bio.PendidikanTerakhir = g.SelectMany(x => x.PendidikanTerakhir ?? []).DistinctBy(p => p.Id).ToList();
-            bio.RiwayatPekerjaan = g.SelectMany(y => y.RiwayatPekerjaan ?? []).DistinctBy(p => p.Id).ToList();
-            bio.RiwayatPelatihan = g.SelectMany(y => y.RiwayatPelatihan ?? []).DistinctBy(p => p.Id).ToList();
+            var pendidikanList = g.SelectMany(x => x.PendidikanTerakhir ?? []);
+            if (pendidikanList.Any(x => x is not null))
+                bio.PendidikanTerakhir = pendidikanList.DistinctBy(x => x.Id).ToList();
+
+            var pekerjaanList = g.SelectMany(x => x.RiwayatPekerjaan ?? []);
+            if (pekerjaanList.Any(x => x is not null))
+                bio.RiwayatPekerjaan = pekerjaanList.DistinctBy(x => x.Id).ToList();
+
+            var pelatihanList = g.SelectMany(x => x.RiwayatPelatihan ?? []);
+            if (pelatihanList.Any(x => x is not null))
+                bio.RiwayatPelatihan = pelatihanList.DistinctBy(x => x.Id).ToList();
+
             return bio;
         }).FirstOrDefault();
 
@@ -245,14 +255,11 @@ public class BiodataRepository : IBiodataRepository
         {
             Biodata bio = g.First();
             bio.PendidikanTerakhir = g.SelectMany(b =>
-                b.PendidikanTerakhir ?? Enumerable.Empty<PendidikanTerakhir>())
-                .ToList();
+                b.PendidikanTerakhir ?? []).DistinctBy(p => p.Id).ToList();
             bio.RiwayatPekerjaan = g.SelectMany(y =>
-                y.RiwayatPekerjaan ?? Enumerable.Empty<RiwayatPekerjaan>())
-                .ToList();
+                y.RiwayatPekerjaan ?? []).DistinctBy(p => p.Id).ToList();
             bio.RiwayatPelatihan = g.SelectMany(y =>
-                y.RiwayatPelatihan ?? Enumerable.Empty<RiwayatPelatihan>())
-                .ToList();
+                y.RiwayatPelatihan ?? []).DistinctBy(p => p.Id).ToList();
 
             return bio;
         }).FirstOrDefault();
