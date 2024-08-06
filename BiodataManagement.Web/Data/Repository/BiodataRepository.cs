@@ -109,12 +109,21 @@ public class BiodataRepository : IBiodataRepository
         if (biodatas is null || biodatas.Any())
             return Error.NotFound("Biodata.NotFound");
 
-        var biodata = biodatas.GroupBy(x => x.Id).Select(x =>
+        var biodata = biodatas.GroupBy(x => x.Id).Select(g =>
         {
-            Biodata bio = x.First();
-            bio.PendidikanTerakhir = x.SelectMany(y => y.PendidikanTerakhir ?? []).DistinctBy(p => p.Id).ToList();
-            bio.RiwayatPekerjaan = x.SelectMany(y => y.RiwayatPekerjaan ?? []).DistinctBy(p => p.Id).ToList();
-            bio.RiwayatPelatihan = x.SelectMany(y => y.RiwayatPelatihan ?? []).DistinctBy(p => p.Id).ToList();
+            Biodata bio = g.First();
+            var pendidikanList = g.SelectMany(x => x.PendidikanTerakhir ?? []);
+            if (pendidikanList.Any(x => x is not null))
+                bio.PendidikanTerakhir = pendidikanList.DistinctBy(x => x.Id).ToList();
+
+            var pekerjaanList = g.SelectMany(x => x.RiwayatPekerjaan ?? []);
+            if (pekerjaanList.Any(x => x is not null))
+                bio.RiwayatPekerjaan = pekerjaanList.DistinctBy(x => x.Id).ToList();
+
+            var pelatihanList = g.SelectMany(x => x.RiwayatPelatihan ?? []);
+            if (pelatihanList.Any(x => x is not null))
+                bio.RiwayatPelatihan = pelatihanList.DistinctBy(x => x.Id).ToList();
+
             return bio;
         }).FirstOrDefault();
 
@@ -231,7 +240,7 @@ public class BiodataRepository : IBiodataRepository
                         WHERE Biodata.UserId = @UserId";
 
         using var connection = _context.CreateConnection();
-        var result = await connection.QueryAsync<
+        var biodatas = await connection.QueryAsync<
             Biodata,
             PendidikanTerakhir,
             RiwayatPekerjaan,
@@ -251,19 +260,23 @@ public class BiodataRepository : IBiodataRepository
             param: new { UserId = userId }
             );
 
-        var biodata = result.GroupBy(x => x.Id).Select(g =>
+        var biodata = biodatas.GroupBy(x => x.Id).Select(g =>
         {
             Biodata bio = g.First();
-            bio.PendidikanTerakhir = g.SelectMany(b =>
-                b.PendidikanTerakhir ?? []).DistinctBy(p => p.Id).ToList();
-            bio.RiwayatPekerjaan = g.SelectMany(y =>
-                y.RiwayatPekerjaan ?? []).DistinctBy(p => p.Id).ToList();
-            bio.RiwayatPelatihan = g.SelectMany(y =>
-                y.RiwayatPelatihan ?? []).DistinctBy(p => p.Id).ToList();
+            var pendidikanList = g.SelectMany(x => x.PendidikanTerakhir ?? []);
+            if (pendidikanList.Any(x => x is not null))
+                bio.PendidikanTerakhir = pendidikanList.DistinctBy(x => x.Id).ToList();
+
+            var pekerjaanList = g.SelectMany(x => x.RiwayatPekerjaan ?? []);
+            if (pekerjaanList.Any(x => x is not null))
+                bio.RiwayatPekerjaan = pekerjaanList.DistinctBy(x => x.Id).ToList();
+
+            var pelatihanList = g.SelectMany(x => x.RiwayatPelatihan ?? []);
+            if (pelatihanList.Any(x => x is not null))
+                bio.RiwayatPelatihan = pelatihanList.DistinctBy(x => x.Id).ToList();
 
             return bio;
         }).FirstOrDefault();
-
 
         if (biodata is null)
             return Error.NotFound("Biodata.NotFound");
