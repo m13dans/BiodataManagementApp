@@ -16,7 +16,7 @@ Bassically a CRUD App with authentication and authorization feature to make norm
 ## Architecture
 
 - Mainly following clean architecture to separate code by technical layer, and emphasize inward dependency.
-
+- Repository Pattern
 - Result Pattern
 
 ## Technologies
