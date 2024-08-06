@@ -8,13 +8,18 @@ Bassically a CRUD App with authentication and authorization feature to make norm
 
 ## Table of Contents
 
+- [Overview](#Biodata-Management-App)
+- [Architecture](#Architecture)
+- [Technologies](#Technologies)
+- [Usage](#Usage)
+
 ## Architecture
 
 - Mainly following clean architecture to separate code by technical layer, and emphasize inward dependency.
 
 - Result Pattern
 
-## Technologies And Library
+## Technologies
 
 Some of the technology i used to build this app :
 
