@@ -6,6 +6,7 @@ using BiodataManagement.Domain.Entities;
 
 using BiodataManagement.Service.BiodataService;
 using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Mvc;
 namespace BiodataManagement.Data.Repository;
 
 public class BiodataRepository : IBiodataRepository
@@ -24,6 +25,35 @@ public class BiodataRepository : IBiodataRepository
         var biodataDTOs = await connection.QueryAsync<BiodataDTO>(query, CommandType.StoredProcedure);
 
         if (biodataDTOs.Count() <= 0)
+        {
+            return Error.NotFound(code: "Biodata.NotFound", description: "Biodata List is Empty");
+        }
+
+        var result = biodataDTOs.ToList();
+        return result;
+    }
+    public async Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync(string nama, string posisiDilamar)
+    {
+        string searchQuery = (nama, posisiDilamar) switch
+        {
+            var _ when nama is not null && posisiDilamar is null =>
+                @"SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+                        FROM Biodata WHERE Nama LIKE @Nama",
+            var _ when posisiDilamar is not null && nama is null =>
+                @"SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+                        FROM Biodata WHERE PosisiDilamar LIKE @PosisiDilamar",
+            _ =>
+                @"SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+                        FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar",
+        };
+
+        using var connection = _context.CreateConnection();
+
+        var biodataDTOs = await connection.QueryAsync<BiodataDTO>(
+            searchQuery,
+            param: new { Nama = "%" + nama + "%", PosisiDilamar = "%" + posisiDilamar + "%" });
+
+        if (!biodataDTOs.Any())
         {
             return Error.NotFound(code: "Biodata.NotFound", description: "Biodata List is Empty");
         }

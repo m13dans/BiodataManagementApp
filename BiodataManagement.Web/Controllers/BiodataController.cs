@@ -31,17 +31,31 @@ public class BiodataController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromQuery] string nama, [FromQuery] string posisiDilamar)
     {
-        ErrorOr<List<BiodataDTO>> errorOrResult = await _bioRepo.GetBiodataListAsync();
+        if (string.IsNullOrWhiteSpace(nama) && string.IsNullOrWhiteSpace(posisiDilamar))
+        {
 
-        return errorOrResult.MatchFirst(
-            onValue: View,
-            onFirstError: error =>
-            {
-                _logger.LogWarning($"{error.Code} {error.Description}");
-                return View();
-            });
+            ErrorOr<List<BiodataDTO>> errorOrResult = await _bioRepo.GetBiodataListAsync();
+
+            return errorOrResult.MatchFirst(
+                onValue: View,
+                onFirstError: error =>
+                {
+                    _logger.LogWarning($"{error.Code} {error.Description}");
+                    return View();
+                });
+        }
+
+        var result = await _bioRepo.GetBiodataListAsync(nama, posisiDilamar);
+
+        return result.MatchFirst(
+                onValue: View,
+                onFirstError: error =>
+                {
+                    _logger.LogWarning($"{error.Code} {error.Description}");
+                    return View();
+                });
     }
 
     [Authorize(Roles = "Admin")]

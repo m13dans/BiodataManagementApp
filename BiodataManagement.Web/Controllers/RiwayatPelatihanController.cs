@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BiodataManagement.Web.Controllers;
 
+[Authorize]
 [Route("Biodata/{biodataId:int}/RiwayatPelatihan")]
 public class RiwayatPelatihanController : Controller
 {
