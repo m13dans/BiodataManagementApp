@@ -32,11 +32,12 @@ public class BiodataRepository : IBiodataRepository
     }
     public async Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync(string nama, string posisiDilamar, string orderBy, string descending)
     {
-        string searchQuerys = $"""
-            SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
-            FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar
-            {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
-            {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
+        string searchQuerys =
+        $"""
+        SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+        FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar
+        {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
+        {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
         """;
 
         using var connection = _context.CreateConnection();
