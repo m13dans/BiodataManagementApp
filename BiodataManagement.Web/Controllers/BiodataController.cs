@@ -31,9 +31,19 @@ public class BiodataController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpGet]
-    public async Task<IActionResult> Index([FromQuery] string nama, [FromQuery] string posisiDilamar)
+    public async Task<IActionResult> Index(
+        [FromQuery] string nama,
+        [FromQuery] string posisiDilamar,
+        string orderBy,
+        string descending)
     {
-        if (string.IsNullOrWhiteSpace(nama) && string.IsNullOrWhiteSpace(posisiDilamar))
+        ViewData["Descending"] = string.IsNullOrEmpty(descending) ? "desc" : "";
+        ViewData["Biodata.Nama"] = nama;
+        ViewData["Biodata.PosisiDilamar"] = posisiDilamar;
+
+        static bool IsEmptyString(params string[] querys) => querys.All(string.IsNullOrEmpty);
+
+        if (IsEmptyString(nama, posisiDilamar, orderBy, descending))
         {
 
             ErrorOr<List<BiodataDTO>> errorOrResult = await _bioRepo.GetBiodataListAsync();
@@ -47,7 +57,7 @@ public class BiodataController : Controller
                 });
         }
 
-        var result = await _bioRepo.GetBiodataListAsync(nama, posisiDilamar);
+        var result = await _bioRepo.GetBiodataListAsync(nama, posisiDilamar, orderBy, descending);
 
         return result.MatchFirst(
                 onValue: View,

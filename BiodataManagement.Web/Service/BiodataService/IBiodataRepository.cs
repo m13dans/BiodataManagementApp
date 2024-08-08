@@ -7,7 +7,7 @@ public interface IBiodataRepository
 {
     public Task<ErrorOr<Biodata>> CreateBiodataAsync(BiodataCreateRequest biodata);
     public Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync();
-    public Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync(string nama, string posisiDilamar);
+    public Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync(string nama, string posisiDilamar, string sortBy, string descending);
     public Task<ErrorOr<Biodata>> GetBiodataByIdAsync(int id);
     public Task<ErrorOr<Biodata>> GetBiodataWithEmailAsync(string email);
     public Task<bool> UpdateBiodataAsync(int biodataId, Biodata biodata);

@@ -48,3 +48,7 @@ button.hover-white:hover {
   bottom: 0;
   width: 100%;
 }
+
+.text-hover-white:hover {
+  color: white !important;
+}

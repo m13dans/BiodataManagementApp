@@ -11,7 +11,10 @@
           <label>No</label>
         </th>
         <th class="width: 150px;">
-          <label asp-for="@emptyBio.Nama"></label>
+          <a class=" text-decoration-none" asp-controller="Biodata" asp-action="Index"
+            asp-route-nama="@ViewData["Biodata.Nama"]" asp-route-posisiDilamar="@ViewData["Biodata.PosisiDilamar"]"
+            asp-route-orderBy="Nama" asp-route-descending="@ViewData["Descending"]">@Html.DisplayNameFor(x =>
+            x.First().Nama)</a>
         </th>
         <th class="width: 150px;">
           <label asp-for="@emptyBio.TempatLahir"></label>
@@ -20,7 +23,10 @@
           <label asp-for="@emptyBio.TanggalLahir"></label>
         </th>
         <th class="width: 150px;">
-          <label asp-for="@emptyBio.PosisiDilamar"></label>
+          <a class=" text-decoration-none" asp-controller="Biodata" asp-action="Index"
+            asp-route-nama="@ViewData["Biodata.Nama"]" asp-route-posisiDilamar="@ViewData["Biodata.PosisiDilamar"]"
+            asp-route-orderBy="posisiDilamar" asp-route-descending="@ViewData["Descending"]">@Html.DisplayNameFor(x =>
+            x.First().PosisiDilamar)</a>
         </th>
         <th class="width: 150px;">
           <label>Edit Data</label>

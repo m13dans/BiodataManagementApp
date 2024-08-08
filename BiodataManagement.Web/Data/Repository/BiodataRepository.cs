@@ -32,25 +32,49 @@ public class BiodataRepository : IBiodataRepository
         var result = biodataDTOs.ToList();
         return result;
     }
-    public async Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync(string nama, string posisiDilamar)
+    public async Task<ErrorOr<List<BiodataDTO>>> GetBiodataListAsync(string nama, string posisiDilamar, string orderBy, string descending)
     {
+        string searchQuerys = $"""
+            SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+            FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar
+            {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
+            {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
+        """;
+
         string searchQuery = (nama, posisiDilamar) switch
         {
-            var _ when nama is not null && posisiDilamar is null =>
-                @"SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
-                        FROM Biodata WHERE Nama LIKE @Nama",
-            var _ when posisiDilamar is not null && nama is null =>
-                @"SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
-                        FROM Biodata WHERE PosisiDilamar LIKE @PosisiDilamar",
-            _ =>
-                @"SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
-                        FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar",
+            (string, string) when nama is not null && posisiDilamar is null =>
+                $"""
+                SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+                FROM Biodata WHERE Nama LIKE @Nama
+                {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
+                {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
+                """,
+            (string, string) when posisiDilamar is not null && nama is null =>
+                $"""
+                SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+                FROM Biodata WHERE PosisiDilamar LIKE @PosisiDilamar
+                {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
+                {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
+                """,
+            (string, string) => $"""
+                SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+                FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar
+                {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
+                {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
+                """,
+            _ => $"""
+                SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
+                FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar
+                {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
+                {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
+                """,
         };
 
         using var connection = _context.CreateConnection();
 
         var biodataDTOs = await connection.QueryAsync<BiodataDTO>(
-            searchQuery,
+            searchQuerys,
             param: new { Nama = "%" + nama + "%", PosisiDilamar = "%" + posisiDilamar + "%" });
 
         if (!biodataDTOs.Any())

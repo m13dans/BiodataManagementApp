@@ -1,10 +1,6 @@
 ﻿@inject UserManager<AppUser> _userManager
 @{
     ViewData["Title"] = "Home Page";
-    var claims = User.Claims;
-    var identity = User.Identity;
-
-    var appUser = await _userManager.GetUserAsync(User);
 }
 
 <!-- Hero Section -->
@@ -16,7 +12,8 @@
                 <h1 class="">Better Solutions Biodata Management</h1>
                 <p>Manage your biodata seamlesly with ease</p>
                 <div class="d-flex justify-content-center me-lg-5">
-                    <a href="#" class="btn btn-info text-white"><i class="bi bi-play-circle"></i> Get Started</a>
+                    <a href="/Biodata/Create" class="btn btn-info text-white"><i class="bi bi-play-circle"></i> Get
+                        Started</a>
                 </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img">
