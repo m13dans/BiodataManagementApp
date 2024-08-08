@@ -32,8 +32,8 @@ public class BiodataController : Controller
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> Index(
-        [FromQuery] string nama,
-        [FromQuery] string posisiDilamar,
+        string nama,
+        string posisiDilamar,
         string orderBy,
         string descending)
     {

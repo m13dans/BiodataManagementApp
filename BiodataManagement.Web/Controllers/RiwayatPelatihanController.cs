@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using BiodataManagement.Domain.Entities;
 using BiodataManagement.Extensions;
 using BiodataManagement.Web.Service.RiwayatPelatihanService;

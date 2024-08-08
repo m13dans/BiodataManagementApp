@@ -3,10 +3,8 @@ using Dapper;
 using ErrorOr;
 using BiodataManagement.Data.Context;
 using BiodataManagement.Domain.Entities;
-
 using BiodataManagement.Service.BiodataService;
-using System.Collections.ObjectModel;
-using Microsoft.AspNetCore.Mvc;
+
 namespace BiodataManagement.Data.Repository;
 
 public class BiodataRepository : IBiodataRepository
@@ -40,36 +38,6 @@ public class BiodataRepository : IBiodataRepository
             {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
             {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
         """;
-
-        string searchQuery = (nama, posisiDilamar) switch
-        {
-            (string, string) when nama is not null && posisiDilamar is null =>
-                $"""
-                SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
-                FROM Biodata WHERE Nama LIKE @Nama
-                {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
-                {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
-                """,
-            (string, string) when posisiDilamar is not null && nama is null =>
-                $"""
-                SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
-                FROM Biodata WHERE PosisiDilamar LIKE @PosisiDilamar
-                {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
-                {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
-                """,
-            (string, string) => $"""
-                SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
-                FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar
-                {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
-                {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
-                """,
-            _ => $"""
-                SELECT Id, Nama, TempatLahir, TanggalLahir, PosisiDilamar 
-                FROM Biodata WHERE Nama LIKE @Nama AND PosisiDilamar LIKE @PosisiDilamar
-                {(string.IsNullOrEmpty(orderBy) ? "" : "ORDER BY " + orderBy)}
-                {(string.IsNullOrEmpty(descending) ? "" : "DESC")}
-                """,
-        };
 
         using var connection = _context.CreateConnection();
 

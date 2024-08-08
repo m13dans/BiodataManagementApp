@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BiodataManagement.Service.BiodataService;
@@ -7,7 +6,6 @@ using BiodataManagement.Web.Service.PendidikanTerakhirService;
 using FluentValidation;
 using BiodataManagement.Extensions;
 using BiodataManagement.Domain.Entities;
-using Dumpify;
 
 namespace BiodataManagement.Controllers;
 

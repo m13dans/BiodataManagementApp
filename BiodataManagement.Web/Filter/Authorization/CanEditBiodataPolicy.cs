@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using BiodataManagement.Domain.Entities;
 using BiodataManagement.Service.BiodataService;
 
 namespace BiodataManagement.Authorization;
