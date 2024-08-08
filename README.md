@@ -79,4 +79,4 @@ dotnet run
 
 ## Todo
 
-Searching and pagination feature, export to pdf, Unit Test
+pagination feature, export to pdf, Unit Test
