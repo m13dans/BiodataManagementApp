@@ -72,26 +72,3 @@ public enum JenisKelamin
     Pria,
     Wanita
 }
-
-public record PosisiDilamar
-{
-    public PosisiDilamar()
-    {
-        Random random = new();
-        int number = random.Next(1, 5);
-
-        _posisi = number switch
-        {
-            1 => "Backend Engineer",
-            2 => "Frontend Engineer",
-            3 => "Data Analyst",
-            4 => "IT Manager",
-            _ => "HR"
-        };
-    }
-    private string _posisi;
-    public string Posisi
-    {
-        get => _posisi;
-    }
-}
