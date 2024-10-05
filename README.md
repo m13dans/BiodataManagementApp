@@ -1,4 +1,4 @@
-<img src="BiodataManagementApp/src/BiodataManagement.Web/wwwroot/images/hero-img.png" alt="Banner Image for Biodata Management App" width="1000">
+<img src="./src/BiodataManagement.Web/wwwroot/images/hero-img.png" alt="Banner Image for Biodata Management App" width="1000">
 
 # Biodata Management App
 
